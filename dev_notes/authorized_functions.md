@@ -27,6 +27,9 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 * ```dup```: Duplicates a file descriptor - [man dup(2)](https://man7.org/linux/man-pages/man2/dup.2.html)
 * ```dup2```: Duplicates a file descriptor to a specific file descriptor - [man dup(2)](https://man7.org/linux/man-pages/man2/dup.2.html)
 * ```unlink```: Deletes a name from the filesystem, and possibly the file it refers to - [man unlink(2)](https://man7.org/linux/man-pages/man2/unlink.2.html)
+* ```stat```: Gets file status - [man stat(2)](https://man7.org/linux/man-pages/man2/lstat.2.html)
+* ```lstat```: Gets file status, if file is symbolic link, get symbiloc link status - [man stat(2)](https://man7.org/linux/man-pages/man2/lstat.2.html)
+* ```fstat```: Gets file status by file descriptor rather than pathname - [man stat(2)](https://man7.org/linux/man-pages/man2/lstat.2.html)
 
 ## TTY
 
@@ -69,9 +72,6 @@ TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and 
 
 ## To Research
 
-* ```stat```
-* ```lstat```
-* ```fstat```
 * ```ioctl```
 * ```getenv```
 * ```tcsetattr```
