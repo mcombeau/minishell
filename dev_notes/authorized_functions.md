@@ -28,6 +28,13 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 * ```dup2```
 * ```unlink```
 
+## TTY
+
+TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and Its Uses](https://linuxhint.com/what-does-tty-stand-for/).)
+* ```isatty```: Tests whether a file descriptor refers to a terminal
+* ```ttyname```: Returns the name of a terminal
+* ```ttyslot```: Finds the slot of the current user's terminal in some file
+
 ## Directories
 
 * ```getcwd```
@@ -65,9 +72,6 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 * ```stat```
 * ```lstat```
 * ```fstat```
-* ```isatty```
-* ```ttyname```
-* ```ttyslot```
 * ```ioctl```
 * ```getenv```
 * ```tcsetattr```
