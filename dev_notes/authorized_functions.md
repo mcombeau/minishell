@@ -13,20 +13,20 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 
 ## Basic Functions & System Calls
 
-* ```printf```
-* ```malloc```
-* ```free```
-* ```write```
+* ```printf```: Prints a formatted string to standard output - [man printf(3)](https://man7.org/linux/man-pages/man3/printf.3.html)
+* ```write```: Writes characters to a file descriptor - [man write(2)](https://man7.org/linux/man-pages/man2/write.2.html)
+* ```malloc```: Allocates memory on the heap - [man malloc(3)]()
+* ```free```: Frees previously allocated memory - [man free(3)]()
 
 ## File Manipulation
 
-* ```access```
-* ```open```
-* ```read```
-* ```close```
-* ```dup```
-* ```dup2```
-* ```unlink```
+* ```access```: Checks user's permissions for a file - [man access(2)](https://man7.org/linux/man-pages/man2/access.2.html)
+* ```open```: Opens and possibly creates a file - [man open(2)](https://man7.org/linux/man-pages/man2/open.2.html)
+* ```read```: Reads from a file descriptor - [man read(2)](https://man7.org/linux/man-pages/man2/read.2.html)
+* ```close```: Closes a file descriptor - [man close(2)](https://man7.org/linux/man-pages/man2/close.2.html)
+* ```dup```: Duplicates a file descriptor - [man dup(2)](https://man7.org/linux/man-pages/man2/dup.2.html)
+* ```dup2```: Duplicates a file descriptor to a specific file descriptor - [man dup(2)](https://man7.org/linux/man-pages/man2/dup.2.html)
+* ```unlink```: Deletes a name from the filesystem, and possibly the file it refers to - [man unlink(2)](https://man7.org/linux/man-pages/man2/unlink.2.html)
 
 ## TTY
 
@@ -45,13 +45,13 @@ TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and 
 
 ## Processes
 
-* ```execve```
-* ```fork```
-* ```wait```
-* ```waitpid```
-* ```wait3```
-* ```wait4```
-* ```pipe```
+* ```execve```: Executes a program, replaces calling process - [man execve(2)](https://man7.org/linux/man-pages/man2/execve.2.html)
+* ```fork```: Creates a child process - [man fork(2)](https://man7.org/linux/man-pages/man2/fork.2.html)
+* ```wait```: Waits for the first process to change states - [man wait(2)](https://man7.org/linux/man-pages/man2/wait.2.html)
+* ```waitpid```: Waits for a specific process to change states - [man wait(2)](https://man7.org/linux/man-pages/man2/wait.2.html)
+* ```wait3```:  The wait3() and wait4() system calls are similar to waitpid(2), but additionally return resource usage information about the child in the structure pointed to by rusage. - [man wait4(2)](https://man7.org/linux/man-pages/man2/wait3.2.html)
+* ```wait4```:  See wait3.
+* ```pipe```: Creates a pipe - [man pipe(2)](https://man7.org/linux/man-pages/man2/pipe.2.html)
 
 ### Signals
 
