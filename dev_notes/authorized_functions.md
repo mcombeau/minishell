@@ -15,8 +15,9 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 
 * ```printf```: Prints a formatted string to standard output - [man printf(3)](https://man7.org/linux/man-pages/man3/printf.3.html)
 * ```write```: Writes characters to a file descriptor - [man write(2)](https://man7.org/linux/man-pages/man2/write.2.html)
-* ```malloc```: Allocates memory on the heap - [man malloc(3)]()
-* ```free```: Frees previously allocated memory - [man free(3)]()
+* ```malloc```: Allocates memory on the heap - [man malloc(3)](https://man7.org/linux/man-pages/man3/malloc.3.html)
+* ```free```: Frees previously allocated memory - [man malloc(3)](https://man7.org/linux/man-pages/man3/malloc.3.html)
+* ```getenv```: Gets the environment variable - [man getenv(3)](https://man7.org/linux/man-pages/man3/getenv.3.html)
 
 ## File Manipulation
 
@@ -31,20 +32,32 @@ Examples and documentation at [GNU Readline Library](https://tiswww.case.edu/php
 * ```lstat```: Gets file status, if file is symbolic link, get symbiloc link status - [man stat(2)](https://man7.org/linux/man-pages/man2/lstat.2.html)
 * ```fstat```: Gets file status by file descriptor rather than pathname - [man stat(2)](https://man7.org/linux/man-pages/man2/lstat.2.html)
 
-## TTY
-
-TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and Its Uses](https://linuxhint.com/what-does-tty-stand-for/).)
-* ```isatty```: Tests whether a file descriptor refers to a terminal - [man isatty(3)](https://man7.org/linux/man-pages/man3/isatty.3.html)
-* ```ttyname```: Returns the name of a terminal - [man ttyname(3)](https://www.man7.org/linux/man-pages/man3/ttyname.3.html)
-* ```ttyslot```: Finds the slot of the current user's terminal in some file - [man ttyslot(3)](https://www.man7.org/linux/man-pages/man3/ttyslot.3.html)
-
-## Directories
+## Directory Manipulation
 
 * ```getcwd```: Gets the current working directory - [man getcwd(3)](https://www.man7.org/linux/man-pages/man3/getcwd.3.html)
 * ```chdir```: Changes the working directory - [man chdir(2)](https://man7.org/linux/man-pages/man2/chdir.2.html)
 * ```opendir```: Opens a directory - [man opendir(3)](https://man7.org/linux/man-pages/man3/opendir.3.html)
 * ```readdir```: Reads a directory - [man readdir(3)](https://man7.org/linux/man-pages/man3/readdir.3.html)
 * ```closedir```: Closes a directory - [man closedir(3)](https://man7.org/linux/man-pages/man3/closedir.3.html)
+
+## TTY - Terminal Interaction
+
+TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and Its Uses](https://linuxhint.com/what-does-tty-stand-for/).)
+* ```isatty```: Tests whether a file descriptor refers to a terminal - [man isatty(3)](https://man7.org/linux/man-pages/man3/isatty.3.html)
+* ```ttyname```: Returns the name of a terminal - [man ttyname(3)](https://www.man7.org/linux/man-pages/man3/ttyname.3.html)
+* ```ttyslot```: Finds the slot of the current user's terminal in some file - [man ttyslot(3)](https://www.man7.org/linux/man-pages/man3/ttyslot.3.html)
+* ```ioctl```: controls a device, among other things, a terminal - [man ioctl(2)](https://man7.org/linux/man-pages/man2/ioctl.2.html)
+
+The termios library controls various attributes of the terminal. (See [man termios(3)](https://www.man7.org/linux/man-pages/man3/termios.3.html).) A comprehensive guide is available at [GNU - The Termcap Manual](https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html). The following functions are part of this library:
+
+* ```tcsetattr```
+* ```tcgetattr```
+* ```tgetent```
+* ```tgetflag```
+* ```tgetnum```
+* ```tgetstr```
+* ```tgoto```
+* ```tputs```
 
 ## Processes
 
@@ -69,19 +82,3 @@ TTY means "TeleTYpewriter", meaning the terminal. (See [TTY: The Definition and 
 
 * ```strerror```
 * ```perror```
-
-## To Research
-
-* ```ioctl```
-* ```getenv```
-* ```tcsetattr```
-* ```tcgetattr```
-* ```tgetent```
-* ```tgetflag```
-* ```tgetnum```
-* ```tgetstr```
-* ```tgoto```
-* ```tputs```
-
-
-
