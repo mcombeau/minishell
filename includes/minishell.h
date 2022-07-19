@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
 
 char	**g_env_vars;
