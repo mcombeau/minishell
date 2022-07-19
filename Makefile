@@ -1,34 +1,57 @@
-CC		= gcc
-CFLAGS	= -Werror -Wextra -Wall
+# Program file name
 NAME	= minishell
 
-SRC_PATH = sources/
-OBJ_PATH = objects/
+# Compiler and compilation flags
+CC		= gcc
+CFLAGS	= -Werror -Wextra -Wall
 
-SRC		= main.c
+# Build files and directories
+SRC_PATH = ./sources/
+OBJ_PATH = ./objects/
+SRC		= 	main.c \
+			test.c \
+			exit.c \
+			builtins/env.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
+INC		= -I ./includes/ -I ./libft/
 
-INC		= -I ./includes/
+# Libft files and directories
+LIBFT_PATH = ./libft/
+LIBFT = ./libft/libft.a
 
-all: $(NAME)
+# Main rule
+all: $(OBJ_PATH) $(LIBFT) $(NAME)
 
+# Objects directory rule
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+	mkdir -p $(OBJ_PATH)/builtins
+
+# Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
+# Project file rule
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBFT)
 
-bonus: all
+# Libft rule
+$(LIBFT):
+	make -C $(LIBFT_PATH)
 
+# Clean up build files rule
 clean:
 	rm -rf $(OBJ_PATH)
+	make -C $(LIBFT_PATH) clean
 
+# Remove program executable
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_PATH) fclean
 
+# Clean + remove executable
 re: fclean all
 
 .PHONY: all re clean fclean
