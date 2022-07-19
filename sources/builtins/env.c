@@ -35,6 +35,27 @@ bool	init_env(char **env)
 	return (true);
 }
 
+/* get_env_var_index:
+*	Searches for the given variable in the environment variables.
+*
+*	Returns the index of the first variable in the environment
+*	matching the given string.
+*	Returns -1 if the string cannot be found in the environment.
+*/
+int	get_env_var_index(char *var)
+{
+	int		i;
+
+	i = 0;
+	while (g_env_vars[i])
+	{
+		if (ft_strncmp(var, g_env_vars[i], ft_strlen(var)) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 /* sh_builtin_env:
 *	Executes the builtin env command: Prints the environment variables.
 */
@@ -46,4 +67,3 @@ void	sh_builtin_env(void)
 	while (g_env_vars[i])
 		ft_putendl_fd(g_env_vars[i++], STDOUT_FILENO);
 }
-
