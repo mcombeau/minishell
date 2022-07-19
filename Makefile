@@ -3,11 +3,12 @@ NAME	= minishell
 
 # Compiler and compilation flags
 CC		= clang
-CFLAGS	=  -lreadline -Werror -Wextra -Wall
+CFLAGS	= -Werror -Wextra -Wall
 
 # Build files and directories
 SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
+INC_PATH = ./includes/
 SRC		= 	main.c \
 			test.c \
 			exit.c \
@@ -17,7 +18,7 @@ SRC		= 	main.c \
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-INC		= -I ./includes/ -I ./libft/
+INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
 
 # Libft files and directories
 LIBFT_PATH = ./libft/
@@ -37,7 +38,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 # Project file rule
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -lreadline
 
 # Libft rule
 $(LIBFT):
