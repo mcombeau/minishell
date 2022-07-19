@@ -34,3 +34,16 @@ bool	init_env(char **env)
 	}
 	return (true);
 }
+
+/* sh_builtin_env:
+*	Executes the builtin env command: Prints the environment variables.
+*/
+void	sh_builtin_env(void)
+{
+	int	i;
+
+	i = 0;
+	while (g_env_vars[i])
+		ft_putendl_fd(g_env_vars[i++], STDOUT_FILENO);
+}
+
