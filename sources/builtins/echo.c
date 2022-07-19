@@ -1,6 +1,10 @@
 #include "minishell.h"
 
-void	echo_print(char *arg)
+/* echo_print:
+*	Prints a string for the echo builtin, while removing quote
+*	characters and adding spaces between words.
+*/
+static void	echo_print(char *arg)
 {
 	char	**tmp;
 	char	*str;
@@ -26,6 +30,11 @@ void	echo_print(char *arg)
 	free(tmp);
 }
 
+/* sh_builtin_echo:
+*	Executes the echo builtin command: prints the given strings
+*	and adds a \n character or not depending on the -n option.
+*	Returns 1 when the execution is complete.
+*/
 bool	sh_builtin_echo(char **args)
 {
 	int		i;
