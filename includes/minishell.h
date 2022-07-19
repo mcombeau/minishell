@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/19 14:32:21 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:11:55 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int		get_env_var_index(char *var);
 
 // pwd.c
 void	sh_builtin_pwd(void);
+
+// echo.c
+bool	sh_builtin_echo(char **args);
 
 // test.c
 void	test_env(int ac, char **av, char **env);

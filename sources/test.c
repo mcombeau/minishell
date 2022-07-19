@@ -45,6 +45,58 @@ void	test_pwd()
 	sh_builtin_pwd();
 }
 
+void	test_echo()
+{
+	char	**args;
+	int		i;
+
+	args = ft_split("-n Oh boy hello world !", ' ');
+	sh_builtin_echo(args);
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+	args = ft_split("Oh boy hello world !", ' ');
+	sh_builtin_echo(args);
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+	args = ft_split("Oh boy hello world !", '.');
+	sh_builtin_echo(args);
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+	args = ft_split("\"-n\" Oh boy hello world !", '.');
+	sh_builtin_echo(args);
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+	args = ft_split("-n Oh boy \'hello\' world !", '.');
+	sh_builtin_echo(args);
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
 /* text_env:
 *	A basic test to check if the global g_env_vars variable
 *	defined in minishell.h is correctly initialized. 
@@ -53,7 +105,7 @@ void	test_env(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	if (!init_env(env))
+/*	if (!init_env(env))
 	{
 		printf("Test env: global environment variable not initialized!\n");
 		exit_shell();
@@ -61,4 +113,6 @@ void	test_env(int ac, char **av, char **env)
 	sh_builtin_env();
 	test_find_env_var();
 	test_pwd();
+*/	(void)env;
+	test_echo();
 }
