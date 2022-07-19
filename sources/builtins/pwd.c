@@ -14,6 +14,9 @@ void	sh_builtin_pwd(void)
 	ft_putendl_fd(pwd_var[1], STDOUT_FILENO);
 	idx = 0;
 	while (pwd_var[idx])
-		free(pwd_var[idx++]);
-	free(pwd_var[idx]);
+	{
+		free(pwd_var[idx]);
+		idx++;
+	}
+	free(pwd_var);
 }
