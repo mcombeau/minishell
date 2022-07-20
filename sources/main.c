@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	print_prompt(void)
-{
-	ft_putstr_fd("\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m",
-					STDOUT_FILENO);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char	*str;
@@ -19,7 +13,7 @@ int	main(int ac, char **av, char **env)
 	{
 		signal(SIGINT, handle_signal);
 		signal(SIGQUIT, handle_signal);
-		str = readline("\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m");
+		str = readline(PROMPT);
 		if (str == NULL)
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
