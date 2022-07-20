@@ -63,7 +63,7 @@ static char	**realloc_env_vars(int size)
 
 	new_env = ft_calloc(size + 1, sizeof * new_env);
 	if (!new_env)
-		return (false);
+		return (NULL);
 	i = 0;
 	while (g_env_vars[i] && i < size)
 	{
@@ -72,7 +72,7 @@ static char	**realloc_env_vars(int size)
 		i++;
 	}
 	free(g_env_vars);
-	return(new_env);
+	return (new_env);
 }
 
 bool	set_env_var(char *key, char *value)
@@ -84,6 +84,8 @@ bool	set_env_var(char *key, char *value)
 	if (value == NULL)
 		value = "";
 	tmp = ft_strjoin("=", value);
+	if (!tmp)
+		return (false);
 	if (idx != -1 && g_env_vars[idx])
 	{
 		free(g_env_vars[idx]);
@@ -93,6 +95,8 @@ bool	set_env_var(char *key, char *value)
 	{
 		idx = env_var_count(g_env_vars);
 		g_env_vars = realloc_env_vars(idx + 1);
+		if (!g_env_vars)
+			return (false);
 		g_env_vars[idx] = ft_strjoin(key, tmp);
 	}
 	free(tmp);
