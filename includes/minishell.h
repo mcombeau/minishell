@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/20 13:23:26 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:54:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 *								MACROS										  *
 ******************************************************************************/
 
-# define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m"
+# define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m "
 
 /******************************************************************************
 *							GLOBAL VARIABLES								  *
@@ -40,14 +40,16 @@ char	**g_env_vars;
 void	exit_shell(void);
 
 // env.c
-bool	init_env(char **env);
 void	env_builtin(void);
 int		get_env_var_index(char *var);
 
-// pwd.c
+// env_builtin.c
+bool	init_env(char **env);
+
+// pwd_builtin.c
 void	pwd_builtin(void);
 
-// echo.c
+// echo_builtin.c
 bool	echo_builtin(char **args);
 
 // signal.c
