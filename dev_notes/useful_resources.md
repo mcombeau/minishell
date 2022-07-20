@@ -23,3 +23,8 @@ https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
 Infographics about lexer tokens and parsing in minishell :
 * https://github.com/maxime-42/minishell/blob/master/tutorials/tuto_minishell.pdf
 * https://github.com/maxime-42/minishell/blob/master/tutorials/lot_of_commandes%20(1).pdf
+
+### Bash variables :
+
+How export builtin command works:
+* https://phoenixnap.com/kb/bash-export-variable
