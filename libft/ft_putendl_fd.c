@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 06:13:20 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 15:41:38 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:10:10 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	char	*tmp;
+
+	tmp = ft_strjoin(s, "\n");
+	ft_putstr_fd(tmp, fd);
+	free(tmp);
 }
