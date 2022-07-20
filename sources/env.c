@@ -4,7 +4,7 @@
 *	Counts how many original environment variables there are.
 *	Returns the number of environment variables.
 */
-static int	env_var_count(char **env)
+int	env_var_count(char **env)
 {
 	int	i;
 
@@ -38,32 +38,25 @@ bool	init_env(char **env)
 /* get_env_var_index:
 *	Searches for the given variable in the environment variables.
 *
-*	Returns the index of the first variable in the environment
-*	matching the given string.
+*	Returns the index of the variable in the environment
+*	matching the given string. Partial variable names are not
+*	supported: the given string must be a full variable name.
 *	Returns -1 if the string cannot be found in the environment.
 */
 int	get_env_var_index(char *var)
 {
 	int		i;
+	char	*tmp;
 
+	tmp = ft_strjoin(var, "=");
+	if (!tmp)
+		return (-1);
 	i = 0;
 	while (g_env_vars[i])
 	{
-		if (ft_strncmp(var, g_env_vars[i], ft_strlen(var)) == 0)
+		if (ft_strncmp(tmp, g_env_vars[i], ft_strlen(tmp)) == 0)
 			return (i);
 		i++;
 	}
 	return (-1);
-}
-
-/* sh_builtin_env:
-*	Executes the builtin env command: Prints the environment variables.
-*/
-void	sh_builtin_env(void)
-{
-	int	i;
-
-	i = 0;
-	while (g_env_vars[i])
-		ft_putendl_fd(g_env_vars[i++], STDOUT_FILENO);
 }

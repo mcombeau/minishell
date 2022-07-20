@@ -30,12 +30,12 @@ static void	echo_print(char *arg)
 	free(tmp);
 }
 
-/* sh_builtin_echo:
+/* echo_builtin:
 *	Executes the echo builtin command: prints the given strings
 *	and adds a \n character or not depending on the -n option.
 *	Returns 1 when the execution is complete.
 */
-bool	sh_builtin_echo(char **args)
+bool	echo_builtin(char **args)
 {
 	int		i;
 	bool	n_flag;

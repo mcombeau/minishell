@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/19 15:11:55 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:01:41 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,18 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 
+/******************************************************************************
+*								MACROS										  *
+******************************************************************************/
+
+# define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m "
+
+/******************************************************************************
+*							GLOBAL VARIABLES								  *
+******************************************************************************/
 char	**g_env_vars;
 
 /******************************************************************************
@@ -75,17 +85,27 @@ void	exit_shell(void);
 
 // env.c
 bool	init_env(char **env);
-void	sh_builtin_env(void);
+int		env_var_count(char **env);
 int		get_env_var_index(char *var);
 
-// pwd.c
-void	sh_builtin_pwd(void);
+// env_set.c
+bool	set_env_var(char *key, char *value);
+bool	remove_env_var(int idx);
 
-// echo.c
-bool	sh_builtin_echo(char **args);
+// env_builtin.c
+void	env_builtin(void);
+
+// pwd_builtin.c
+void	pwd_builtin(void);
+
+// echo_builtin.c
+bool	echo_builtin(char **args);
+
+// signal.c
+void	handle_signal(int signo);
 
 // test.c
-void	test_env(int ac, char **av, char **env);
+void	test_execution(void);
 
 // tokenize.c
 int     tokenizer(t_data *data, char *str);
