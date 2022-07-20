@@ -12,6 +12,7 @@ INC_PATH = ./includes/
 SRC		= 	main.c \
 			test.c \
 			exit.c \
+			signal.c \
 			builtins/env.c \
 			builtins/pwd.c \
 			builtins/echo.c

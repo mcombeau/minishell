@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/19 15:11:55 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 12:57:26 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 
 char	**g_env_vars;
@@ -25,6 +26,9 @@ char	**g_env_vars;
 /******************************************************************************
 *								FUNCTIONS									  *
 ******************************************************************************/
+
+// main.c
+void	print_prompt(void);
 
 // exit.c
 void	exit_shell(void);
@@ -39,6 +43,9 @@ void	sh_builtin_pwd(void);
 
 // echo.c
 bool	sh_builtin_echo(char **args);
+
+// signal.c
+void	handle_signal(int signo);
 
 // test.c
 void	test_env(int ac, char **av, char **env);
