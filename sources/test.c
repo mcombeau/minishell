@@ -42,7 +42,7 @@ void	test_find_env_var(void)
 */
 void	test_pwd()
 {
-	sh_builtin_pwd();
+	pwd_builtin();
 }
 
 void	test_echo()
@@ -51,7 +51,7 @@ void	test_echo()
 	int		i;
 
 	args = ft_split("-n Oh boy hello world !", ' ');
-	sh_builtin_echo(args);
+	echo_builtin(args);
 	i = 0;
 	while (args[i])
 	{
@@ -60,7 +60,7 @@ void	test_echo()
 	}
 	free(args);
 	args = ft_split("Oh boy hello world !", ' ');
-	sh_builtin_echo(args);
+	echo_builtin(args);
 	i = 0;
 	while (args[i])
 	{
@@ -69,7 +69,7 @@ void	test_echo()
 	}
 	free(args);
 	args = ft_split("Oh boy hello world !", '.');
-	sh_builtin_echo(args);
+	echo_builtin(args);
 	i = 0;
 	while (args[i])
 	{
@@ -78,7 +78,7 @@ void	test_echo()
 	}
 	free(args);
 	args = ft_split("\"-n\" Oh boy hello world !", '.');
-	sh_builtin_echo(args);
+	echo_builtin(args);
 	i = 0;
 	while (args[i])
 	{
@@ -87,7 +87,7 @@ void	test_echo()
 	}
 	free(args);
 	args = ft_split("-n Oh boy \'hello\' world !", '.');
-	sh_builtin_echo(args);
+	echo_builtin(args);
 	i = 0;
 	while (args[i])
 	{
@@ -110,7 +110,7 @@ void	test_env(int ac, char **av, char **env)
 		printf("Test env: global environment variable not initialized!\n");
 		exit_shell();
 	}
-	sh_builtin_env();
+	env_builtin();
 	test_find_env_var();
 	test_pwd();
 */	(void)env;

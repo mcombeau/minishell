@@ -13,9 +13,9 @@ SRC		= 	main.c \
 			test.c \
 			exit.c \
 			signal.c \
-			builtins/env.c \
-			builtins/pwd.c \
-			builtins/echo.c
+			builtins/env_builtin.c \
+			builtins/pwd_builtin.c \
+			builtins/echo_builtin.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))

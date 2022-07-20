@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/20 13:13:01 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:23:26 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	exit_shell(void);
 
 // env.c
 bool	init_env(char **env);
-void	sh_builtin_env(void);
+void	env_builtin(void);
 int		get_env_var_index(char *var);
 
 // pwd.c
-void	sh_builtin_pwd(void);
+void	pwd_builtin(void);
 
 // echo.c
-bool	sh_builtin_echo(char **args);
+bool	echo_builtin(char **args);
 
 // signal.c
 void	handle_signal(int signo);

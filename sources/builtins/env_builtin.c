@@ -56,10 +56,10 @@ int	get_env_var_index(char *var)
 	return (-1);
 }
 
-/* sh_builtin_env:
+/* env_builtin:
 *	Executes the builtin env command: Prints the environment variables.
 */
-void	sh_builtin_env(void)
+void	env_builtin(void)
 {
 	int	i;
 

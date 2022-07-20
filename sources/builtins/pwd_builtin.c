@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-/* sh_builtin_pwd:
+/* pwd_builtin:
 *	Executes the builtin pwd command and displays the
 *	current working directory path.
 */
-void	sh_builtin_pwd(void)
+void	pwd_builtin(void)
 {
 	int		idx;
 	char	**pwd_var;
