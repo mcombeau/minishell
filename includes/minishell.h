@@ -23,6 +23,50 @@
 char	**g_env_vars;
 
 /******************************************************************************
+*								STRUCTS									      *
+******************************************************************************/
+
+typedef struct	s_token 
+{	
+	char			*str;
+	int				type;
+	int				status;
+	struct s_token	*prev;
+	struct s_token	*next;
+}               t_token;
+
+typedef struct	s_data
+{
+	int		nb_cmd;
+	t_token	*token;
+	char	**cmd_tab;
+
+}				t_data;
+
+
+/******************************************************************************
+*								ENUMS									      *
+******************************************************************************/
+
+enum token_types {
+	SPACE = 1,
+	PIPE,
+	INPUT,
+	TRUNC,
+	HEREDOC,
+	APPEND,
+    WORD,
+    VAR,
+	END
+};
+
+enum quote_status {
+    DEFAULT,
+    SQUOTE,
+    DQUOTE
+};
+
+/******************************************************************************
 *								FUNCTIONS									  *
 ******************************************************************************/
 
@@ -42,5 +86,8 @@ bool	sh_builtin_echo(char **args);
 
 // test.c
 void	test_env(int ac, char **av, char **env);
+
+// tokenize.c
+int     tokenizer(t_data *data, char *str);
 
 #endif
