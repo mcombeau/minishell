@@ -52,7 +52,7 @@ int	save_word(t_token **token_lst, char *str, int index, int start)
 int	is_separator(char *str, int i)
 {
 	if (((str[i] > 8 && str[i] < 14) || str[i] == 32))
-		return (SPACE);
+		return (SPACES);
 	else if (str[i] == '|')
 		return (PIPE);
 	else if (str[i] == '<' && str[i + 1] == '<')

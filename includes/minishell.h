@@ -59,7 +59,7 @@ typedef struct	s_data
 ******************************************************************************/
 
 enum token_types {
-	SPACE = 1,
+	SPACES = 1,
 	PIPE,
 	INPUT,
 	TRUNC,
