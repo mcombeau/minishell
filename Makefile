@@ -11,6 +11,7 @@ OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
 			env.c \
+			env_set.c \
 			exit.c \
 			signal.c \
 			builtins/env_builtin.c \

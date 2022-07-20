@@ -42,6 +42,10 @@ void	test_find_env_var(void)
 */
 void	test_pwd()
 {
+	printf("Testing pwd:\n");
+	pwd_builtin();
+	printf("Removing PWD from env and testing pwd:\n");
+	remove_env_var(get_env_var_index("PWD"));
 	pwd_builtin();
 }
 
@@ -102,32 +106,36 @@ void	test_echo()
 */
 void	test_add_env_var(void)
 {
+	int	start_var_count;
+	int	mid_var_count;
+	int	end_var_count;
+
+	start_var_count = env_var_count(g_env_vars);
 	set_env_var("BLABLA", "1234");
 	set_env_var("USERNAME", "Hello World !!!!!");
 	set_env_var("bob", NULL);
 	set_env_var("bob", "hello");
 	set_env_var("bob", "alice");
+	set_env_var("BLABLA", "bla1bla2bla3");
+	set_env_var("crickets", "this is a stupid env var");
+	mid_var_count = env_var_count(g_env_vars);
+	remove_env_var(get_env_var_index("BLABLA"));
+	end_var_count = env_var_count(g_env_vars);
 	env_builtin();
+	printf("\n\nNumber of vars at start =\t%d\nNumber of vars at mid = \t%d\nNumber of vars at end = \t%d\n",
+			start_var_count, mid_var_count, end_var_count);
 }
 
 /* text_env:
 *	A basic test to check if the global g_env_vars variable
 *	defined in minishell.h is correctly initialized. 
 */
-void	test_env(int ac, char **av, char **env)
+void	test_execution(void)
 {
-	(void)ac;
-	(void)av;
-	(void)env;
-/*	if (!init_env(env))
-	{
-		printf("Test env: global environment variable not initialized!\n");
-		exit_shell();
-	}
-	env_builtin();
-	test_find_env_var();
+//	env_builtin();
+//	test_find_env_var();
 	test_pwd();
-	(void)env;
-	test_echo();
-*/	test_add_env_var();
+//	(void)env;
+//	test_echo();
+//	test_add_env_var();
 }

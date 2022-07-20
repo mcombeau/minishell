@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/20 14:30:51 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:01:41 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ char	**g_env_vars;
 void	exit_shell(void);
 
 // env.c
-void	env_builtin(void);
+bool	init_env(char **env);
+int		env_var_count(char **env);
 int		get_env_var_index(char *var);
+
+// env_set.c
 bool	set_env_var(char *key, char *value);
+bool	remove_env_var(int idx);
 
 // env_builtin.c
-bool	init_env(char **env);
+void	env_builtin(void);
 
 // pwd_builtin.c
 void	pwd_builtin(void);
@@ -57,6 +61,6 @@ bool	echo_builtin(char **args);
 void	handle_signal(int signo);
 
 // test.c
-void	test_env(int ac, char **av, char **env);
+void	test_execution(void);
 
 #endif

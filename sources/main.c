@@ -9,6 +9,7 @@ int	main(int ac, char **av, char **env)
 	if (!init_env(env))
 		// print error message here.
 		exit_shell(); // exit with error code.
+//	test_execution();
 	while (1)
 	{
 		signal(SIGINT, handle_signal);
