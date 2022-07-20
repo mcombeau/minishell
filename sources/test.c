@@ -97,6 +97,19 @@ void	test_echo()
 	free(args);
 }
 
+/* test_add_env_var:
+*	Tests adding a new variable to the environment.
+*/
+void	test_add_env_var(void)
+{
+	set_env_var("BLABLA", "1234");
+	set_env_var("USERNAME", "Hello World !!!!!");
+	set_env_var("bob", NULL);
+	set_env_var("bob", "hello");
+	set_env_var("bob", "alice");
+	env_builtin();
+}
+
 /* text_env:
 *	A basic test to check if the global g_env_vars variable
 *	defined in minishell.h is correctly initialized. 
@@ -105,6 +118,7 @@ void	test_env(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	(void)env;
 /*	if (!init_env(env))
 	{
 		printf("Test env: global environment variable not initialized!\n");
@@ -113,6 +127,7 @@ void	test_env(int ac, char **av, char **env)
 	env_builtin();
 	test_find_env_var();
 	test_pwd();
-*/	(void)env;
+	(void)env;
 	test_echo();
+*/	test_add_env_var();
 }
