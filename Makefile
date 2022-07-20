@@ -10,12 +10,13 @@ SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
-			test.c \
+			env.c \
 			exit.c \
 			signal.c \
 			builtins/env_builtin.c \
 			builtins/pwd_builtin.c \
-			builtins/echo_builtin.c
+			builtins/echo_builtin.c \
+			test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
