@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/20 16:01:41 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/21 14:19:24 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,20 @@ typedef struct	s_data
 	char	**cmd_tab;
 
 }				t_data;
+
+// Possible structure/list for commands to execute ?
+typedef struct s_command
+{
+	char				*command;
+	char				*path;
+	char				**args;
+	bool				pipe;
+	int					pipe_fds[2];
+	int					fd_in;
+	int					fd_out;
+	struct s_command	*next;
+	struct s_command	*prev;
+}	t_command;
 
 
 /******************************************************************************
