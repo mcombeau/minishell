@@ -126,6 +126,62 @@ void	test_add_env_var(void)
 			start_var_count, mid_var_count, end_var_count);
 }
 
+void	test_export(void)
+{
+	char	**args;
+	args = ft_calloc(3, sizeof * args);
+
+	args[0] = ft_strdup("Hello=42");
+	args[1] = ft_strdup("\0");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+	
+	args[0] = ft_strdup("_hello=145");
+	args[1] = ft_strdup("crickets=blabla");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+
+	args[0] = ft_strdup("Hello=OH BOY!!!!!");
+	args[1] = ft_strdup("long=loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong!");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+
+	args[0] = ft_strdup("=123");
+	args[1] = ft_strdup("123=42");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+
+	args[0] = ft_strdup("nachos");
+	args[1] = ft_strdup("tacos=");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+
+	args[0] = ft_strdup("Porcupine=45=butterfly");
+	args[1] = ft_strdup("glad=to=be=here=with=everyone=ever");
+	args[3] = NULL;
+	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	export_builtin(args);
+	printf("\n\nTEST EXPORT: print env\n");
+	env_builtin();
+	int i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
 /* text_env:
 *	A basic test to check if the global g_env_vars variable
 *	defined in minishell.h is correctly initialized. 
@@ -134,8 +190,9 @@ void	test_execution(void)
 {
 //	env_builtin();
 //	test_find_env_var();
-	test_pwd();
+//	test_pwd();
 //	(void)env;
 //	test_echo();
 //	test_add_env_var();
+	test_export();
 }

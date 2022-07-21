@@ -17,6 +17,8 @@ SRC		= 	main.c \
 			builtins/env_builtin.c \
 			builtins/pwd_builtin.c \
 			builtins/echo_builtin.c \
+			builtins/export_builtin.c \
+			builtins/unset_builtin.c \
 			test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)

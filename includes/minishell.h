@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/21 14:19:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/07/21 14:59:05 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_command
 	struct s_command	*prev;
 }	t_command;
 
-
 /******************************************************************************
 *								ENUMS									      *
 ******************************************************************************/
@@ -106,14 +105,11 @@ int		get_env_var_index(char *var);
 bool	set_env_var(char *key, char *value);
 bool	remove_env_var(int idx);
 
-// env_builtin.c
-void	env_builtin(void);
-
-// pwd_builtin.c
+// builtins
+bool	env_builtin(void);
 void	pwd_builtin(void);
-
-// echo_builtin.c
 bool	echo_builtin(char **args);
+bool	export_builtin(char **args);
 
 // signal.c
 void	handle_signal(int signo);
