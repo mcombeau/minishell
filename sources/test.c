@@ -136,35 +136,30 @@ void	test_export(void)
 	args[3] = NULL;
 	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
 	export_builtin(args);
-	printf("\n\nTEST EXPORT: print env\n");
 	
 	args[0] = ft_strdup("_hello=145");
 	args[1] = ft_strdup("crickets=blabla");
 	args[3] = NULL;
 	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
 	export_builtin(args);
-	printf("\n\nTEST EXPORT: print env\n");
 
 	args[0] = ft_strdup("Hello=OH BOY!!!!!");
 	args[1] = ft_strdup("long=loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong!");
 	args[3] = NULL;
 	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
 	export_builtin(args);
-	printf("\n\nTEST EXPORT: print env\n");
 
 	args[0] = ft_strdup("=123");
 	args[1] = ft_strdup("123=42");
 	args[3] = NULL;
 	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
 	export_builtin(args);
-	printf("\n\nTEST EXPORT: print env\n");
 
 	args[0] = ft_strdup("nachos");
 	args[1] = ft_strdup("tacos=");
 	args[3] = NULL;
 	printf("TEST EXPORT: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
 	export_builtin(args);
-	printf("\n\nTEST EXPORT: print env\n");
 
 	args[0] = ft_strdup("Porcupine=45=butterfly");
 	args[1] = ft_strdup("glad=to=be=here=with=everyone=ever");
@@ -173,6 +168,46 @@ void	test_export(void)
 	export_builtin(args);
 	printf("\n\nTEST EXPORT: print env\n");
 	env_builtin();
+	int i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
+void	test_unset(void)
+{
+	char	**args;
+	args = ft_calloc(3, sizeof * args);
+
+	args[0] = ft_strdup("Hello");
+	args[1] = ft_strdup("long");
+	args[3] = NULL;
+	printf("\n\nTEST UNSET: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	unset_builtin(args);
+	
+	args[0] = ft_strdup("xyz");
+	args[1] = ft_strdup("crickets=");
+	args[3] = NULL;
+	printf("\n\nTEST UNSET: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	unset_builtin(args);
+
+	args[0] = ft_strdup("_123");
+	args[1] = ft_strdup("789");
+	args[3] = NULL;
+	printf("\n\nTEST UNSET: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	unset_builtin(args);
+
+	args[0] = ft_strdup("hello@you");
+	args[1] = ft_strdup("a*");
+	args[3] = NULL;
+	printf("\n\nTEST UNSET: arg[0] = %s, arg[1] = %s\n", args[0], args[1]);
+	unset_builtin(args);
+	printf("\n\nTEST UNSET: print env\n");
+	env_builtin();
+
 	int i = 0;
 	while (args[i])
 	{
@@ -195,4 +230,5 @@ void	test_execution(void)
 //	test_echo();
 //	test_add_env_var();
 	test_export();
+	test_unset();
 }

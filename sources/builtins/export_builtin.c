@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-/* is_valid_var_key:
-*	Checks if the key is a valid name for an evironment
-*	variable.
-*	Returns true if the key contains only alphanumeric chars
-*	or '_', or false if not.
-*/
-static bool	is_valid_var_key(char *var)
-{
-	int	i;
-
-	i = 0;
-	if (ft_isalpha(var[i]) == 0 && var[i] != '_')
-		return (false);
-	i++;
-	while (var[i] && var[i] != '=')
-	{
-		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 /* get_key_value_pair:
 *	Separates the given argument into a key-value pair
 *	for the environment variable.
@@ -65,7 +42,7 @@ bool	export_builtin(char **args)
 	{
 		if (ft_strchr(args[i], '=') != NULL)
 		{
-			if (!is_valid_var_key(args[i]))
+			if (!is_valid_env_var_key(args[i]))
 				printf("minishell: export: `%s`: not a valid identifier\n", args[i]);
 			else
 			{
