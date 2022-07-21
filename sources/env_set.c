@@ -45,7 +45,6 @@ bool	set_env_var(char *key, char *value)
 	tmp = ft_strjoin("=", value);
 	if (!tmp)
 		return (false);
-	printf("\e[35mSet env var: key = %s, value = %s\n\e[0m", key, value);
 	if (idx != -1 && g_env_vars[idx])
 	{
 		free(g_env_vars[idx]);

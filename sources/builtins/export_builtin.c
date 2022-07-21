@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+/* is_valid_var_key:
+*	Checks if the key is a valid name for an evironment
+*	variable.
+*	Returns true if the key contains only alphanumeric chars
+*	or '_', or false if not.
+*/
 static bool	is_valid_var_key(char *var)
 {
 	int	i;
@@ -10,14 +16,21 @@ static bool	is_valid_var_key(char *var)
 	i++;
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isalnum(var[i]) == 0 && var[i] != ' ')
+		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-static char	**get_key_value(char *arg)
+/* get_key_value_pair:
+*	Separates the given argument into a key-value pair
+*	for the environment variable.
+*	Returns an array of 2 strings containing the key and the
+*	value of the new environment variable.
+*	Returns NULL in case of error.
+*/
+static char	**get_key_value_pair(char *arg)
 {
 	char	**tmp;
 	int		i;
@@ -30,11 +43,16 @@ static char	**get_key_value(char *arg)
 	{
 		tmp[1] = ft_strjoin(tmp[1], "=");
 		tmp[1] = ft_strjoin(tmp[1], tmp[i]);
+		free(tmp[i]);
 		i++;
 	}
 	return (tmp);
 }
 
+/* export_builtin:
+*	Adds the given variables to the environment variables.
+*	Returns true always.
+*/
 bool	export_builtin(char **args)
 {
 	int		i;
@@ -45,12 +63,16 @@ bool	export_builtin(char **args)
 		return (env_builtin());
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '=') != NULL
-			&& is_valid_var_key(args[i]))
+		if (ft_strchr(args[i], '=') != NULL)
 		{
-			tmp = get_key_value(args[i]);
-			set_env_var(tmp[0], tmp[1]);
-			free(tmp);
+			if (!is_valid_var_key(args[i]))
+				printf("minishell: export: `%s`: not a valid identifier\n", args[i]);
+			else
+			{
+				tmp = get_key_value_pair(args[i]);
+				set_env_var(tmp[0], tmp[1]);
+				free(tmp);
+			}
 		}
 		i++;
 	}
