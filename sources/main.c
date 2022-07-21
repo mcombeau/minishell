@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 		str = readline(PROMPT);
 		if (str == NULL)
 		{
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit_shell();
 		}
 		printf("str = %s\n", str);
