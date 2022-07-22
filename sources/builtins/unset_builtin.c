@@ -15,7 +15,7 @@ bool	unset_builtin(char **args)
 	while (args[i])
 	{
 		if (!is_valid_env_var_key(args[i]) || ft_strchr(args[i], '=') != NULL)
-			printf("minishell: unset: `%s`: not a valid identifier\n", args[i]);
+			errmsg("unset", args[i], "not a valid identifier", false);
 		else
 		{
 			idx = get_env_var_index(args[i]);

@@ -84,6 +84,9 @@ enum quote_status {
 // exit.c
 void	exit_shell(void);
 
+// error.c
+int	errmsg(char *command, char *detail, char *error_message, int errno);
+
 // env.c
 bool	init_env(char **env);
 int		env_var_count(char **env);
@@ -100,6 +103,7 @@ void	pwd_builtin(void);
 bool	echo_builtin(char **args);
 bool	export_builtin(char **args);
 bool	unset_builtin(char **args);
+bool	cd_builtin(char **args);
 
 // signal.c
 void	handle_signal(int signo);

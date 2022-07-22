@@ -43,7 +43,7 @@ bool	export_builtin(char **args)
 		if (ft_strchr(args[i], '=') != NULL)
 		{
 			if (!is_valid_env_var_key(args[i]))
-				printf("minishell: export: `%s`: not a valid identifier\n", args[i]);
+				errmsg("export", args[i], "not a valid identifier", false);
 			else
 			{
 				tmp = get_key_value_pair(args[i]);

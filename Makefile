@@ -13,12 +13,14 @@ SRC		= 	main.c \
 			env.c \
 			env_set.c \
 			exit.c \
+			error.c \
 			signal.c \
 			builtins/env_builtin.c \
 			builtins/pwd_builtin.c \
 			builtins/echo_builtin.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
+			builtins/cd_builtin.c \
 			test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
