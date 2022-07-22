@@ -91,6 +91,7 @@ int	errmsg(char *command, char *detail, char *error_message, int errno);
 bool	init_env(char **env);
 int		env_var_count(char **env);
 int		get_env_var_index(char *var);
+char	*get_env_var_str(char *var);
 bool	is_valid_env_var_key(char *var);
 
 // env_set.c
