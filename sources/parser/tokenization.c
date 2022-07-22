@@ -83,13 +83,15 @@ int	set_status(int status, char *str, int i)
 }
 
 /**
-*	This function divides the given string into two
-*   types of token_lst : words or separators (pipes, heredoc , etc)
-*	It checks each char of the string to check if it is a separator.
-*   To do so, we have to check if it is placed between double or single quotes
+*	This function divides the given string (user input) into two
+*   types of tokens : words or separators (pipes, heredoc , etc)
+*	It checks each char of the string and defines if it is a separator or 
+*   a word and then saves the token in a linked list.
+*   Also checks if there is an unclosed quote error and defines which
+*   separators will be evaluated following the single or double quoting rules.
 **/
 
-int	tokenizer(t_data *data, char *str)
+int	tokenization(t_data *data, char *str)
 {
 	int	i;
 	int end;

@@ -34,3 +34,19 @@ void	lst_add_back_token(t_token **alst, t_token *new_node)
 		new_node->prev = start;
 	}
 }
+
+void	print_token(t_token *lst)
+{
+	t_token *temp;
+	int i = 0;
+	
+	printf("lst = %p\n", lst);
+	temp = lst;
+	while (temp)
+	{
+		printf("NODE : %d - TYPE : %d - STATE : %d - Str: |%s|\n", i, temp->type, temp->status, temp->str);
+		printf("----------------------------------------------------------\n");
+		temp = temp->next;
+		i++;
+	}
+}

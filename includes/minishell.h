@@ -27,6 +27,9 @@
 
 # define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m "
 
+# define TRUE 0
+# define FALSE 1
+
 /******************************************************************************
 *							GLOBAL VARIABLES								  *
 ******************************************************************************/
@@ -47,12 +50,12 @@ typedef struct	s_token
 
 typedef struct	s_data
 {
-	int		nb_cmd;
 	t_token	*token;
+	char	*user_input;
 	char	**cmd_tab;
+	char	**env;
 
 }				t_data;
-
 
 /******************************************************************************
 *								ENUMS									      *
@@ -60,17 +63,17 @@ typedef struct	s_data
 
 enum token_types {
 	SPACES = 1,
+	WORD,
+	VAR,
 	PIPE,
 	INPUT,
 	TRUNC,
 	HEREDOC,
 	APPEND,
-    WORD,
-    VAR,
 	END
 };
 
-enum quote_status {
+enum quoting_status {
     DEFAULT,
     SQUOTE,
     DQUOTE
@@ -108,6 +111,20 @@ void	handle_signal(int signo);
 void	test_execution(void);
 
 // tokenize.c
-int     tokenizer(t_data *data, char *str);
+int     tokenization(t_data *data, char *str);
+
+// lexer_utils.c
+int		check_consecutives(t_token **token_lst);
+
+// define_tokens.c
+int		define_token(t_token **token_lst);
+
+// token_lst_utils.c
+t_token	*lst_new_token(char *str, int type, int status);
+void	lst_add_back_token(t_token **alst, t_token *new_node);
+void	print_token(t_token *lst);
+
+//init_data.c
+int		init_data(t_data *data, char **env);
 
 #endif

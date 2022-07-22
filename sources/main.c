@@ -2,7 +2,7 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char	*str;
+	t_data data;
 
 	(void)ac;
 	(void)av;
@@ -10,19 +10,24 @@ int	main(int ac, char **av, char **env)
 		// print error message here.
 		exit_shell(); // exit with error code.
 //	test_execution();
+	init_data(&data, env);
 	while (1)
 	{
 		signal(SIGINT, handle_signal);
 		signal(SIGQUIT, handle_signal);
-		str = readline(PROMPT);
-		if (str == NULL)
+		data.user_input = readline(PROMPT);
+		if (data.user_input == NULL)
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			exit_shell();
 		}
-		printf("str = %s\n", str);
-		add_history(str);
-		free(str);
+		printf("input = %s\n", data.user_input);
+		add_history(data.user_input);
+		if (tokenization(&data, data.user_input) == 1)
+			printf("Error with tokenization\n");
+		define_token(&data.token);
+		check_consecutives(&data.token);
+		free(data.user_input);
 	}
 	exit_shell();
 	return (0);
