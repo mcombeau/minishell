@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 12:03:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/07/20 16:01:41 by mcombeau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -57,6 +45,20 @@ typedef struct	s_data
 
 }				t_data;
 
+// Possible structure/list for commands to execute ?
+typedef struct s_command
+{
+	char				*command;
+	char				*path;
+	char				**args;
+	bool				pipe;
+	int					pipe_fds[2];
+	int					fd_in;
+	int					fd_out;
+	struct s_command	*next;
+	struct s_command	*prev;
+}	t_command;
+
 /******************************************************************************
 *								ENUMS									      *
 ******************************************************************************/
@@ -86,23 +88,27 @@ enum quoting_status {
 // exit.c
 void	exit_shell(void);
 
+// error.c
+int	errmsg(char *command, char *detail, char *error_message, int errno);
+
 // env.c
 bool	init_env(char **env);
 int		env_var_count(char **env);
 int		get_env_var_index(char *var);
+char	*get_env_var_str(char *var);
+bool	is_valid_env_var_key(char *var);
 
 // env_set.c
 bool	set_env_var(char *key, char *value);
 bool	remove_env_var(int idx);
 
-// env_builtin.c
-void	env_builtin(void);
-
-// pwd_builtin.c
+// builtins
+bool	env_builtin(void);
 void	pwd_builtin(void);
-
-// echo_builtin.c
 bool	echo_builtin(char **args);
+bool	export_builtin(char **args);
+bool	unset_builtin(char **args);
+bool	cd_builtin(char **args);
 
 // signal.c
 void	handle_signal(int signo);

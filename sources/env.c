@@ -55,8 +55,65 @@ int	get_env_var_index(char *var)
 	while (g_env_vars[i])
 	{
 		if (ft_strncmp(tmp, g_env_vars[i], ft_strlen(tmp)) == 0)
+		{
+			free(tmp);
 			return (i);
+		}
 		i++;
 	}
+	free(tmp);
 	return (-1);
+}
+
+/* get_env_var_str:
+*	Searches for the given variable in the environment variables.
+*
+*	Returns a pointer to the value of the variable in the environment
+*	matching the given string. Partial variable names are not
+*	supported: the given string must be a full variable name.
+*	Returns NULL if the string cannot be found in the environment.
+*/
+char *get_env_var_str(char *var)
+{
+	int		i;
+	char	*tmp;
+
+	tmp = ft_strjoin(var, "=");
+	if (!tmp)
+		return (NULL);
+	i = 0;
+	while (g_env_vars[i])
+	{
+		if (ft_strncmp(tmp, g_env_vars[i], ft_strlen(tmp)) == 0)
+		{
+			free(tmp);
+			return (ft_strchr(g_env_vars[i], '=') + 1);
+		}
+		i++;
+	}
+	free(tmp);
+	return (NULL);
+}
+
+/* is_valid_env_var_key:
+*	Checks if the key is a valid name for an evironment
+*	variable.
+*	Returns true if the key contains only alphanumeric chars
+*	or '_', or false if not.
+*/
+bool	is_valid_env_var_key(char *var)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isalpha(var[i]) == 0 && var[i] != '_')
+		return (false);
+	i++;
+	while (var[i] && var[i] != '=')
+	{
+		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
 }

@@ -13,6 +13,7 @@ SRC		= 	main.c \
 			env.c \
 			env_set.c \
 			exit.c \
+			error.c \
 			signal.c \
 			builtins/env_builtin.c \
 			builtins/pwd_builtin.c \
@@ -23,6 +24,10 @@ SRC		= 	main.c \
 			parser/lexer_utils.c \
 			parser/token_lst_utils.c \
 			init_data.c
+			builtins/export_builtin.c \
+			builtins/unset_builtin.c \
+			builtins/cd_builtin.c \
+			test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))

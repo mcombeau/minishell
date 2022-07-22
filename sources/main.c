@@ -18,7 +18,7 @@ int	main(int ac, char **av, char **env)
 		data.user_input = readline(PROMPT);
 		if (data.user_input == NULL)
 		{
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit_shell();
 		}
 		printf("input = %s\n", data.user_input);
