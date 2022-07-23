@@ -10,23 +10,22 @@ SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
+			init_data.c \
 			env.c \
 			env_set.c \
-			exit.c \
-			error.c \
-			signal.c \
-			builtins/env_builtin.c \
-			builtins/pwd_builtin.c \
-			builtins/echo_builtin.c \
-			test.c \
 			parser/tokenization.c \
 			parser/define_tokens.c \
 			parser/lexer_utils.c \
 			parser/token_lst_utils.c \
-			init_data.c
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
+			builtins/env_builtin.c \
+			builtins/pwd_builtin.c \
+			builtins/echo_builtin.c \
+			exit.c \
+			error.c \
+			signal.c \
 			test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)

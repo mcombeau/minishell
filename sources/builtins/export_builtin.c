@@ -47,6 +47,11 @@ bool	export_builtin(char **args)
 			else
 			{
 				tmp = get_key_value_pair(args[i]);
+				if (!tmp)
+				{
+					errmsg("export", NULL, "Somthing stupid happened", 1);
+					exit_shell();
+				}
 				set_env_var(tmp[0], tmp[1]);
 				free(tmp);
 			}
