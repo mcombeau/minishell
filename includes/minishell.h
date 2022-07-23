@@ -2,6 +2,8 @@
 # define MINISHELL_H
 
 # include <unistd.h>
+# include <sys/wait.h>
+# include <errno.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -89,7 +91,7 @@ enum quoting_status {
 void	exit_shell(int	exno);
 
 // error.c
-int	errmsg(char *command, char *detail, char *error_message, int errno);
+int	errmsg(char *command, char *detail, char *error_message, int error_nb);
 
 // env.c
 bool	init_env(char **env);

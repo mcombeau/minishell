@@ -27,7 +27,7 @@ SRC		= 	main.c \
 			exit.c \
 			error.c \
 			signal.c \
-			test.c
+			testing/test.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
@@ -45,6 +45,7 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)/builtins
 	mkdir -p $(OBJ_PATH)/parser
+	mkdir -p $(OBJ_PATH)/testing
 
 # Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c

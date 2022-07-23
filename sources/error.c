@@ -1,10 +1,19 @@
 #include "minishell.h"
 
-int	errmsg(char *command, char *detail, char *error_message, int errno)
+int	errmsg(char *command, char *detail, char *error_message, int error_nb)
 {
+	char	*msg;
+
+	msg = ft_strjoin("minishell: ", command);
+	msg = ft_strjoin(msg, ": ");
 	if (detail != NULL)
-		printf("minishell: %s: `%s`: %s\n", command, detail, error_message);
-	else
-		printf("minishell: %s: %s\n", command, error_message);
-	return (errno);
+	{
+		msg = ft_strjoin(msg, "`");
+		msg = ft_strjoin(msg, detail);
+		msg = ft_strjoin(msg, "`: ");
+	}
+	msg = ft_strjoin(msg, error_message);
+	ft_putendl_fd(msg, STDERR_FILENO);
+	free(msg);
+	return (error_nb);
 }
