@@ -15,6 +15,8 @@ static char	**get_key_value_pair(char *arg)
 	tmp = ft_split(arg, '=');
 	if (!tmp)
 		return (NULL);
+	if (!tmp[1])
+		return (tmp);
 	i = 2;
 	while (tmp[i])
 	{

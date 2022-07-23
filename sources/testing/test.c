@@ -60,10 +60,7 @@ static void	unit_test_env_var_index(char *arg)
 	else
 		printf("%sFound idx [%d] var: %s%s\n", GREEN, idx, g_env_vars[idx], NC);
 }
-/* test_find_env_var:
-*	Tests finding the correct index for a given variable in the
-*	environment.
-*/
+
 static void	test_find_env_var(void)
 {
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
@@ -76,12 +73,6 @@ static void	test_find_env_var(void)
 	unit_test_env_var_index("/bin");
 }
 
-/* test_pwd:
-*	Tests the pwd command. To test different pwds from main,
-*	cd into another folder, then run the executable from there:
-*	i.e. ./../../minishell/minishell
-*	That should show the current working directory.
-*/
 static void	test_pwd()
 {
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
@@ -152,10 +143,6 @@ static void	test_echo()
 	}
 	free(args);
 }
-
-/* test_add_env_var:
-*	Tests adding a new variable to the environment.
-*/
 
 static void unit_test_set_env_var(char *key, char *val)
 {
@@ -376,10 +363,6 @@ static void	test_exit(void)
 //	unit_test_exit("42", NULL);
 }
 
-/* text_env:
-*	A basic test to check if the global g_env_vars variable
-*	defined in minishell.h is correctly initialized. 
-*/
 void	test_execution(void)
 {
 	test_find_env_var();
