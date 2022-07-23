@@ -4,6 +4,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -45,7 +46,6 @@ typedef struct	s_data
 
 }				t_data;
 
-// Possible structure/list for commands to execute ?
 typedef struct s_command
 {
 	char				*command;
@@ -86,7 +86,7 @@ enum quoting_status {
 ******************************************************************************/
 
 // exit.c
-void	exit_shell(void);
+void	exit_shell(int	exno);
 
 // error.c
 int	errmsg(char *command, char *detail, char *error_message, int errno);
@@ -109,6 +109,7 @@ bool	echo_builtin(char **args);
 bool	export_builtin(char **args);
 bool	unset_builtin(char **args);
 bool	cd_builtin(char **args);
+void	exit_builtin(char **args);
 
 // signal.c
 void	handle_signal(int signo);

@@ -49,8 +49,8 @@ bool	export_builtin(char **args)
 				tmp = get_key_value_pair(args[i]);
 				if (!tmp)
 				{
-					errmsg("export", NULL, "Somthing stupid happened", 1);
-					exit_shell();
+					errmsg("export", NULL, "Could not get key value pair", 1);
+					exit_shell(EXIT_FAILURE);
 				}
 				set_env_var(tmp[0], tmp[1]);
 				free(tmp);

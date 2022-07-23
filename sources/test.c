@@ -326,6 +326,41 @@ static void	test_cd(void)
 	unit_test_cd("/var/log", NULL);
 }
 
+static void	unit_test_exit(char *arg1, char *arg2)
+{
+	char	*args[3] = {arg1, arg2, NULL};
+
+	if (arg2)
+		printf("%sexit test: exit %s %s%s\n", CYAN, arg1, arg2, NC);
+	else if (arg1)
+		printf("%sexit test: exit %s%s\n", CYAN, arg1, NC);
+	else
+		printf("%sexit test: exit%s\n", CYAN, NC);
+	exit_builtin(args);
+}
+
+static void	test_exit(void)
+{
+	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf(  "%s|                              EXIT                                 |%s\n", BYELLOW, NC);
+	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+
+	// Comment tests one by one to test them all. Exit builtin
+	// exits the shell before doing all tests, of course.
+	// Use command 'echo $?' to view exit code after minishell test is done.
+
+	// Should exit with exit code 2:
+
+//	unit_test_exit("blabla", "21345");
+	unit_test_exit("123a", NULL);
+
+	// Should not exit:
+	unit_test_exit("42", "21");
+	
+	// Should exit with provided exit code:
+//	unit_test_exit("42", NULL);
+}
+
 /* text_env:
 *	A basic test to check if the global g_env_vars variable
 *	defined in minishell.h is correctly initialized. 
@@ -339,6 +374,7 @@ void	test_execution(void)
 	test_add_env_var();
 	test_export();
 	test_unset();
+	test_exit();
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf(  "%s|                       ALL TESTS COMPLETE                          |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);

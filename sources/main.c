@@ -7,12 +7,12 @@ int	main(int ac, char **av, char **env)
 	if (!init_env(env))
 	{
 		errmsg("Fatal", NULL, "Could not initialize environment", 1);
-		exit_shell();
+		exit_shell(EXIT_FAILURE);
 	}
 	if (ac == 2 && av[1][0] == 't')
 	{
 		test_execution();
-		exit_shell();
+		exit_shell(EXIT_SUCCESS);
 	}
 	init_data(&data, env);
 	while (1)
@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **env)
 		if (data.user_input == NULL)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			exit_shell();
+			exit_shell(EXIT_SUCCESS);
 		}
 		printf("input = %s\n", data.user_input);
 		add_history(data.user_input);
@@ -33,6 +33,6 @@ int	main(int ac, char **av, char **env)
 		check_consecutives(&data.token);
 		free(data.user_input);
 	}
-	exit_shell();
+	exit_shell(EXIT_SUCCESS);
 	return (0);
 }

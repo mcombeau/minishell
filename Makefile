@@ -23,6 +23,7 @@ SRC		= 	main.c \
 			builtins/env_builtin.c \
 			builtins/pwd_builtin.c \
 			builtins/echo_builtin.c \
+			builtins/exit_builtin.c \
 			exit.c \
 			error.c \
 			signal.c \

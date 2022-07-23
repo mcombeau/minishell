@@ -21,8 +21,8 @@ static void	free_env_vars(void)
 /* exit_shell:
 *	Cleanly exits the minishell program. 
 */
-void	exit_shell(void)
+void	exit_shell(int	exno)
 {
 	free_env_vars();
-	exit(0);
+	exit(exno);
 }
