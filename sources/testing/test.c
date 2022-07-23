@@ -1,3 +1,6 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "minishell.h"
 
 #define NC		"\e[0m"
@@ -311,6 +314,9 @@ static void	test_cd(void)
 	unit_test_cd("includes", "crux");
 
 	printf("\n===== TEST CD 4 ========\n");
+	struct stat st = {0};
+	if (stat("../sources/testing/forbidden", &st) == -1)
+    	mkdir("../sources/testing/forbidden", 0000);
 	unit_test_cd("../sources/testing/forbidden", NULL);
 
 	printf("\n===== TEST CD 5 ========\n");
