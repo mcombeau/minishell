@@ -33,7 +33,7 @@ static void	echo_print(char *arg)
 /* echo_builtin:
 *	Executes the echo builtin command: prints the given strings
 *	and adds a \n character or not depending on the -n option.
-*	Returns 1 when the execution is complete.
+*	Returns 1 on completion.
 */
 int	echo_builtin(char **args)
 {
@@ -44,7 +44,7 @@ int	echo_builtin(char **args)
 	if (!args[0])
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		return (1);
+		return (EXIT_SUCCESS);
 	}
 	else if (ft_strncmp(args[0], "-n", 3) == 0)
 		n_flag = true;
@@ -60,5 +60,5 @@ int	echo_builtin(char **args)
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

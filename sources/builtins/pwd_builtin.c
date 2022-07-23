@@ -3,6 +3,7 @@
 /* pwd_builtin:
 *	Executes the builtin pwd command and displays the
 *	current working directory path.
+*	Returns 0 if successful, 1 if an error occured.
 */
 int	pwd_builtin(char **args)
 {
@@ -14,8 +15,8 @@ int	pwd_builtin(char **args)
 	if (!cwd)
 	{
 		errmsg("pwd", NULL, strerror(errno), errno);
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);
-	return (1);
+	return (EXIT_SUCCESS);
 }

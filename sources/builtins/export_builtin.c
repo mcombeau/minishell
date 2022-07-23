@@ -30,8 +30,8 @@ static char	**get_key_value_pair(char *arg)
 
 /* export_builtin:
 *	Adds the given variables to the environment variables.
-*	Returns 1 if all args were successfully added to env,
-*	or 0 if one or more args were not added to env.
+*	Returns 0 if all args were successfully added to env,
+*	or 1 if one or more args were not added to env.
 */
 int	export_builtin(char **args)
 {
@@ -39,7 +39,7 @@ int	export_builtin(char **args)
 	char	**tmp;
 	int		ret;
 
-	ret = 1;
+	ret = EXIT_SUCCESS;
 	i = 0;
 	if (!args[i])
 		return (env_builtin(NULL));
@@ -50,7 +50,7 @@ int	export_builtin(char **args)
 			if (!is_valid_env_var_key(args[i]))
 			{
 				errmsg("export", args[i], "not a valid identifier", false);
-				ret = 0;
+				ret = EXIT_FAILURE;
 			}
 			else
 			{

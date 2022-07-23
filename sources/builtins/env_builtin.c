@@ -10,8 +10,8 @@ int	env_builtin(char **args)
 	(void)args;
 	i = 0;
 	if (!g_env_vars)
-		return (0);
+		return (EXIT_FAILURE);
 	while (g_env_vars[i])
 		ft_putendl_fd(g_env_vars[i++], STDOUT_FILENO);
-	return (1);
+	return (EXIT_SUCCESS);
 }

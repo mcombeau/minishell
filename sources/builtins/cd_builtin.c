@@ -26,7 +26,7 @@ static bool	change_dir(char	*path)
 
 /* cd_builtin:
 *	Executes the builtin cd command by changing the working directory.
-*	Returns 1 on success, 0 on failure.
+*	Returns 0 on success, 1 on failure.
 */
 int	cd_builtin(char **args)
 {
@@ -34,15 +34,15 @@ int	cd_builtin(char **args)
 
 	home_path = get_env_var_str("HOME");
 	if (!args[0] || ft_strncmp(args[0], "--", 3) == 0)
-		return (change_dir(home_path));
+		return (!change_dir(home_path));
 	if (args[1])
-		return (errmsg("cd", NULL, "too many arguments", 0));
+		return (errmsg("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[0], "-", 2) == 0)
 	{
 		change_dir(get_env_var_str("OLDPWD"));
 		printf("%s\n", get_env_var_str("PWD"));
-		return (1);
+		return (EXIT_SUCCESS);
 	}
 	change_dir(args[0]);
-	return (1);
+	return (EXIT_SUCCESS);
 }

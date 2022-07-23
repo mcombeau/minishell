@@ -4,7 +4,7 @@
 *	Executes the exit builtin. Prints exit and exits the shell with
 *	the provided exit code, or 0.
 *	In case of failure due to too many args, does not exit the shell
-*	and returns 0 instead.
+*	and returns 1 instead.
 */
 int	exit_builtin(char **args)
 {
@@ -25,9 +25,9 @@ int	exit_builtin(char **args)
 	if (args[1])
 	{
 		errmsg("exit", NULL, "too many arguments", 1);
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	else
 		exit_shell(ft_atoi(args[0]));
-	return (1);
+	return (EXIT_SUCCESS);
 }

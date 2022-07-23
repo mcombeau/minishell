@@ -3,7 +3,7 @@
 /* execute_builtin:
 *	Executes the given command if it is a builtin command.
 *	Returns -1 if the command is not a builtin command.
-*	Returns 0 or 1 if the builtin command failed or succeeded.
+*	Returns 0 or 1 if the builtin command succeeded or failed.
 */
 static int	execute_builtin(t_command *cmd)
 {
