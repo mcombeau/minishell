@@ -4,7 +4,7 @@ void	exit_builtin(char **args)
 {
 	int	i;
 	printf("exit\n");
-	if (!args[0])
+	if (!args || !args[0])
 		exit_shell(EXIT_SUCCESS);
 	if (args[0])
 	{
