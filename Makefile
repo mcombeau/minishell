@@ -25,6 +25,7 @@ SRC		= 	main.c \
 			builtins/echo_builtin.c \
 			builtins/exit_builtin.c \
 			execute.c \
+			parse_path.c \
 			pipe.c \
 			exit.c \
 			error.c \

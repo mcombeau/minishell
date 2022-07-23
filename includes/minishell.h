@@ -100,7 +100,8 @@ enum quoting_status {
 void	exit_shell(int	exno);
 
 // error.c
-int	errmsg(char *command, char *detail, char *error_message, int error_nb);
+int		errmsg(char *command, char *detail, char *error_message, int error_nb);
+void	free_str_array(char **strs);
 
 /* ------------------------ PARSING -----------------------------------------*/
 // tokenize.c
@@ -125,7 +126,7 @@ int		init_data(t_data *data, char **env);
 bool	init_env(char **env);
 int		env_var_count(char **env);
 int		get_env_var_index(char *var);
-char	*get_env_var_str(char *var);
+char	*get_env_var_value(char *var);
 bool	is_valid_env_var_key(char *var);
 
 // env_set.c
@@ -145,7 +146,10 @@ int		exit_builtin(char **args);
 void	handle_signal(int signo);
 
 // execute.c
-int	execute(t_command *cmds);
+int		execute(t_command *cmds);
+
+// parse_path.c
+char	*get_cmd_path(char *cmd);
 
 // pipe.c
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);

@@ -279,9 +279,9 @@ static void	unit_test_cd(char *arg1, char *arg2)
 
 	if (cd_builtin(args))
 	{
-		printf("OLDPWD =\t%s\n", get_env_var_str("OLDPWD"));
+		printf("OLDPWD =\t%s\n", get_env_var_value("OLDPWD"));
 		printf("GETCWD =\t%s\n", getcwd(buf, BUFSIZ));
-		printf("PWD =\t\t%s\n", get_env_var_str("PWD"));
+		printf("PWD =\t\t%s\n", get_env_var_value("PWD"));
 	}
 }
 

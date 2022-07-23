@@ -32,15 +32,15 @@ int	cd_builtin(char **args)
 {
 	char	*home_path;
 
-	home_path = get_env_var_str("HOME");
+	home_path = get_env_var_value("HOME");
 	if (!args[0] || ft_strncmp(args[0], "--", 3) == 0)
 		return (!change_dir(home_path));
 	if (args[1])
 		return (errmsg("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[0], "-", 2) == 0)
 	{
-		change_dir(get_env_var_str("OLDPWD"));
-		printf("%s\n", get_env_var_str("PWD"));
+		change_dir(get_env_var_value("OLDPWD"));
+		printf("%s\n", get_env_var_value("PWD"));
 		return (EXIT_SUCCESS);
 	}
 	change_dir(args[0]);

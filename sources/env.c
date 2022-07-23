@@ -65,7 +65,7 @@ int	get_env_var_index(char *var)
 	return (-1);
 }
 
-/* get_env_var_str:
+/* get_env_var_value:
 *	Searches for the given variable in the environment variables.
 *
 *	Returns a pointer to the value of the variable in the environment
@@ -73,7 +73,7 @@ int	get_env_var_index(char *var)
 *	supported: the given string must be a full variable name.
 *	Returns NULL if the string cannot be found in the environment.
 */
-char *get_env_var_str(char *var)
+char *get_env_var_value(char *var)
 {
 	int		i;
 	char	*tmp;
