@@ -4,12 +4,14 @@ int	main(int ac, char **av, char **env)
 {
 	t_data data;
 
-	(void)ac;
-	(void)av;
 	if (!init_env(env))
 		// print error message here.
 		exit_shell(); // exit with error code.
-//	test_execution();
+	if (ac == 2 && av[1][0] == 't')
+	{
+		test_execution();
+		exit_shell();
+	}
 	init_data(&data, env);
 	while (1)
 	{
