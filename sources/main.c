@@ -5,8 +5,10 @@ int	main(int ac, char **av, char **env)
 	t_data data;
 
 	if (!init_env(env))
-		// print error message here.
-		exit_shell(); // exit with error code.
+	{
+		errmsg("Fatal", NULL, "Could not initialize environment", 1);
+		exit_shell();
+	}
 	if (ac == 2 && av[1][0] == 't')
 	{
 		test_execution();
