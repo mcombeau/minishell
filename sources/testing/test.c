@@ -86,12 +86,12 @@ static void	test_pwd()
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 
 	printf("Testing pwd:\n");
-	pwd_builtin();
+	pwd_builtin(NULL);
 
 	printf("\nRemoving PWD from env and testing pwd:\n");
 	remove_env_var(get_env_var_index("PWD"));
 	is_var_in_env("PWD");
-	pwd_builtin();
+	pwd_builtin(NULL);
 }
 
 static void	test_echo()
@@ -311,19 +311,28 @@ static void	test_cd(void)
 	unit_test_cd("includes", "crux");
 
 	printf("\n===== TEST CD 4 ========\n");
-	unit_test_cd(NULL, NULL);
+	unit_test_cd("../sources/testing/forbidden", NULL);
 
 	printf("\n===== TEST CD 5 ========\n");
-	unit_test_cd("-", NULL);
+	unit_test_cd("../sources/testing/test.c", NULL);
 
 	printf("\n===== TEST CD 6 ========\n");
-	unit_test_cd("..", NULL);
+	unit_test_cd(NULL, NULL);
 
 	printf("\n===== TEST CD 7 ========\n");
 	unit_test_cd("-", NULL);
 
 	printf("\n===== TEST CD 8 ========\n");
+	unit_test_cd("..", NULL);
+
+	printf("\n===== TEST CD 9 ========\n");
+	unit_test_cd("-", NULL);
+
+	printf("\n===== TEST CD 10 =======\n");
 	unit_test_cd("/var/log", NULL);
+
+	printf("\n===== TEST CD 11 =======\n");
+	unit_test_cd("/glob", NULL);
 }
 
 static void	unit_test_exit(char *arg1, char *arg2)

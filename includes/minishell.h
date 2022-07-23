@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <limits.h>
 # include "libft.h"
 
 /******************************************************************************
@@ -48,13 +49,20 @@ typedef struct	s_data
 
 }				t_data;
 
+/* NOTES about command structure:
+*	- pipe bool: set as true only if the output of this
+*		command is piped to the next command. Set false if
+*		the input of this command comes from the output of
+*		the previous command.
+*	- args: should contain command name as arg[0].
+*/
 typedef struct s_command
 {
 	char				*command;
 	char				*path;
 	char				**args;
 	bool				pipe;
-	int					pipe_fds[2];
+	int					pipe_fd[2];
 	int					fd_in;
 	int					fd_out;
 	struct s_command	*next;
@@ -87,38 +95,14 @@ enum quoting_status {
 *								FUNCTIONS									  *
 ******************************************************************************/
 
+/* ------------------------ ERROR & EXIT HANDLING ---------------------------*/
 // exit.c
 void	exit_shell(int	exno);
 
 // error.c
 int	errmsg(char *command, char *detail, char *error_message, int error_nb);
 
-// env.c
-bool	init_env(char **env);
-int		env_var_count(char **env);
-int		get_env_var_index(char *var);
-char	*get_env_var_str(char *var);
-bool	is_valid_env_var_key(char *var);
-
-// env_set.c
-bool	set_env_var(char *key, char *value);
-bool	remove_env_var(int idx);
-
-// builtins
-bool	env_builtin(void);
-void	pwd_builtin(void);
-bool	echo_builtin(char **args);
-bool	export_builtin(char **args);
-bool	unset_builtin(char **args);
-bool	cd_builtin(char **args);
-void	exit_builtin(char **args);
-
-// signal.c
-void	handle_signal(int signo);
-
-// test.c
-void	test_execution(void);
-
+/* ------------------------ PARSING -----------------------------------------*/
 // tokenize.c
 int     tokenization(t_data *data, char *str);
 
@@ -135,5 +119,40 @@ void	print_token(t_token *lst);
 
 //init_data.c
 int		init_data(t_data *data, char **env);
+
+/* ------------------------ EXECUTION ---------------------------------------*/
+// env.c
+bool	init_env(char **env);
+int		env_var_count(char **env);
+int		get_env_var_index(char *var);
+char	*get_env_var_str(char *var);
+bool	is_valid_env_var_key(char *var);
+
+// env_set.c
+bool	set_env_var(char *key, char *value);
+bool	remove_env_var(int idx);
+
+// builtins
+int		env_builtin(char **args);
+int		pwd_builtin(char **args);
+int		echo_builtin(char **args);
+int		export_builtin(char **args);
+int		unset_builtin(char **args);
+int		cd_builtin(char **args);
+int		exit_builtin(char **args);
+
+// signal.c
+void	handle_signal(int signo);
+
+// execute.c
+int	execute(t_command *cmds);
+
+// pipe.c
+bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
+void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
+
+/* ------------------------ TESTING -----------------------------------------*/
+// test.c
+void	test_execution(void);
 
 #endif

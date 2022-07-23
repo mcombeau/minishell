@@ -3,12 +3,15 @@
 /* env_builtin:
 *	Executes the builtin env command: Prints the environment variables.
 */
-bool	env_builtin(void)
+int	env_builtin(char **args)
 {
 	int	i;
 
+	(void)args;
 	i = 0;
+	if (!g_env_vars)
+		return (0);
 	while (g_env_vars[i])
 		ft_putendl_fd(g_env_vars[i++], STDOUT_FILENO);
-	return (true);
+	return (1);
 }

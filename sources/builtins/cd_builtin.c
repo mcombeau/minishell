@@ -11,19 +11,14 @@ static bool	change_dir(char	*path)
 	char	buff[BUFSIZ];
 
 	cwd = getcwd(buff, BUFSIZ);
-	if (!chdir(path))
+	if (chdir(path) == EXIT_SUCCESS)
 	{
 		set_env_var("OLDPWD", cwd);
 		set_env_var("PWD", getcwd(buff, BUFSIZ));
 	}
 	else
 	{
-		if(access(path, F_OK) == -1)
-			errmsg("cd", path, "No such file or directory", 1);
-		else if (access(path, X_OK))
-			errmsg("cd", path, "Permission denied", 1);
-		else
-			errmsg("cd", path, "Not a directory", 1);
+		errmsg("cd", path, strerror(errno), errno);
 		return (false);
 	}
 	return (true);
@@ -33,7 +28,7 @@ static bool	change_dir(char	*path)
 *	Executes the builtin cd command by changing the working directory.
 *	Returns 1 on success, 0 on failure.
 */
-bool	cd_builtin(char **args)
+int	cd_builtin(char **args)
 {
 	char	*home_path;
 
@@ -46,8 +41,8 @@ bool	cd_builtin(char **args)
 	{
 		change_dir(get_env_var_str("OLDPWD"));
 		printf("%s\n", get_env_var_str("PWD"));
-		return (true);
+		return (1);
 	}
 	change_dir(args[0]);
-	return (true);
+	return (1);
 }

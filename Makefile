@@ -24,6 +24,8 @@ SRC		= 	main.c \
 			builtins/pwd_builtin.c \
 			builtins/echo_builtin.c \
 			builtins/exit_builtin.c \
+			execute.c \
+			pipe.c \
 			exit.c \
 			error.c \
 			signal.c \

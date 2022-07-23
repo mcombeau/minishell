@@ -35,7 +35,7 @@ static void	echo_print(char *arg)
 *	and adds a \n character or not depending on the -n option.
 *	Returns 1 when the execution is complete.
 */
-bool	echo_builtin(char **args)
+int	echo_builtin(char **args)
 {
 	int		i;
 	bool	n_flag;
@@ -44,7 +44,7 @@ bool	echo_builtin(char **args)
 	if (!args[0])
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		return(true);
+		return (1);
 	}
 	else if (ft_strncmp(args[0], "-n", 3) == 0)
 		n_flag = true;
@@ -60,5 +60,5 @@ bool	echo_builtin(char **args)
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
-	return (true);
+	return (1);
 }
