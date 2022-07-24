@@ -168,7 +168,7 @@ static void	test_add_env_var(void)
 
 static void	unit_test_export(char *arg1, char *arg2)
 {
-	char	*args[3] = {arg1, arg2, NULL};
+	char	*args[4] = {"export", arg1, arg2, NULL};
 
 	printf("%sExporting: arg[0] = \"%s\", arg[1] = \"%s\"%s\n", CYAN, arg1, arg2, NC);
 	export_builtin(args);
@@ -206,7 +206,7 @@ static void	test_export(void)
 
 static void	unit_test_unset(char *arg1, char *arg2)
 {
-	char	*args[3] = {arg1, arg2, NULL};
+	char	*args[4] = {"unset", arg1, arg2, NULL};
 	printf("Before:\n");
 	is_var_in_env(arg1);
 	is_var_in_env(arg2);
@@ -241,7 +241,7 @@ static void	test_unset(void)
 
 static void	unit_test_cd(char *arg1, char *arg2)
 {
-	char	*args[3] = {arg1, arg2, NULL};
+	char	*args[4] = {"cd", arg1, arg2, NULL};
 	char	buf[BUFSIZ];
 
 	if (arg2)
@@ -304,7 +304,7 @@ static void	test_cd(void)
 
 static void	unit_test_exit(char *arg1, char *arg2)
 {
-	char	*args[3] = {arg1, arg2, NULL};
+	char	*args[4] = {"exit", arg1, arg2, NULL};
 
 	if (arg2)
 		printf("%sexit test: exit %s %s%s\n", CYAN, arg1, arg2, NC);
