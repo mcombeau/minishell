@@ -15,7 +15,6 @@ static bool	change_dir(char	*path)
 	{
 		set_env_var("OLDPWD", cwd);
 		set_env_var("PWD", getcwd(buff, BUFSIZ));
-		printf("Successfully changed dir.\nNew dir: %s\nOld dir: %s\n", get_env_var_value("PWD"), get_env_var_value("OLDPWD"));
 	}
 	else
 	{
