@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+char	**g_env_vars;
+
 /* env_var_count:
 *	Counts how many original environment variables there are.
 *	Returns the number of environment variables.
