@@ -60,6 +60,8 @@ static void	test_invalid_exec(void)
 	test_execute("does_not_exist");
 	printf("\n%stest input >%s README.md\n", BCYAN, NC);
 	test_execute("README.md");
+	printf("\n%stest input >%s blah/hello\n", BCYAN, NC);
+	test_execute("blah/hello");
 }
 
 static void	test_localbin_exec(void)

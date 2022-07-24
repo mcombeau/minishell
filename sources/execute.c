@@ -9,10 +9,6 @@ static int	execute_builtin(t_command *cmd)
 {
 	int	ret;
 
-	//TODO: Error with builtins. Children change their own copy of
-	// the global variable g_env_var instead of the parent one
-	// figure out interprocess communication so the parent var
-	// can get updated.
 	ret = -42;
 	if (ft_strncmp(cmd->command, "cd", 3) == 0)
 		ret = cd_builtin(cmd->args);
@@ -76,19 +72,19 @@ static int	execute_local_bin(t_command *cmd)
 *	Child exits with it's executed program's exit code, or 1 if
 *	it could not find one.
 */
-static int	execute_command(t_command *cmd)
+static int	execute_command(t_command *cmd, bool has_slash)
 {
 	int	ret;
 
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
-//	ret = execute_builtin(cmd);
-//	if (ret != -42)
-//		exit(ret);
-	ret = execute_sys_bin(cmd);
-	if (ret != -42)
-		exit(ret);
+	if (!has_slash)
+	{
+		ret = execute_sys_bin(cmd);
+		if (ret != -42)
+			exit(ret);
+	}
 	ret = execute_local_bin(cmd);
 	if (ret != -42)
 		exit(ret);
@@ -102,25 +98,29 @@ static int	execute_command(t_command *cmd)
 */
 int	execute(t_command *cmd_list)
 {
-	int	status;
+	int			status;
 	t_command	*cmd;
 	int			pid;
+	bool		cmd_has_slash;
 
 	cmd = cmd_list;
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
 		set_pipe_fds(cmd_list, cmd);
-		if (execute_builtin(cmd) != -42)
+		cmd_has_slash = false;
+		if (ft_strchr(cmd->command, '/') != NULL)
+			cmd_has_slash = true;
+		if (cmd_has_slash == false && execute_builtin(cmd) != -42)
 		{
 			cmd = cmd->next;
-			continue;
+			continue ;
 		}
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
-			execute_command(cmd_list);
+			execute_command(cmd, cmd_has_slash);
 		cmd = cmd->next;
 	}
 	close_pipe_fds(cmd_list, NULL);
