@@ -73,6 +73,22 @@ void	test_execute_basic(char *input)
 	execute(cmd);
 }
 
+static void	test_pipe_invalid_exec(void)
+{
+	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf(  "%s|                     PIPE INVALID TEST                             |%s\n", BYELLOW, NC);
+	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf("\n%stest input >%s ls -la | not_a_command\n", BCYAN, NC);
+	test_execute_multiple("ls -la", "not_a_command", NULL);
+	printf("\n%stest input >%s not_a_command | ls -la\n", BCYAN, NC);
+	test_execute_multiple("not_a_command", "ls -la", NULL);
+	printf("\n%stest input >%s cat README.md | not_a_command | wc -l\n", BCYAN, NC);
+	test_execute_multiple("cat README.md", "not_a_command", "wc -l");
+	printf("\n%stest input >%s not_a_command | not_a_command | not_a_command\n", BCYAN, NC);
+	test_execute_multiple("not_a_command", "not_a_command", "not_a_command");
+
+}
+
 static void	test_pipe_exec(void)
 {
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
@@ -171,4 +187,5 @@ void	test_execution(void)
 	test_localbin_exec();
 	test_invalid_exec();
 	test_pipe_exec();
+	test_pipe_invalid_exec();
 }
