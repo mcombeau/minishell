@@ -43,12 +43,34 @@ static t_command *basic_parse(char *input)
 	return(cmd);
 }
 
-void	test_execute(char *input)
+void	test_execute_two_cmds(char *input1, char *input2)
+{
+	t_command	*cmd_first;
+	t_command	*cmd_second;
+
+	cmd_first = basic_parse(input1);
+	cmd_second = basic_parse(input2);
+	cmd_first->next = cmd_second;
+	cmd_second->prev = cmd_first;
+	cmd_first->pipe = true;
+	execute(cmd_first);
+}
+
+void	test_execute_basic(char *input)
 {
 	t_command	*cmd;
 
 	cmd = basic_parse(input);
 	execute(cmd);
+}
+
+static void	test_pipe_exec(void)
+{
+	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf(  "%s|                     PIPE TEST                                     |%s\n", BYELLOW, NC);
+	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf("\n%stest input >%s ls -la | wc -l\n", BCYAN, NC);
+	test_execute_two_cmds("ls -la", "wc -l");
 }
 
 static void	test_invalid_exec(void)
@@ -57,11 +79,11 @@ static void	test_invalid_exec(void)
 	printf(  "%s|                     BASIC INVALID TEST                            |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("\n%stest input >%s does_not_exist\n", BCYAN, NC);
-	test_execute("does_not_exist");
+	test_execute_basic("does_not_exist");
 	printf("\n%stest input >%s README.md\n", BCYAN, NC);
-	test_execute("README.md");
+	test_execute_basic("README.md");
 	printf("\n%stest input >%s blah/hello\n", BCYAN, NC);
-	test_execute("blah/hello");
+	test_execute_basic("blah/hello");
 }
 
 static void	test_localbin_exec(void)
@@ -70,9 +92,9 @@ static void	test_localbin_exec(void)
 	printf(  "%s|                     BASIC LOCAL BIN TEST                          |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("\n%stest input >%s /usr/bin/who\n", BCYAN, NC);
-	test_execute("/usr/bin/who");
+	test_execute_basic("/usr/bin/who");
 //	printf("\n%stest input >%s ./minishell\n", BCYAN, NC);
-//	test_execute("./minishell");
+//	test_execute_basic("./minishell");
 }
 
 static void	test_sysbin_exec(void)
@@ -81,11 +103,11 @@ static void	test_sysbin_exec(void)
 	printf(  "%s|                     BASIC SYS/BIN TEST                            |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("\n%stest input >%s ls\n", BCYAN, NC);
-	test_execute("ls");
+	test_execute_basic("ls");
 	printf("\n%stest input >%s ls -la\n", BCYAN, NC);
-	test_execute("ls -la");
+	test_execute_basic("ls -la");
 	printf("\n%stest input >%s cat README.md\n", BCYAN, NC);
-	test_execute("cat README.md");
+	test_execute_basic("cat README.md");
 }
 
 static void	test_builtin_exec(void)
@@ -94,20 +116,20 @@ static void	test_builtin_exec(void)
 	printf(  "%s|                      BASIC BULTIN TEST                            |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("\n%stest input >%s pwd\n", BCYAN, NC);
-	test_execute("pwd");
+	test_execute_basic("pwd");
 	printf("\n%stest input >%s cd ..\n", BCYAN, NC);
-	test_execute("cd ..");
+	test_execute_basic("cd ..");
 	printf("\n%stest input >%s pwd\n", BCYAN, NC);
-	test_execute("pwd");
+	test_execute_basic("pwd");
 	printf("\n%stest input >%s cd minishell\n", BCYAN, NC);
-	test_execute("cd minishell");
+	test_execute_basic("cd minishell");
 	printf("\n%stest input >%s pwd\n", BCYAN, NC);
-	test_execute("pwd");
+	test_execute_basic("pwd");
 	printf("\n%stest input >%s export friday=13\n", BCYAN, NC);
-	test_execute("export friday=13");
+	test_execute_basic("export friday=13");
 	is_var_in_env("friday");
 	printf("\n%stest input >%s exit 42 21\n", BCYAN, NC);
-	test_execute("exit 42 21");
+	test_execute_basic("exit 42 21");
 
 }
 
@@ -122,4 +144,5 @@ void	test_execution(void)
 	test_sysbin_exec();
 	test_localbin_exec();
 	test_invalid_exec();
+	test_pipe_exec();
 }
