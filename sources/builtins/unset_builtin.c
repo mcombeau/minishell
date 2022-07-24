@@ -14,7 +14,7 @@ int	unset_builtin(char **args)
 	int	ret;
 
 	ret = EXIT_SUCCESS;
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
 		if (!is_valid_env_var_key(args[i]) || ft_strchr(args[i], '=') != NULL)

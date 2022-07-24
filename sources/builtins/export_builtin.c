@@ -40,7 +40,7 @@ int	export_builtin(char **args)
 	int		ret;
 
 	ret = EXIT_SUCCESS;
-	i = 0;
+	i = 1;
 	if (!args[i])
 		return (env_builtin(NULL));
 	while (args[i])

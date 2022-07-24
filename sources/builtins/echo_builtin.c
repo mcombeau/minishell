@@ -41,14 +41,14 @@ int	echo_builtin(char **args)
 	bool	n_flag;
 
 	n_flag = false;
-	if (!args[0])
+	if (!args[1])
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
-	else if (ft_strncmp(args[0], "-n", 3) == 0)
+	else if (ft_strncmp(args[1], "-n", 3) == 0)
 		n_flag = true;
-	i = 0;
+	i = 1;
 	if (n_flag)
 		i++;
 	while (args[i])
