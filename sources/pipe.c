@@ -22,6 +22,30 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 	}
 }
 
+bool	create_pipes(t_command *cmd_list)
+{
+	int			*fd;
+	t_command	*tmp;
+
+	tmp = cmd_list;
+	while (tmp)
+	{
+		if (tmp->pipe || (tmp->prev && tmp->prev->pipe))
+		{
+			printf("Creating pipes for cmd [%s]\n", tmp->command);
+			fd = malloc(sizeof * fd * 2);
+			if (!fd || pipe(fd) != 0)
+			{
+				//TODO: free cmd list
+				return (false);
+			}
+			tmp->pipe_fd = fd;
+		}
+		tmp = tmp->next;
+	}
+	return (true);
+}
+
 /* set_pipe_fds:
 *	Sets the pipe fds for this command. If the previous command
 *	was piped to this one, sets the input as the read end of

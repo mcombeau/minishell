@@ -62,7 +62,7 @@ typedef struct s_command
 	char				*path;
 	char				**args;
 	bool				pipe;
-	int					pipe_fd[2];
+	int					*pipe_fd;
 	int					fd_in;
 	int					fd_out;
 	struct s_command	*next;
@@ -152,6 +152,7 @@ int		execute(t_command *cmds);
 char	*get_cmd_path(char *cmd);
 
 // pipe.c
+bool	create_pipes(t_command *cmd_list);
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 

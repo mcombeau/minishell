@@ -35,11 +35,10 @@ static t_command *basic_parse(char *input)
 	cmd->args = cmd_args;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->fd_in = STDIN_FILENO;
-	cmd->fd_out = STDOUT_FILENO;
+	cmd->fd_in = -1;
+	cmd->fd_out = -1;
 	cmd->pipe = false;
-	cmd->pipe_fd[0] = -1;
-	cmd->pipe_fd[1] = -1;
+	cmd->pipe_fd = NULL;
 	return(cmd);
 }
 
@@ -53,6 +52,7 @@ void	test_execute_two_cmds(char *input1, char *input2)
 	cmd_first->next = cmd_second;
 	cmd_second->prev = cmd_first;
 	cmd_first->pipe = true;
+	cmd_second->pipe = false;
 	execute(cmd_first);
 }
 
@@ -130,7 +130,6 @@ static void	test_builtin_exec(void)
 	is_var_in_env("friday");
 	printf("\n%stest input >%s exit 42 21\n", BCYAN, NC);
 	test_execute_basic("exit 42 21");
-
 }
 
 void	test_execution(void)

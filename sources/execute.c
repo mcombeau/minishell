@@ -9,6 +9,7 @@ static int	execute_builtin(t_command *cmd)
 {
 	int	ret;
 
+	errmsg("execute", cmd->command, "searching builtins", 0);
 	ret = -42;
 	if (ft_strncmp(cmd->command, "cd", 3) == 0)
 		ret = cd_builtin(cmd->args);
@@ -36,6 +37,7 @@ static int	execute_builtin(t_command *cmd)
 */
 static int	execute_sys_bin(t_command *cmd)
 {
+	errmsg("execute", cmd->command, "searching system binaries", 0);
 	cmd->path = get_cmd_path(cmd->command);
 	if (!cmd->path)
 		return (-42);
@@ -53,6 +55,7 @@ static int	execute_sys_bin(t_command *cmd)
 */
 static int	execute_local_bin(t_command *cmd)
 {
+	errmsg("execute", cmd->command, "searching local", 0);
 	if (access(cmd->command, F_OK | X_OK) != 0)
 		return (-42);
 	if (execve(cmd->command, cmd->args, g_env_vars) == -1)
@@ -72,13 +75,18 @@ static int	execute_local_bin(t_command *cmd)
 *	Child exits with it's executed program's exit code, or 1 if
 *	it could not find one.
 */
-static int	execute_command(t_command *cmd, bool has_slash)
+static int	execute_command(t_command *cmd_list, t_command *cmd, bool has_slash)
 {
 	int	ret;
 
+	if (cmd->pipe_fd && cmd->pipe_fd[0])
+		errmsg(cmd->command, "pipefd[0]", "exists", 0);
+	if (cmd->pipe_fd && cmd->pipe_fd[1])
+		errmsg(cmd->command, "pipefd[1]", "exists", 0);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
+	close_pipe_fds(cmd_list, NULL);
 	if (!has_slash)
 	{
 		ret = execute_sys_bin(cmd);
@@ -104,6 +112,8 @@ int	execute(t_command *cmd_list)
 	bool		cmd_has_slash;
 
 	cmd = cmd_list;
+	if (!create_pipes(cmd_list))
+		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
@@ -120,7 +130,7 @@ int	execute(t_command *cmd_list)
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
-			execute_command(cmd, cmd_has_slash);
+			execute_command(cmd_list, cmd, cmd_has_slash);
 		cmd = cmd->next;
 	}
 	close_pipe_fds(cmd_list, NULL);
