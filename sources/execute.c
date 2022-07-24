@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+static bool	contains_slash(char *cmd)
+{
+	if (ft_strchr(cmd, '/') != NULL)
+		return (true);
+	return(false);
+}
+
 /* execute_builtin:
 *	Executes the given command if it is a builtin command.
 *	Returns -1 if the command is not a builtin command.
@@ -9,7 +16,6 @@ static int	execute_builtin(t_command *cmd)
 {
 	int	ret;
 
-//	errmsg("execute", cmd->command, "searching builtins", 0);
 	ret = -42;
 	if (ft_strncmp(cmd->command, "cd", 3) == 0)
 		ret = cd_builtin(cmd->args);
@@ -63,13 +69,6 @@ static int	execute_local_bin(t_command *cmd)
 	return (EXIT_FAILURE);
 }
 
-static bool	contains_slash(char *cmd)
-{
-	if (ft_strchr(cmd, '/') != NULL)
-		return (true);
-	return(false);
-}
-
 /* execute_command:
 *	Child process tries to execute the given command by setting
 *	its input/output fds and searching for an executable.
@@ -93,6 +92,9 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	// TODO: Deal with in/out file.
 	if (!contains_slash(cmd->command))
 	{
+		ret = execute_builtin(cmd);
+		if (ret != -42)
+			exit(ret);
 		ret = execute_sys_bin(cmd);
 		if (ret != -42)
 			exit(ret);
@@ -102,8 +104,6 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 		exit(ret);
 	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
-
-
 
 /* execute:
 *	Executes the given commands by creating children processes
@@ -122,15 +122,8 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		if (contains_slash(cmd->command))
-		{
-			set_pipe_fds(cmd_list, cmd);
-			if (execute_builtin(cmd) != -42)
-			{
-				cmd = cmd->next;
-				continue ;
-			}
-		}
+		if (!cmd->pipe && (execute_builtin(cmd) != -42))
+			break ;
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);

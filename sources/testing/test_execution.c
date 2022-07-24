@@ -96,6 +96,8 @@ static void	test_pipe_exec(void)
 	test_execute_multiple("env", "wc -l", NULL);
 	printf("\n%stest input >%s env | grep PATH\n", BCYAN, NC);
 	test_execute_multiple("env", "grep PATH", NULL);
+	printf("\n%stest input >%s cat README.md | pwd\n", BCYAN, NC);
+	test_execute_multiple("cat README.md", "pwd", NULL);
 }
 
 static void	test_invalid_exec(void)
