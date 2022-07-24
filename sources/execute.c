@@ -63,6 +63,13 @@ static int	execute_local_bin(t_command *cmd)
 	return (EXIT_FAILURE);
 }
 
+static bool	contains_slash(char *cmd)
+{
+	if (ft_strchr(cmd, '/') != NULL)
+		return (true);
+	return(false);
+}
+
 /* execute_command:
 *	Child process tries to execute the given command by setting
 *	its input/output fds and searching for an executable.
@@ -75,21 +82,16 @@ static int	execute_local_bin(t_command *cmd)
 *	Child exits with it's executed program's exit code, or 1 if
 *	it could not find one.
 */
-static int	execute_command(t_command *cmd_list, t_command *cmd, bool has_slash)
+static int	execute_command(t_command *cmd_list, t_command *cmd)
 {
 	int	ret;
 
 	set_pipe_fds(cmd_list, cmd);
-/*	if (cmd->pipe_fd && cmd->pipe_fd[0])
-		errmsg(cmd->command, "pipefd[0]", "exists", 0);
-	if (cmd->pipe_fd && cmd->pipe_fd[1])
-		errmsg(cmd->command, "pipefd[1]", "exists", 0);
-*/	close_fds(cmd_list);
-//	close_pipe_fds(cmd_list, NULL);
+	close_fds(cmd_list);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
-	if (!has_slash)
+	if (!contains_slash(cmd->command))
 	{
 		ret = execute_sys_bin(cmd);
 		if (ret != -42)
@@ -101,6 +103,8 @@ static int	execute_command(t_command *cmd_list, t_command *cmd, bool has_slash)
 	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
 
+
+
 /* execute:
 *	Executes the given commands by creating children processes
 *	and waiting for them to terminate.
@@ -111,7 +115,6 @@ int	execute(t_command *cmd_list)
 	int			status;
 	t_command	*cmd;
 	int			pid;
-	bool		cmd_has_slash;
 
 	cmd = cmd_list;
 	if (!create_pipes(cmd_list))
@@ -119,20 +122,20 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		cmd_has_slash = false;
-		if (ft_strchr(cmd->command, '/') != NULL)
-			cmd_has_slash = true;
-		if (cmd_has_slash == false && execute_builtin(cmd) != -42)
+		if (contains_slash(cmd->command))
 		{
 			set_pipe_fds(cmd_list, cmd);
-			cmd = cmd->next;
-			continue ;
+			if (execute_builtin(cmd) != -42)
+			{
+				cmd = cmd->next;
+				continue ;
+			}
 		}
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
-			execute_command(cmd_list, cmd, cmd_has_slash);
+			execute_command(cmd_list, cmd);
 		cmd = cmd->next;
 	}
 	close_fds(cmd_list);

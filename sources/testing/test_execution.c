@@ -90,8 +90,12 @@ static void	test_pipe_exec(void)
 	test_execute_multiple("cat README.md", "sed s/e/.../g", "sed s/m/XXX/g");
 	printf("\n%stest input >%s cat README.md | grep # | wc -l\n", BCYAN, NC);
 	test_execute_multiple("cat README.md", "grep #", "wc -l");
-//	printf("\n%stest input >%s env | wc -l\n", BCYAN, NC);
-//	test_execute_multiple("env", "wc -l", NULL);
+	printf("\n%stest input >%s pwd | wc -l\n", BCYAN, NC);
+	test_execute_multiple("pwd", "wc -l", NULL);
+	printf("\n%stest input >%s env | wc -l\n", BCYAN, NC);
+	test_execute_multiple("env", "wc -l", NULL);
+	printf("\n%stest input >%s env | grep PATH\n", BCYAN, NC);
+	test_execute_multiple("env", "grep PATH", NULL);
 }
 
 static void	test_invalid_exec(void)

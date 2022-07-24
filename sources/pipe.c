@@ -15,7 +15,6 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 	{
 		if (cmds != skip_cmd && cmds->pipe_fd)
 		{
-//			errmsg(cmds->command, NULL, "Closing pipe fds", 0);
 			close(cmds->pipe_fd[0]);
 			close(cmds->pipe_fd[1]);
 		}
@@ -49,7 +48,6 @@ bool	create_pipes(t_command *cmd_list)
 	{
 		if (tmp->pipe || (tmp->prev && tmp->prev->pipe))
 		{
-//			printf("Creating pipes for cmd [%s]\n", tmp->command);
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
@@ -63,14 +61,6 @@ bool	create_pipes(t_command *cmd_list)
 	return (true);
 }
 
-/*
-bool	redirect_io(int	input, int output)
-{
-	dup2(input, STDIN_FILENO);
-	dup2(output, STDIN_FILENO);
-	return (true);
-}
-*/
 /* set_pipe_fds:
 *	Sets the pipe fds for this command. If the previous command
 *	was piped to this one, sets the input as the read end of
