@@ -51,6 +51,17 @@ void	test_execute(char *input)
 	execute(cmd);
 }
 
+static void	test_invalid_exec(void)
+{
+	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf(  "%s|                     BASIC INVALID TEST                            |%s\n", BYELLOW, NC);
+	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf("\n%stest input >%s does_not_exist\n", BCYAN, NC);
+	test_execute("does_not_exist");
+	printf("\n%stest input >%s README.md\n", BCYAN, NC);
+	test_execute("README.md");
+}
+
 static void	test_localbin_exec(void)
 {
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
@@ -58,6 +69,8 @@ static void	test_localbin_exec(void)
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("\n%stest input >%s /usr/bin/who\n", BCYAN, NC);
 	test_execute("/usr/bin/who");
+//	printf("\n%stest input >%s ./minishell\n", BCYAN, NC);
+//	test_execute("./minishell");
 }
 
 static void	test_sysbin_exec(void)
@@ -82,9 +95,17 @@ static void	test_builtin_exec(void)
 	test_execute("pwd");
 	printf("\n%stest input >%s cd ..\n", BCYAN, NC);
 	test_execute("cd ..");
+	printf("\n%stest input >%s pwd\n", BCYAN, NC);
+	test_execute("pwd");
+	printf("\n%stest input >%s cd minishell\n", BCYAN, NC);
+	test_execute("cd minishell");
+	printf("\n%stest input >%s pwd\n", BCYAN, NC);
+	test_execute("pwd");
 	printf("\n%stest input >%s export friday=13\n", BCYAN, NC);
 	test_execute("export friday=13");
 	is_var_in_env("friday");
+	printf("\n%stest input >%s exit 42 21\n", BCYAN, NC);
+	test_execute("exit 42 21");
 
 }
 
@@ -98,4 +119,5 @@ void	test_execution(void)
 	test_builtin_exec();
 	test_sysbin_exec();
 	test_localbin_exec();
+	test_invalid_exec();
 }
