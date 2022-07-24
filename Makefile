@@ -30,7 +30,9 @@ SRC		= 	main.c \
 			exit.c \
 			error.c \
 			signal.c \
-			testing/test.c
+			testing/test.c \
+			testing/test_builtins.c \
+			testing/test_execution.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))

@@ -9,20 +9,24 @@ static int	execute_builtin(t_command *cmd)
 {
 	int	ret;
 
+	//TODO: Error with builtins. Children change their own copy of
+	// the global variable g_env_var instead of the parent one
+	// figure out interprocess communication so the parent var
+	// can get updated.
 	ret = -42;
-	if (ft_strncmp(cmd->command, "cd", 3))
+	if (ft_strncmp(cmd->command, "cd", 3) == 0)
 		ret = cd_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "echo", 5))
+	else if (ft_strncmp(cmd->command, "echo", 5) == 0)
 		ret = echo_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "env", 4))
+	else if (ft_strncmp(cmd->command, "env", 4) == 0)
 		ret = env_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "exit", 5))
+	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
 		ret = exit_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "export", 7))
+	else if (ft_strncmp(cmd->command, "export", 7) == 0)
 		ret = export_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "pwd", 4))
+	else if (ft_strncmp(cmd->command, "pwd", 4) == 0)
 		ret = pwd_builtin(cmd->args);
-	else if (ft_strncmp(cmd->command, "unset", 6))
+	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
 		ret = unset_builtin(cmd->args);
 	return (ret);
 }

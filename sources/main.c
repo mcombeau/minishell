@@ -9,9 +9,9 @@ int	main(int ac, char **av, char **env)
 		errmsg("Fatal", NULL, "Could not initialize environment", 1);
 		exit_shell(EXIT_FAILURE);
 	}
-	if (ac == 2 && av[1][0] == 't')
+	if (ac >= 2 && (av[1][0] == 't' || av[1][0] == 'T'))
 	{
-		test_execution();
+		test_minishell(ac, av);
 		exit_shell(EXIT_SUCCESS);
 	}
 	init_data(&data, env);

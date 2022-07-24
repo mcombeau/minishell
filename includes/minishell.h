@@ -157,6 +157,9 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 
 /* ------------------------ TESTING -----------------------------------------*/
 // test.c
+void	test_minishell(int ac, char **av);
+void	test_builtins(void);
 void	test_execution(void);
+void is_var_in_env(char *arg);
 
 #endif
