@@ -42,10 +42,11 @@ static t_command *basic_parse(char *input)
 	return(cmd);
 }
 
-void	test_execute_two_cmds(char *input1, char *input2)
+void	test_execute_multiple(char *input1, char *input2, char *input3)
 {
 	t_command	*cmd_first;
 	t_command	*cmd_second;
+	t_command	*cmd_third;
 
 	cmd_first = basic_parse(input1);
 	cmd_second = basic_parse(input2);
@@ -53,6 +54,14 @@ void	test_execute_two_cmds(char *input1, char *input2)
 	cmd_second->prev = cmd_first;
 	cmd_first->pipe = true;
 	cmd_second->pipe = false;
+	if (input3)
+	{
+		cmd_third = basic_parse(input3);
+		cmd_second->next = cmd_third;
+		cmd_third->prev = cmd_second;
+		cmd_second->pipe = true;
+		cmd_third->pipe = false;
+	}
 	execute(cmd_first);
 }
 
@@ -72,11 +81,17 @@ static void	test_pipe_exec(void)
 	printf("\n%stest input >%s ls -la\n", BCYAN, NC);
 	test_execute_basic("ls -la");
 	printf("\n%stest input >%s ls -la | wc -l\n", BCYAN, NC);
-	test_execute_two_cmds("ls -la", "wc -l");
+	test_execute_multiple("ls -la", "wc -l", NULL);
 	printf("\n%stest input >%s cat README.md | grep Work\n", BCYAN, NC);
-	test_execute_two_cmds("cat README.md", "grep Work");
+	test_execute_multiple("cat README.md", "grep Work", NULL);
 	printf("\n%stest input >%s cat README.md | wc -l\n", BCYAN, NC);
-	test_execute_two_cmds("cat README.md", "wc -l");
+	test_execute_multiple("cat README.md", "wc -l", NULL);
+	printf("\n%stest input >%s cat README.md | sed s/e/.../g | sed s/m/XXX/g\n", BCYAN, NC);
+	test_execute_multiple("cat README.md", "sed s/e/.../g", "sed s/m/XXX/g");
+	printf("\n%stest input >%s cat README.md | grep # | wc -l\n", BCYAN, NC);
+	test_execute_multiple("cat README.md", "grep #", "wc -l");
+//	printf("\n%stest input >%s env | wc -l\n", BCYAN, NC);
+//	test_execute_multiple("env", "wc -l", NULL);
 }
 
 static void	test_invalid_exec(void)
