@@ -79,14 +79,15 @@ static int	execute_command(t_command *cmd_list, t_command *cmd, bool has_slash)
 {
 	int	ret;
 
+	set_pipe_fds(cmd_list, cmd);
 	if (cmd->pipe_fd && cmd->pipe_fd[0])
 		errmsg(cmd->command, "pipefd[0]", "exists", 0);
 	if (cmd->pipe_fd && cmd->pipe_fd[1])
 		errmsg(cmd->command, "pipefd[1]", "exists", 0);
+	close_pipe_fds(cmd_list, NULL);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
-	close_pipe_fds(cmd_list, NULL);
 	if (!has_slash)
 	{
 		ret = execute_sys_bin(cmd);
@@ -117,12 +118,12 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		set_pipe_fds(cmd_list, cmd);
 		cmd_has_slash = false;
 		if (ft_strchr(cmd->command, '/') != NULL)
 			cmd_has_slash = true;
 		if (cmd_has_slash == false && execute_builtin(cmd) != -42)
 		{
+			set_pipe_fds(cmd_list, cmd);
 			cmd = cmd->next;
 			continue ;
 		}

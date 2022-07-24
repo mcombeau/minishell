@@ -13,8 +13,9 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 {
 	while (cmds)
 	{
-		if (cmds != skip_cmd && cmds->pipe)
+		if (cmds != skip_cmd && cmds->pipe_fd)
 		{
+			errmsg(cmds->command, NULL, "Closing pipe fds", 0);
 			close(cmds->pipe_fd[0]);
 			close(cmds->pipe_fd[1]);
 		}

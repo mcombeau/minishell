@@ -35,8 +35,8 @@ static t_command *basic_parse(char *input)
 	cmd->args = cmd_args;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->fd_in = -1;
-	cmd->fd_out = -1;
+	cmd->fd_in = STDIN_FILENO;
+	cmd->fd_out = STDOUT_FILENO;
 	cmd->pipe = false;
 	cmd->pipe_fd = NULL;
 	return(cmd);
@@ -69,6 +69,8 @@ static void	test_pipe_exec(void)
 	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf(  "%s|                     PIPE TEST                                     |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf("\n%stest input >%s ls -la\n", BCYAN, NC);
+	test_execute_basic("ls -la");
 	printf("\n%stest input >%s ls -la | wc -l\n", BCYAN, NC);
 	test_execute_two_cmds("ls -la", "wc -l");
 }
