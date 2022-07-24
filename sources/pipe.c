@@ -15,12 +15,28 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 	{
 		if (cmds != skip_cmd && cmds->pipe_fd)
 		{
-			errmsg(cmds->command, NULL, "Closing pipe fds", 0);
+//			errmsg(cmds->command, NULL, "Closing pipe fds", 0);
 			close(cmds->pipe_fd[0]);
 			close(cmds->pipe_fd[1]);
 		}
 		cmds = cmds->next;
 	}
+}
+
+void	close_fds(t_command *cmds)
+{
+	t_command	*tmp;
+
+	tmp = cmds;
+	while (tmp)
+	{
+		if (tmp->fd_in != -1)
+			close(tmp->fd_in);
+		if (tmp->fd_out != -1)
+			close (tmp->fd_out);
+		tmp = tmp->next;
+	}
+	close_pipe_fds(cmds, NULL);
 }
 
 bool	create_pipes(t_command *cmd_list)
@@ -33,7 +49,7 @@ bool	create_pipes(t_command *cmd_list)
 	{
 		if (tmp->pipe || (tmp->prev && tmp->prev->pipe))
 		{
-			printf("Creating pipes for cmd [%s]\n", tmp->command);
+//			printf("Creating pipes for cmd [%s]\n", tmp->command);
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
@@ -47,6 +63,14 @@ bool	create_pipes(t_command *cmd_list)
 	return (true);
 }
 
+/*
+bool	redirect_io(int	input, int output)
+{
+	dup2(input, STDIN_FILENO);
+	dup2(output, STDIN_FILENO);
+	return (true);
+}
+*/
 /* set_pipe_fds:
 *	Sets the pipe fds for this command. If the previous command
 *	was piped to this one, sets the input as the read end of
@@ -56,14 +80,14 @@ bool	create_pipes(t_command *cmd_list)
 *		pipe_fd[1] = write end of pipe.
 *	Returns true when the pipe file descriptors are set.
 */
-bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd)
+bool	set_pipe_fds(t_command *cmds, t_command *c)
 {
-	if (!curr_cmd)
+	if (!c)
 		return (false);
-	if (curr_cmd->prev && curr_cmd->prev->pipe)
-		dup2(curr_cmd->pipe_fd[0], STDIN_FILENO);
-	if (curr_cmd->pipe)
-		dup2(curr_cmd->pipe_fd[1], STDOUT_FILENO);
-	close_pipe_fds(cmds, curr_cmd);
+	if (c->prev && c->prev->pipe)
+		dup2(c->prev->pipe_fd[0], STDIN_FILENO);
+	if (c->pipe)
+		dup2(c->pipe_fd[1], STDOUT_FILENO);
+	close_pipe_fds(cmds, c);
 	return (true);
 }

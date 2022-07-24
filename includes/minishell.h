@@ -155,12 +155,13 @@ char	*get_cmd_path(char *cmd);
 bool	create_pipes(t_command *cmd_list);
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
+void	close_fds(t_command *cmds);
 
 /* ------------------------ TESTING -----------------------------------------*/
 // test.c
 void	test_minishell(int ac, char **av);
 void	test_builtins(void);
 void	test_execution(void);
-void is_var_in_env(char *arg);
+void 	is_var_in_env(char *arg);
 
 #endif
