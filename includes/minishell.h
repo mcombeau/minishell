@@ -18,6 +18,7 @@
 ******************************************************************************/
 
 # define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m "
+# define CMD_NOT_FOUND -42
 
 # define TRUE 0
 # define FALSE 1

@@ -16,7 +16,7 @@ static int	execute_builtin(t_command *cmd)
 {
 	int	ret;
 
-	ret = -42;
+	ret = CMD_NOT_FOUND;
 	if (ft_strncmp(cmd->command, "cd", 3) == 0)
 		ret = cd_builtin(cmd->args);
 	else if (ft_strncmp(cmd->command, "echo", 5) == 0)
@@ -37,7 +37,7 @@ static int	execute_builtin(t_command *cmd)
 /* execute_sys_bin:
 *	Executes the command's system binary file if it can be found
 *	among the environment executable paths.
-*	Returns -42 if a path to the executable bin file cannot be
+*	Returns CMD_NOT_FOUND if a path to the executable bin file cannot be
 *	found. Returns 1 in case of failure to run existing, executable
 *	file.
 */
@@ -46,7 +46,7 @@ static int	execute_sys_bin(t_command *cmd)
 //	errmsg("execute", cmd->command, "searching system binaries", 0);
 	cmd->path = get_cmd_path(cmd->command);
 	if (!cmd->path)
-		return (-42);
+		return (CMD_NOT_FOUND);
 	if (execve(cmd->path, cmd->args, g_env_vars) == -1)
 		errmsg("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);
@@ -56,14 +56,14 @@ static int	execute_sys_bin(t_command *cmd)
 *	Attempts to execute the given command as is, in case
 *	it is a local directory file or already contains the
 *	path to bin.
-*	Returns -42 if the command is not an existing executable
+*	Returns CMD_NOT_FOUND if the command is not an existing executable
 *	file. Returns 1 in case of failure to launch executable.
 */
 static int	execute_local_bin(t_command *cmd)
 {
 //	errmsg("execute", cmd->command, "searching local", 0);
 	if (access(cmd->command, F_OK | X_OK) != 0)
-		return (-42);
+		return (CMD_NOT_FOUND);
 	if (execve(cmd->command, cmd->args, g_env_vars) == -1)
 		errmsg("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);
@@ -93,14 +93,14 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	if (!contains_slash(cmd->command))
 	{
 		ret = execute_builtin(cmd);
-		if (ret != -42)
+		if (ret != CMD_NOT_FOUND)
 			exit(ret);
 		ret = execute_sys_bin(cmd);
-		if (ret != -42)
+		if (ret != CMD_NOT_FOUND)
 			exit(ret);
 	}
 	ret = execute_local_bin(cmd);
-	if (ret != -42)
+	if (ret != CMD_NOT_FOUND)
 		exit(ret);
 	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
@@ -122,7 +122,7 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		if (!cmd->pipe && (execute_builtin(cmd) != -42))
+		if (!cmd->pipe && (execute_builtin(cmd) != CMD_NOT_FOUND))
 			break ;
 		pid = fork();
 		if (pid == -1)
