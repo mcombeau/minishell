@@ -7,12 +7,12 @@ int	main(int ac, char **av, char **env)
 	if (!init_env(env))
 	{
 		errmsg("Fatal", NULL, "Could not initialize environment", 1);
-		exit_shell(EXIT_FAILURE);
+		exit_shell(NULL, EXIT_FAILURE);
 	}
 	if (ac >= 2 && (av[1][0] == 't' || av[1][0] == 'T'))
 	{
 		test_minishell(ac, av);
-		exit_shell(EXIT_SUCCESS);
+		exit_shell(NULL, EXIT_SUCCESS);
 	}
 	init_data(&data, env);
 	while (1)
@@ -30,6 +30,6 @@ int	main(int ac, char **av, char **env)
 		check_consecutives(&data.token);
 		free(data.user_input);
 	}
-	exit_shell(EXIT_SUCCESS);
+	exit_shell(NULL, EXIT_SUCCESS);
 	return (0);
 }

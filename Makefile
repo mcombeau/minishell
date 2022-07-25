@@ -30,6 +30,7 @@ SRC		= 	main.c \
 			exit.c \
 			error.c \
 			signal.c \
+			cleanup.c \
 			testing/test.c \
 			testing/test_builtins.c \
 			testing/test_execution.c

@@ -98,11 +98,16 @@ enum quoting_status {
 
 /* ------------------------ ERROR & EXIT HANDLING ---------------------------*/
 // exit.c
-void	exit_shell(int	exno);
+void	exit_shell(t_command *cmd_list, int	exno);
 
 // error.c
 int		errmsg(char *command, char *detail, char *error_message, int error_nb);
 void	free_str_array(char **strs);
+
+// cleanup.c
+void	free_str_array(char **strs);
+void	free_env_vars(void);
+void	free_cmd_list(t_command *cmd_list);
 
 /* ------------------------ PARSING -----------------------------------------*/
 // tokenize.c

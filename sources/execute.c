@@ -132,6 +132,7 @@ int	execute(t_command *cmd_list)
 		cmd = cmd->next;
 	}
 	close_fds(cmd_list);
+	free_cmd_list(cmd_list);
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;
 	return (0); // TODO: Return with last child's exit code or something

@@ -30,22 +30,3 @@ int	errmsg(char *command, char *detail, char *error_message, int error_nb)
 	free(msg);
 	return (error_nb);
 }
-
-/* free_strs_array:
-*	Frees an array of strings.
-*/
-void	free_str_array(char **strs)
-{
-	int i;
-
-	if (!strs)
-		return ;
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-	return ;
-}
