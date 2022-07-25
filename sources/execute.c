@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-static bool	contains_slash(char *cmd)
-{
-	if (ft_strchr(cmd, '/') != NULL)
-		return (true);
-	return(false);
-}
-
 /* execute_builtin:
 *	Executes the given command if it is a builtin command.
 *	Returns -1 if the command is not a builtin command.
@@ -90,7 +83,7 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
-	if (!contains_slash(cmd->command))
+	if (ft_strchr(cmd->command, '/') == NULL)
 	{
 		ret = execute_builtin(cmd);
 		if (ret != CMD_NOT_FOUND)
@@ -118,6 +111,8 @@ int	execute(t_command *cmd_list)
 
 	cmd = cmd_list;
 	if (!create_pipes(cmd_list))
+		return (0);
+	if (!open_infile_outfile(cmd_list->io_fds))
 		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)

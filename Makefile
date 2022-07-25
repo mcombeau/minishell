@@ -27,6 +27,7 @@ SRC		= 	main.c \
 			execute.c \
 			parse_path.c \
 			pipe.c \
+			file_io.c \
 			exit.c \
 			error.c \
 			signal.c \

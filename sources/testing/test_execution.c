@@ -40,8 +40,9 @@ static t_command *super_basic_parse(char *input)
 	cmd->args = cmd_args;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->fd_in = -1;
-	cmd->fd_out = -1;
+	cmd->io_fds = NULL;
+//	cmd->fd_in = -1;
+//	cmd->fd_out = -1;
 	cmd->pipe = false;
 	cmd->pipe_fd = NULL;
 	return(cmd);

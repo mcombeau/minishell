@@ -24,7 +24,7 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 
 void	close_fds(t_command *cmds)
 {
-	t_command	*tmp;
+/*	t_command	*tmp;
 
 	tmp = cmds;
 	while (tmp)
@@ -34,7 +34,7 @@ void	close_fds(t_command *cmds)
 		if (tmp->fd_out != -1)
 			close (tmp->fd_out);
 		tmp = tmp->next;
-	}
+	}*/
 	close_pipe_fds(cmds, NULL);
 }
 
@@ -51,7 +51,7 @@ bool	create_pipes(t_command *cmd_list)
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
-				//TODO: free cmd list
+				free_cmd_list(cmd_list);
 				return (false);
 			}
 			tmp->pipe_fd = fd;

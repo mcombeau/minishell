@@ -11,6 +11,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <limits.h>
+# include <fcntl.h>
 # include "libft.h"
 
 /******************************************************************************
@@ -50,6 +51,23 @@ typedef struct	s_data
 
 }				t_data;
 
+/* io_fds structure:
+*	Contains infile and outfile fds as well as
+*	backup of the stdin and stdout fds. Each command
+*	will have a pointer to this structure but only
+*	the first and last command will really use it.
+*/
+typedef struct s_io_fds
+{
+	char	*infile;
+	char	*outfile;
+	int		mode;	//Append? Heredoc?
+	int		fd_in;
+	int		fd_out;
+	int		stdin_backup;
+	int		stdout_backup;
+} t_io_fds;
+
 /* NOTES about command structure:
 *	- pipe bool: set as true only if the output of this
 *		command is piped to the next command. Set false if
@@ -64,8 +82,7 @@ typedef struct s_command
 	char				**args;
 	bool				pipe;
 	int					*pipe_fd;
-	int					fd_in;
-	int					fd_out;
+	t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -162,6 +179,9 @@ bool	create_pipes(t_command *cmd_list);
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 void	close_fds(t_command *cmds);
+
+// file_io.c
+bool	open_infile_outfile(t_io_fds *io);
 
 /* ------------------------ TESTING -----------------------------------------*/
 // test.c
