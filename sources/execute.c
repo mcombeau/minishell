@@ -96,14 +96,22 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
 
-/* interpret_child_status:
+/* get_children:
+*	Waits for children to terminate after cleaning up fds and the command
+*	list.
 *	Returns a child's exit status as bash does:
 *		"The return status (see Exit Status) of a simple command is its
 *		exit status as provided by the POSIX 1003.1 waitpid function, or
 *		128+n if the command was terminated by signal n."
 */
-static int	interpret_child_status(int status)
+static int	get_children(t_command *cmd_list)
 {
+	int			status;
+
+	close_fds(cmd_list, false);
+	free_cmd_list(cmd_list);
+	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
+		continue ;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
@@ -119,16 +127,13 @@ static int	interpret_child_status(int status)
 */
 int	execute(t_command *cmd_list)
 {
-	int			status;
 	t_command	*cmd;
 	int			pid;
 	int			ret;
 
 	ret = CMD_NOT_FOUND;
 	cmd = cmd_list;
-	if (!create_pipes(cmd_list))
-		return (0);
-	if (!open_infile_outfile(cmd_list->io_fds))
+	if (!create_pipes(cmd_list) || !open_infile_outfile(cmd_list->io_fds))
 		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)
@@ -136,7 +141,7 @@ int	execute(t_command *cmd_list)
 		if (!cmd->pipe_output)
 			ret = execute_builtin(cmd);
 		if (ret != CMD_NOT_FOUND)
-			break ;
+			return (ret) ;
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
@@ -144,12 +149,5 @@ int	execute(t_command *cmd_list)
 			execute_command(cmd_list, cmd);
 		cmd = cmd->next;
 	}
-	close_fds(cmd_list, false);
-	free_cmd_list(cmd_list);
-	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
-		continue ;
-	if (ret != CMD_NOT_FOUND)
-		return (ret);
-	else
-		return (interpret_child_status(status));
+	return (get_children(cmd_list));
 }
