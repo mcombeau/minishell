@@ -22,22 +22,11 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 	}
 }
 
-void	close_fds(t_command *cmds)
-{
-/*	t_command	*tmp;
-
-	tmp = cmds;
-	while (tmp)
-	{
-		if (tmp->fd_in != -1)
-			close(tmp->fd_in);
-		if (tmp->fd_out != -1)
-			close (tmp->fd_out);
-		tmp = tmp->next;
-	}*/
-	close_pipe_fds(cmds, NULL);
-}
-
+/* create_pipes:
+*	Creates a set of pipes for each piped command in the list
+*	of commands.
+*	Returns 1 if successful, 0 in case of failure.
+*/
 bool	create_pipes(t_command *cmd_list)
 {
 	int			*fd;

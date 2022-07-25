@@ -79,7 +79,7 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	int	ret;
 
 	set_pipe_fds(cmd_list, cmd);
-	close_fds(cmd_list);
+	close_fds(cmd_list, false);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	// TODO: Deal with in/out file.
@@ -126,7 +126,7 @@ int	execute(t_command *cmd_list)
 			execute_command(cmd_list, cmd);
 		cmd = cmd->next;
 	}
-	close_fds(cmd_list);
+	close_fds(cmd_list, false);
 	free_cmd_list(cmd_list);
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;

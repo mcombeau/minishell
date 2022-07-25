@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+/* close_fds:
+*	Closes opened file descriptors, including pipes and input and
+*	output fds. If close_backups is set to true, it also closes
+*	backup STDIN and STDOUT file descriptors.
+*/
+void	close_fds(t_command *cmds, bool close_backups)
+{
+	if (cmds->io_fds)
+	{
+		close(cmds->io_fds->fd_in);
+		close(cmds->io_fds->fd_out);
+		if (close_backups)
+		{
+			restore_io(cmds->io_fds);
+			close(cmds->io_fds->stdin_backup);
+			close(cmds->io_fds->stdout_backup);
+		}
+	}
+	close_pipe_fds(cmds, NULL);
+}
+
 /* free_strs_array:
 *	Frees an array of strings.
 */
@@ -37,6 +58,9 @@ void	free_env_vars(void)
 	free(g_env_vars);
 }
 
+/* free_io:
+*	Frees the input/output fd structure.
+*/
 void	free_io(t_io_fds *io)
 {
 	if (!io)
@@ -50,6 +74,9 @@ void	free_io(t_io_fds *io)
 		free(io);
 }
 
+/* free_cmd_list:
+*	Frees the list of commands.
+*/
 void	free_cmd_list(t_command *cmd_list)
 {
 	t_command	*tmp;

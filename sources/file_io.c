@@ -13,6 +13,8 @@ bool	restore_io(t_io_fds *io)
 	int	ret;
 
 	ret = true;
+	if (!io)
+		return (ret);
 	if (io->stdin_backup != -1)
 		if (dup2(io->stdin_backup, STDIN_FILENO) == -1)
 			ret = errmsg("dup2", "restoring stdin", strerror(errno), false);

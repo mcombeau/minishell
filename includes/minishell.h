@@ -122,6 +122,7 @@ int		errmsg(char *command, char *detail, char *error_message, int error_nb);
 void	free_str_array(char **strs);
 
 // cleanup.c
+void	close_fds(t_command *cmds, bool close_backups);
 void	free_str_array(char **strs);
 void	free_env_vars(void);
 void	free_cmd_list(t_command *cmd_list);
@@ -178,7 +179,6 @@ char	*get_cmd_path(char *cmd);
 bool	create_pipes(t_command *cmd_list);
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
-void	close_fds(t_command *cmds);
 
 // file_io.c
 bool	open_infile_outfile(t_io_fds *io);
