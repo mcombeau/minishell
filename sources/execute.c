@@ -36,7 +36,6 @@ static int	execute_builtin(t_command *cmd)
 */
 static int	execute_sys_bin(t_command *cmd)
 {
-//	errmsg("execute", cmd->command, "searching system binaries", 0);
 	cmd->path = get_cmd_path(cmd->command);
 	if (!cmd->path)
 		return (CMD_NOT_FOUND);
@@ -54,7 +53,6 @@ static int	execute_sys_bin(t_command *cmd)
 */
 static int	execute_local_bin(t_command *cmd)
 {
-//	errmsg("execute", cmd->command, "searching local", 0);
 	if (access(cmd->command, F_OK | X_OK) != 0)
 		return (CMD_NOT_FOUND);
 	if (execve(cmd->command, cmd->args, g_env_vars) == -1)
@@ -98,9 +96,25 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
 
+/* interpret_child_status:
+*	Returns a child's exit status as bash does:
+*		"The return status (see Exit Status) of a simple command is its
+*		exit status as provided by the POSIX 1003.1 waitpid function, or
+*		128+n if the command was terminated by signal n."
+*/
+static int	interpret_child_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (status);
+}
+
 /* execute:
 *	Executes the given commands by creating children processes
-*	and waiting for them to terminate.
+*	and waiting for them to terminate. If the command is a builtin
+*	and its output is not piped to another command, it is not forked.
 *	Returns the exit code of the last child to terminate.
 */
 int	execute(t_command *cmd_list)
@@ -108,7 +122,9 @@ int	execute(t_command *cmd_list)
 	int			status;
 	t_command	*cmd;
 	int			pid;
+	int			ret;
 
+	ret = CMD_NOT_FOUND;
 	cmd = cmd_list;
 	if (!create_pipes(cmd_list))
 		return (0);
@@ -117,7 +133,9 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		if (!cmd->pipe_output && (execute_builtin(cmd) != CMD_NOT_FOUND))
+		if (!cmd->pipe_output)
+			ret = execute_builtin(cmd);
+		if (ret != CMD_NOT_FOUND)
 			break ;
 		pid = fork();
 		if (pid == -1)
@@ -130,5 +148,8 @@ int	execute(t_command *cmd_list)
 	free_cmd_list(cmd_list);
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;
-	return (0); // TODO: Return with last child's exit code or something
+	if (ret != CMD_NOT_FOUND)
+		return (ret);
+	else
+		return (interpret_child_status(status));
 }
