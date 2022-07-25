@@ -91,6 +91,34 @@ void	test_execute_inout_file(char *infile, char *input, char *outfile)
 	execute(cmd);
 }
 
+void	test_execute_multiple_inout_file(char *infile, char *input1, char *input2, char *input3, char *outfile)
+{
+	t_command	*cmd_first;
+	t_command	*cmd_second;
+	t_command	*cmd_third;
+
+	if (!input1 || !input2)
+		return ;
+	cmd_first = super_basic_parse(input1);
+	cmd_second = super_basic_parse(input2);
+	cmd_first->next = cmd_second;
+	cmd_second->prev = cmd_first;
+	cmd_first->pipe = true;
+	cmd_second->pipe = false;
+	cmd_first->io_fds = very_basic_inout_files(infile, outfile);
+	cmd_second->io_fds = cmd_first->io_fds;
+	if (input3)
+	{
+		cmd_third = super_basic_parse(input3);
+		cmd_second->next = cmd_third;
+		cmd_third->prev = cmd_second;
+		cmd_second->pipe = true;
+		cmd_third->pipe = false;
+		cmd_third->io_fds = cmd_first->io_fds;
+	}
+	execute(cmd_first);
+}
+
 /* test_execute_multiple:
 *	Simulates two or three piped commands for testing purposes.
 *	Each input must be a string of characters starting with the
@@ -153,6 +181,18 @@ static void	test_basic_inout_file(void)
 
 	printf("\n%stest input >%s < README.md wc -l > result_outfile\n", BCYAN, NC);
 	test_execute_inout_file("README.md", "wc -l", "result_outfile");
+
+	printf("\n%stest input >%s cat result_outfile\n", BCYAN, NC);
+	test_execute_basic("cat result_outfile");
+
+	printf("\n%stest input >%s < README.md grep Work | wc -l > result_outfile\n", BCYAN, NC);
+	test_execute_multiple_inout_file("README.md", "grep Work", "wc -l", NULL, "result_outfile");
+
+	printf("\n%stest input >%s cat result_outfile\n", BCYAN, NC);
+	test_execute_basic("cat result_outfile");
+
+	printf("\n%stest input >%s < README.md grep # | sed s/t/.x./g | sed s/l/ooo/g > result_outfile\n", BCYAN, NC);
+	test_execute_multiple_inout_file("README.md", "grep #", "sed s/t/.x./g", "sed s/l/ooo/g", "result_outfile");
 
 	printf("\n%stest input >%s cat result_outfile\n", BCYAN, NC);
 	test_execute_basic("cat result_outfile");
