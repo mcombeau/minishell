@@ -80,7 +80,6 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 	close_fds(cmd_list, false);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
-	// TODO: Deal with in/out file.
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
 		ret = execute_builtin(cmd);
@@ -141,7 +140,10 @@ int	execute(t_command *cmd_list)
 		if (!cmd->pipe_output)
 			ret = execute_builtin(cmd);
 		if (ret != CMD_NOT_FOUND)
-			return (ret) ;
+		{
+			free_cmd_list(cmd_list);
+			return (ret);
+		}
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);

@@ -169,7 +169,7 @@ static void	test_basic_inout_file(void)
 	printf(  "%s|              BASIC INPUT OUTPUT FILE TEST                         |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 	printf("%sNOTE:\tThese tests only test truncated outfiles.\n\tAnother test will be created for appended oufiles.%s\n\n", PURPLE, NC);
-	
+
 	printf("\n%stest input >%s < README.md sed s/e/XXX/g\n", BCYAN, NC);
 	test_execute_inout_file("README.md", "sed s/e/XXX/g", NULL);
 	
@@ -206,6 +206,12 @@ static void	test_basic_inout_file(void)
 
 	printf("\n%stest input >%s cat result_outfile\n", BCYAN, NC);
 	test_execute_basic("cat result_outfile");
+
+	printf("\n%stest input >%s env > result_outfile\n", BCYAN, NC);
+	test_execute_inout_file(NULL, "env", "result_outfile");
+
+	printf("\n%stest input >%s cat result_outfile | wc -l\n", BCYAN, NC);
+	test_execute_multiple("cat result_outfile", "wc -l", NULL);
 
 	unlink("result_outfile");
 }
