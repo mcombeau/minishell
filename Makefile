@@ -11,8 +11,8 @@ OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
 			init_data.c \
-			env.c \
-			env_set.c \
+			env/env.c \
+			env/env_set.c \
 			parser/tokenization.c \
 			parser/define_tokens.c \
 			parser/lexer_utils.c \
@@ -24,14 +24,14 @@ SRC		= 	main.c \
 			builtins/pwd_builtin.c \
 			builtins/echo_builtin.c \
 			builtins/exit_builtin.c \
-			execute.c \
-			parse_path.c \
-			pipe.c \
-			file_io.c \
-			exit.c \
-			error.c \
-			signal.c \
-			cleanup.c \
+			execution/execute.c \
+			execution/parse_path.c \
+			redirections/pipe.c \
+			redirections/file_io.c \
+			exit_utils/exit.c \
+			exit_utils/error.c \
+			exit_utils/cleanup.c \
+			signals/signal.c \
 			testing/test.c \
 			testing/test_builtins.c \
 			testing/test_execution.c
@@ -53,6 +53,11 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)/builtins
 	mkdir -p $(OBJ_PATH)/parser
 	mkdir -p $(OBJ_PATH)/testing
+	mkdir -p $(OBJ_PATH)/env
+	mkdir -p $(OBJ_PATH)/execution
+	mkdir -p $(OBJ_PATH)/exit_utils
+	mkdir -p $(OBJ_PATH)/redirections
+	mkdir -p $(OBJ_PATH)/signals
 
 # Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
