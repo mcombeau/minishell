@@ -172,6 +172,16 @@ static void	test_basic_inout_file(void)
 	
 	printf("\n%stest input >%s < README.md sed s/e/XXX/g\n", BCYAN, NC);
 	test_execute_inout_file("README.md", "sed s/e/XXX/g", NULL);
+	
+	if (access("sources/testing/forbidden_file", F_OK) == -1)
+		open("sources/testing/forbidden_file", O_CREAT, 0000);
+	printf("\n%stest input >%s < sources/testing/forbidden_file sed s/e/XXX/g\n", BCYAN, NC);
+	test_execute_inout_file("sources/testing/forbidden_file", "sed s/e/XXX/g", NULL);
+
+	printf("\n%stest input >%s < README.md sed s/e/XXX/g > sources/testing/forbidden_file\n", BCYAN, NC);
+	test_execute_inout_file("README.md", "sed s/e/XXX/g", "sources/testing/forbidden_file");
+
+	unlink("sources/testing/forbidden_file");
 
 	printf("\n%stest input >%s < README.md sed s/e/.../g > result_outfile\n", BCYAN, NC);
 	test_execute_inout_file("README.md", "sed s/e/.../g", "result_outfile");
