@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+bool	restore_io(t_io_fds *io)
+{
+	if (io->stdin_backup != -1)
+		dup2(io->stdin_backup, STDIN_FILENO);
+	if (io->stdout_backup != -1)
+		dup2(io->stdout_backup, STDOUT_FILENO);
+	return (true);
+}
+
 bool	redirect_io(t_io_fds *io)
 {
 	io->stdin_backup = dup(STDIN_FILENO);
@@ -33,9 +42,9 @@ bool	open_infile_outfile(t_io_fds *io)
 	if (io->outfile)
 	{
 		if (io->mode == HEREDOC)
-			io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 644);
+			io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 644);
+			io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (io->fd_out == -1)
 			return (errmsg("open", io->outfile, strerror(errno), false));
 	}

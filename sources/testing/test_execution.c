@@ -20,6 +20,37 @@
 #define CYAN	"\e[36m"
 #define GREY	"\e[37m"
 
+/* basic_parse_with_inout_files:
+*	Fills a command structure with a very basic input containing
+*	a command name and some options, as well as an input and output file.
+*	Returns the created command. Exits the shell test in case of error.
+*/
+static t_io_fds *very_basic_inout_files(char *infile, char *outfile)
+{
+	t_io_fds	*io;
+
+	io = malloc(sizeof * io);
+	if (!io)
+	{
+		printf("ERROR malloc io\n");
+		return (NULL);
+	}
+	io->fd_in = -1;
+	io->fd_out = -1;
+	if (infile)
+		io->infile = ft_strdup(infile);
+	else
+		io->infile = NULL;
+	if (outfile)
+		io->outfile = ft_strdup(outfile);
+	else
+		io->outfile = NULL;
+	io->mode = -1;
+	io->stdin_backup = -1;
+	io->stdout_backup = -1;
+	return(io);
+}
+
 /* super_basic_parse:
 *	Fills a command structure with a very basic input containing only
 *	a command name and some options.
@@ -41,12 +72,25 @@ static t_command *super_basic_parse(char *input)
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->io_fds = NULL;
-//	cmd->fd_in = -1;
-//	cmd->fd_out = -1;
 	cmd->pipe = false;
 	cmd->pipe_fd = NULL;
 	return(cmd);
 }
+
+void	test_execute_inout_file(char *infile, char *input, char *outfile)
+{
+	t_command	*cmd;
+
+	if (!input)
+	{
+		printf("ERROR: need input!\n");
+		return ;
+	}
+	cmd = super_basic_parse(input);
+	cmd->io_fds = very_basic_inout_files(infile, outfile);
+	execute(cmd);
+}
+
 /* test_execute_multiple:
 *	Simulates two or three piped commands for testing purposes.
 *	Each input must be a string of characters starting with the
@@ -89,6 +133,31 @@ void	test_execute_basic(char *input)
 
 	cmd = super_basic_parse(input);
 	execute(cmd);
+}
+
+static void	test_basic_inout_file(void)
+{
+	printf("%s\n+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf(  "%s|              BASIC INPUT OUTPUT FILE TEST                         |%s\n", BYELLOW, NC);
+	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
+	printf("%sNOTE:\tThese tests only test truncated outfiles.\n\tAnother test will be created for appended oufiles.%s\n\n", PURPLE, NC);
+	
+	printf("\n%stest input >%s < README.md sed s/e/XXX/g\n", BCYAN, NC);
+	test_execute_inout_file("README.md", "sed s/e/XXX/g", NULL);
+
+	printf("\n%stest input >%s < README.md sed s/e/.../g > result_outfile\n", BCYAN, NC);
+	test_execute_inout_file("README.md", "sed s/e/.../g", "result_outfile");
+
+	printf("\n%stest input >%s < result_outfile cat\n", BCYAN, NC);
+	test_execute_inout_file("result_outfile", "cat", NULL);
+
+	printf("\n%stest input >%s < README.md wc -l > result_outfile\n", BCYAN, NC);
+	test_execute_inout_file("README.md", "wc -l", "result_outfile");
+
+	printf("\n%stest input >%s cat result_outfile\n", BCYAN, NC);
+	test_execute_basic("cat result_outfile");
+
+	unlink("result_outfile");
 }
 
 static void	test_pipe_invalid_exec(void)
@@ -208,4 +277,5 @@ void	test_execution(void)
 	test_invalid_exec();
 	test_pipe_exec();
 	test_pipe_invalid_exec();
+	test_basic_inout_file();
 }

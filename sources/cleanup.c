@@ -37,11 +37,26 @@ void	free_env_vars(void)
 	free(g_env_vars);
 }
 
+void	free_io(t_io_fds *io)
+{
+	if (!io)
+		return ;
+	restore_io(io);
+	if (io->infile)
+		free(io->infile);
+	if (io->outfile)
+		free(io->outfile);
+	if (io)
+		free(io);
+}
+
 void	free_cmd_list(t_command *cmd_list)
 {
 	t_command	*tmp;
 
 	tmp = cmd_list;
+	if (tmp->io_fds)
+		free_io(tmp->io_fds);
 	while (tmp)
 	{
 		if (tmp->args)

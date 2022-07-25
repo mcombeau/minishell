@@ -182,6 +182,7 @@ void	close_fds(t_command *cmds);
 
 // file_io.c
 bool	open_infile_outfile(t_io_fds *io);
+bool	restore_io(t_io_fds *io);
 
 /* ------------------------ TESTING -----------------------------------------*/
 // test.c
