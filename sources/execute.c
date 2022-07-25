@@ -117,7 +117,7 @@ int	execute(t_command *cmd_list)
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
-		if (!cmd->pipe && (execute_builtin(cmd) != CMD_NOT_FOUND))
+		if (!cmd->pipe_output && (execute_builtin(cmd) != CMD_NOT_FOUND))
 			break ;
 		pid = fork();
 		if (pid == -1)

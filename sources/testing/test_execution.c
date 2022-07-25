@@ -72,7 +72,7 @@ static t_command *super_basic_parse(char *input)
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->io_fds = NULL;
-	cmd->pipe = false;
+	cmd->pipe_output = false;
 	cmd->pipe_fd = NULL;
 	return(cmd);
 }
@@ -103,8 +103,8 @@ void	test_execute_multiple_inout_file(char *infile, char *input1, char *input2, 
 	cmd_second = super_basic_parse(input2);
 	cmd_first->next = cmd_second;
 	cmd_second->prev = cmd_first;
-	cmd_first->pipe = true;
-	cmd_second->pipe = false;
+	cmd_first->pipe_output = true;
+	cmd_second->pipe_output = false;
 	cmd_first->io_fds = very_basic_inout_files(infile, outfile);
 	cmd_second->io_fds = cmd_first->io_fds;
 	if (input3)
@@ -112,8 +112,8 @@ void	test_execute_multiple_inout_file(char *infile, char *input1, char *input2, 
 		cmd_third = super_basic_parse(input3);
 		cmd_second->next = cmd_third;
 		cmd_third->prev = cmd_second;
-		cmd_second->pipe = true;
-		cmd_third->pipe = false;
+		cmd_second->pipe_output = true;
+		cmd_third->pipe_output = false;
 		cmd_third->io_fds = cmd_first->io_fds;
 	}
 	execute(cmd_first);
@@ -137,15 +137,15 @@ void	test_execute_multiple(char *input1, char *input2, char *input3)
 	cmd_second = super_basic_parse(input2);
 	cmd_first->next = cmd_second;
 	cmd_second->prev = cmd_first;
-	cmd_first->pipe = true;
-	cmd_second->pipe = false;
+	cmd_first->pipe_output = true;
+	cmd_second->pipe_output = false;
 	if (input3)
 	{
 		cmd_third = super_basic_parse(input3);
 		cmd_second->next = cmd_third;
 		cmd_third->prev = cmd_second;
-		cmd_second->pipe = true;
-		cmd_third->pipe = false;
+		cmd_second->pipe_output = true;
+		cmd_third->pipe_output = false;
 	}
 	execute(cmd_first);
 }

@@ -69,7 +69,7 @@ typedef struct s_io_fds
 } t_io_fds;
 
 /* NOTES about command structure:
-*	- pipe bool: set as true only if the output of this
+*	- pipe_output bool: set as true only if the output of this
 *		command is piped to the next command. Set false if
 *		the input of this command comes from the output of
 *		the previous command.
@@ -80,7 +80,7 @@ typedef struct s_command
 	char				*command;
 	char				*path;
 	char				**args;
-	bool				pipe;
+	bool				pipe_output;
 	int					*pipe_fd;
 	t_io_fds			*io_fds;
 	struct s_command	*next;

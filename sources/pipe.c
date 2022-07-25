@@ -35,7 +35,7 @@ bool	create_pipes(t_command *cmd_list)
 	tmp = cmd_list;
 	while (tmp)
 	{
-		if (tmp->pipe || (tmp->prev && tmp->prev->pipe))
+		if (tmp->pipe_output || (tmp->prev && tmp->prev->pipe_output))
 		{
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
@@ -63,9 +63,9 @@ bool	set_pipe_fds(t_command *cmds, t_command *c)
 {
 	if (!c)
 		return (false);
-	if (c->prev && c->prev->pipe)
+	if (c->prev && c->prev->pipe_output)
 		dup2(c->prev->pipe_fd[0], STDIN_FILENO);
-	if (c->pipe)
+	if (c->pipe_output)
 		dup2(c->pipe_fd[1], STDOUT_FILENO);
 	close_pipe_fds(cmds, c);
 	return (true);
