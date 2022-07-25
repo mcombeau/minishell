@@ -20,7 +20,12 @@
 #define CYAN	"\e[36m"
 #define GREY	"\e[37m"
 
-static t_command *basic_parse(char *input)
+/* super_basic_parse:
+*	Fills a command structure with a very basic input containing only
+*	a command name and some options.
+*	Returns the created command. Exits the shell test in case of error.
+*/
+static t_command *super_basic_parse(char *input)
 {
 	t_command	*cmd;
 	char		**cmd_args;
@@ -41,22 +46,29 @@ static t_command *basic_parse(char *input)
 	cmd->pipe_fd = NULL;
 	return(cmd);
 }
-
+/* test_execute_multiple:
+*	Simulates two or three piped commands for testing purposes.
+*	Each input must be a string of characters starting with the
+*	command to execute followed by options separated by spaces.
+*	Requires at least two commands in order to pipe.
+*/
 void	test_execute_multiple(char *input1, char *input2, char *input3)
 {
 	t_command	*cmd_first;
 	t_command	*cmd_second;
 	t_command	*cmd_third;
 
-	cmd_first = basic_parse(input1);
-	cmd_second = basic_parse(input2);
+	if (!input1 || !input2)
+		return ;
+	cmd_first = super_basic_parse(input1);
+	cmd_second = super_basic_parse(input2);
 	cmd_first->next = cmd_second;
 	cmd_second->prev = cmd_first;
 	cmd_first->pipe = true;
 	cmd_second->pipe = false;
 	if (input3)
 	{
-		cmd_third = basic_parse(input3);
+		cmd_third = super_basic_parse(input3);
 		cmd_second->next = cmd_third;
 		cmd_third->prev = cmd_second;
 		cmd_second->pipe = true;
@@ -65,11 +77,16 @@ void	test_execute_multiple(char *input1, char *input2, char *input3)
 	execute(cmd_first);
 }
 
+/* test_execute_basic:
+*	Simulates a simple non-piped command execution. Input must be
+*	a string of characters starting with the command to execute
+*	followed by options separated by spaces.
+*/
 void	test_execute_basic(char *input)
 {
 	t_command	*cmd;
 
-	cmd = basic_parse(input);
+	cmd = super_basic_parse(input);
 	execute(cmd);
 }
 
@@ -114,6 +131,8 @@ static void	test_pipe_exec(void)
 	test_execute_multiple("env", "grep PATH", NULL);
 	printf("\n%stest input >%s cat README.md | pwd\n", BCYAN, NC);
 	test_execute_multiple("cat README.md", "pwd", NULL);
+	printf("\n%stest input >%s /usr/bin/who | sed s/2/X/g\n", BCYAN, NC);
+	test_execute_multiple("/usr/bin/who", "sed s/2/X/g", NULL);
 }
 
 static void	test_invalid_exec(void)
