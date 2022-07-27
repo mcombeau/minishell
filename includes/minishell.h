@@ -21,8 +21,8 @@
 # define PROMPT "\033[0;35m➜\033[0;m \033[0;33mMinishell >\033[0;m "
 # define CMD_NOT_FOUND -42
 
-# define TRUE 0
-# define FALSE 1
+# define TRUE 1
+# define FALSE 0
 
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
@@ -140,10 +140,46 @@ int		define_token(t_token **token_lst);
 // token_lst_utils.c
 t_token	*lst_new_token(char *str, int type, int status);
 void	lst_add_back_token(t_token **alst, t_token *new_node);
+t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert);
+void	lstdelone_token(t_token *lst, void (*del)(void *));
+void	lstclear_token(t_token **lst, void (*del)(void *));
 void	print_token(t_token *lst);
+
+/* ------------------------ EXPANSION ---------------------------------------*/
+//expander.c
+int		expander(t_data *data, t_token **token_lst);
+
+//recover_value.c
+char	*recover_val(char *str, t_data *data);
+
+//identify_var.c
+char	*identify_var(char *str);
+int		var_length(char *str);
+bool	is_var_compliant(char c);
+
+//replace_var.c
+int		replace_var(t_token **token_node, char *var_value, int index);
+int		erase_and_replace(t_token **token_node, char *str, char *var_value, int index);
+void	copy_var_value(char *new_str, char *var_value, int *j);
+int		erase_var(t_token **token_node, char *str, int index);
+
+//quotes_handler.c
+int	 	handle_quotes(t_data *data);
+bool	quotes_in_string(char *str);
+int		count_len(char *str, int count, int i);
+
+//quotes_remover.c
+int		remove_quotes(t_token **token_node);
+
+//var_tokenization.c
+int		var_tokenization(t_data *data);
+
 
 //init_data.c
 int		init_data(t_data *data, char **env);
+
+//free_data.c
+void	free_data (t_data *data);
 
 /* ------------------------ EXECUTION ---------------------------------------*/
 // env.c

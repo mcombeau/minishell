@@ -35,6 +35,59 @@ void	lst_add_back_token(t_token **alst, t_token *new_node)
 	}
 }
 
+void	lstdelone_token(t_token *lst, void (*del)(void *))
+{
+	if (del && lst)
+		(*del)(lst->str);
+	free(lst);
+}
+
+void	lstclear_token(t_token **lst, void (*del)(void *))
+{
+	t_token	*tmp;
+
+	tmp = NULL;
+	while (*lst != NULL)
+	{
+		tmp = (*lst)->next;
+		lstdelone_token(*lst, del);
+		*lst = tmp;
+	}
+}
+
+t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert)
+{
+	t_token	*tmp;
+	tmp = *head;
+
+	printf("HEAD : |%s|\n", (*head)->str);
+	printf("TO_DEL : |%s|\n", to_del->str);
+	printf("INSERT : |%s|\n", insert->str);
+	if (tmp == NULL)
+		*head = insert;
+	else if (tmp == to_del)
+	{
+		*head = insert;
+		insert->next = tmp->next;
+		if (tmp->next != NULL)
+			tmp->next->prev = insert;
+	}
+	else
+	{
+		while (tmp != to_del)
+			tmp = tmp->next;
+		insert->prev = tmp->prev;
+		tmp->prev->next = insert;
+		while (insert->next)
+			insert = insert->next;
+		tmp->next->prev = insert;
+		insert->next = tmp->next;
+	}
+	free(to_del->str);
+	free(to_del);
+	return (insert);
+}
+
 void	print_token(t_token *lst)
 {
 	t_token *temp;

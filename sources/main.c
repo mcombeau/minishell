@@ -27,8 +27,12 @@ int	main(int ac, char **av, char **env)
 		if (tokenization(&data, data.user_input) == 1)
 			printf("Error with tokenization\n");
 		define_token(&data.token);
-		check_consecutives(&data.token);
-		free(data.user_input);
+		//check_consecutives(&data.token);
+		expander(&data, &data.token);
+		handle_quotes(&data);
+		//var_tokenization(&data);
+		print_token(data.token);
+		free_data(&data);
 	}
 	exit_shell(NULL, EXIT_SUCCESS);
 	return (0);

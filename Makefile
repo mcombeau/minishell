@@ -11,12 +11,20 @@ OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
 			init_data.c \
+			free_data.c \
 			env/env.c \
 			env/env_set.c \
 			parser/tokenization.c \
 			parser/define_tokens.c \
 			parser/lexer_utils.c \
 			parser/token_lst_utils.c \
+			parser/expander.c \
+			parser/identify_var.c \
+			parser/quotes_handler.c \
+			parser/quotes_remover.c \
+			parser/recover_value.c \
+			parser/replace_var.c \
+			parser/var_tokenization.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
