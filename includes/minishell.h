@@ -135,7 +135,7 @@ int     tokenization(t_data *data, char *str);
 int		check_consecutives(t_token **token_lst);
 
 // define_tokens.c
-int		define_token(t_token **token_lst);
+int		check_if_var(t_token **token_lst);
 
 // token_lst_utils.c
 t_token	*lst_new_token(char *str, int type, int status);
@@ -147,7 +147,7 @@ void	print_token(t_token *lst);
 
 /* ------------------------ EXPANSION ---------------------------------------*/
 //expander.c
-int		expander(t_data *data, t_token **token_lst);
+int		var_expander(t_data *data, t_token **token_lst);
 
 //recover_value.c
 char	*recover_val(char *str, t_data *data);
@@ -180,6 +180,7 @@ int		init_data(t_data *data, char **env);
 
 //free_data.c
 void	free_data (t_data *data);
+void	free_data_2 (t_data *data);
 
 /* ------------------------ EXECUTION ---------------------------------------*/
 // env.c

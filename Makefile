@@ -15,10 +15,10 @@ SRC		= 	main.c \
 			env/env.c \
 			env/env_set.c \
 			parser/tokenization.c \
-			parser/define_tokens.c \
+			parser/check_if_var.c \
 			parser/lexer_utils.c \
 			parser/token_lst_utils.c \
-			parser/expander.c \
+			parser/var_expander.c \
 			parser/identify_var.c \
 			parser/quotes_handler.c \
 			parser/quotes_remover.c \

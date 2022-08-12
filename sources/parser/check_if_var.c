@@ -3,7 +3,7 @@
 void	variable_check(t_token **token_node)
 {
 	int	i;
-
+ 
 	i = 0;
 	while ((*token_node)->str[i])
 	{
@@ -26,7 +26,7 @@ void	quote_status(t_token **token_node)
 		(*token_node)->status = SQUOTE;
 }
 
-int	define_token(t_token **token_lst)
+int	check_if_var(t_token **token_lst)
 {
 	t_token	*temp;
 
@@ -37,6 +37,6 @@ int	define_token(t_token **token_lst)
 		quote_status(&temp);
 		temp = temp->next;
 	}
-	//print_token(*token_lst);
+	print_token(*token_lst);
 	return (0);
 }

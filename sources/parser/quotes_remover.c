@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 
-static void	change_status_quote(t_token **token_node, int *i)
+static void	change_status_to_quote(t_token **token_node, int *i)
 {
 	if ((*token_node)->str[*i] == '\'')
 		(*token_node)->status = SQUOTE;
@@ -19,7 +19,7 @@ static bool	if_quotes_and_default(t_token **token_node, int i)
 		return (false);
 }
 
-static bool	change_status_default(t_token **token_node, int *i)
+static bool	change_back_to_default(t_token **token_node, int *i)
 {
 	if (((*token_node)->str[*i] == '\'' && (*token_node)->status == SQUOTE) 
 		|| ((*token_node)->str[*i] == '\"' && (*token_node)->status == DQUOTE))
@@ -47,10 +47,10 @@ int	remove_quotes(t_token **token_node)
 	{
 		if (if_quotes_and_default(token_node, i) == true)
 		{
-			change_status_quote(token_node, &i);
+			change_status_to_quote(token_node, &i);
 			continue ;
 		}
-		else if (change_status_default(token_node, &i) == true)
+		else if (change_back_to_default(token_node, &i) == true)
 			continue ;
 		new_line[j++] = (*token_node)->str[i++];
 	}

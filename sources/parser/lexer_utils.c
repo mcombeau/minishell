@@ -12,7 +12,7 @@ static int	consecutive_ops(t_token *token_node)
 	{
 		if (token_node->type == TRUNC && token_node->next->type == PIPE)
 			return (FALSE);
-		if ((token_node->type >= 4 && token_node->next->type == PIPE)
+		if ((token_node->type >= 4 && token_node->next->type >= 4)
 			&& token_node->next->type != END)
 			return (TRUE);
 	}
@@ -33,6 +33,6 @@ int	check_consecutives(t_token **token_lst)
 		}
 		temp = temp->next;
 	}
-	print_token(*token_lst);
+	//print_token(*token_lst);
 	return (0);
 }

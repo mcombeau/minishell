@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+/*
+*  After splitting the user's input into tokens, we have to expand 
+*  the variables. After the expansion is done, quote characters are
+*  removed from the original word unless they are between quotes.
+*/
+
 static void	update_status(t_token **token_node, char c)
 {
 	if (c == '\'' && (*token_node)->status == DEFAULT)
@@ -32,7 +38,7 @@ static bool	var_between_quotes(char *str, int i)
 	return (false);
 }
 
-int	expander(t_data *data, t_token **token_lst)
+int	var_expander(t_data *data, t_token **token_lst)
 {
 	t_token	*temp;
 	int	i;

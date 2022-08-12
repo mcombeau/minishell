@@ -88,7 +88,12 @@ int	set_status(int status, char *str, int i)
 *	It checks each char of the string and defines if it is a separator or 
 *   a word and then saves the token in a linked list.
 *   Also checks if there is an unclosed quote error and defines which
-*   separators will be evaluated following the single or double quoting rules.
+*   separators will be evaluated following the single or double quoting rules:
+*   
+*   -Without quotes, bash tries to evaluate all special characters
+*   -Single quotes (') prevent all evaluation
+*   -Double quotes (") prevent most evaluation, but notably not the evaluation of variables
+*
 **/
 
 int	tokenization(t_data *data, char *str)

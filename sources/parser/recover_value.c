@@ -13,7 +13,7 @@ static int	var_exists(t_data *data, char *var)
 			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 static char	*search_env_var(t_data *data, char *var)
@@ -42,13 +42,11 @@ char	*recover_val(char *str, t_data *data)
 	var = identify_var(str);
 	if (var && var_exists(data, var) == 0)
 	{
-		// printf("I exist\n");
 		value =	search_env_var(data, var);
 	}
 	else
 	{
 		value = NULL;
-		// printf("prove me that you exist\n");
 	}
 	free(var);
 	return (value);

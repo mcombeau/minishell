@@ -4,6 +4,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_data data;
 
+	ft_memset(&data, 0, sizeof(t_data));
 	if (!init_env(env))
 	{
 		errmsg("Fatal", NULL, "Could not initialize environment", 1);
@@ -26,14 +27,20 @@ int	main(int ac, char **av, char **env)
 		add_history(data.user_input);
 		if (tokenization(&data, data.user_input) == 1)
 			printf("Error with tokenization\n");
-		define_token(&data.token);
-		//check_consecutives(&data.token);
-		expander(&data, &data.token);
+		check_if_var(&data.token);
+		if (check_if_var(&data.token) == 1)
+		{
+			free_data(&data);
+			continue;
+		}
+		check_consecutives(&data.token);
+		var_expander(&data, &data.token);
 		handle_quotes(&data);
-		//var_tokenization(&data);
+		var_tokenization(&data);
 		print_token(data.token);
 		free_data(&data);
 	}
+	free_data_2(&data);
 	exit_shell(NULL, EXIT_SUCCESS);
 	return (0);
 }
