@@ -59,6 +59,7 @@ all: $(OBJ_PATH) $(LIBFT) $(NAME)
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)/builtins
+	mkdir -p $(OBJ_PATH)/lexer
 	mkdir -p $(OBJ_PATH)/parser
 	mkdir -p $(OBJ_PATH)/testing
 	mkdir -p $(OBJ_PATH)/env
