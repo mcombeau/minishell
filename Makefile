@@ -14,17 +14,17 @@ SRC		= 	main.c \
 			free_data.c \
 			env/env.c \
 			env/env_set.c \
-			parser/tokenization.c \
-			parser/check_if_var.c \
-			parser/lexer_utils.c \
-			parser/token_lst_utils.c \
+			lexer/tokenization.c \
+			lexer/check_if_var.c \
+			lexer/lexer_utils.c \
+			lexer/token_lst_utils.c \
+			lexer/var_tokenization.c \
 			parser/var_expander.c \
 			parser/identify_var.c \
 			parser/quotes_handler.c \
 			parser/quotes_remover.c \
 			parser/recover_value.c \
 			parser/replace_var.c \
-			parser/var_tokenization.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
