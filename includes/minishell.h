@@ -42,15 +42,6 @@ typedef struct	s_token
 	struct s_token	*next;
 }               t_token;
 
-typedef struct	s_data
-{
-	t_token	*token;
-	char	*user_input;
-	char	**cmd_tab;
-	char	**env;
-
-}				t_data;
-
 /* io_fds structure:
 *	Contains infile and outfile fds as well as
 *	backup of the stdin and stdout fds. Each command
@@ -81,11 +72,23 @@ typedef struct s_command
 	char				*path;
 	char				**args;
 	bool				pipe_output;
+	bool				is_builtin;
+	bool				is_pipe;
 	int					*pipe_fd;
 	t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
+
+typedef struct	s_data
+{
+	t_token		*token;
+	char		*user_input;
+	char		**cmd_tab;
+	char		**env;
+	t_command	*cmd;
+
+}				t_data;
 
 /******************************************************************************
 *								ENUMS									      *
@@ -127,14 +130,14 @@ void	free_str_array(char **strs);
 void	free_env_vars(void);
 void	free_cmd_list(t_command *cmd_list);
 
-/* ------------------------ PARSING -----------------------------------------*/
+/* ------------------------ LEXER -----------------------------------------*/
 // tokenize.c
 int     tokenization(t_data *data, char *str);
 
 // lexer_utils.c
 int		check_consecutives(t_token **token_lst);
 
-// define_tokens.c
+// check_if_var.c
 int		check_if_var(t_token **token_lst);
 
 // token_lst_utils.c
@@ -144,6 +147,9 @@ t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert);
 void	lstdelone_token(t_token *lst, void (*del)(void *));
 void	lstclear_token(t_token **lst, void (*del)(void *));
 void	print_token(t_token *lst);
+
+//var_tokenization.c
+int		var_tokenization(t_data *data);
 
 /* ------------------------ EXPANSION ---------------------------------------*/
 //expander.c
@@ -163,6 +169,8 @@ int		erase_and_replace(t_token **token_node, char *str, char *var_value, int ind
 void	copy_var_value(char *new_str, char *var_value, int *j);
 int		erase_var(t_token **token_node, char *str, int index);
 
+
+/* ------------------------ PARSER ---------------------------------------*/
 //quotes_handler.c
 int	 	handle_quotes(t_data *data);
 bool	quotes_in_string(char *str);
@@ -171,9 +179,18 @@ int		count_len(char *str, int count, int i);
 //quotes_remover.c
 int		remove_quotes(t_token **token_node);
 
-//var_tokenization.c
-int		var_tokenization(t_data *data);
+//create_command.c
+void	create_cmds(t_data *data, t_token *token);
 
+//parse_command.c
+void	parse_word(t_data *data, t_token **token_lst);
+
+//cmd_lst_utils.c
+t_command	*lst_new_cmd(bool value);
+void	lst_add_back_cmd(t_command **alst, t_command *new_node);
+void	lst_delone_cmd(t_command *lst, void (*del)(void *));
+void	lst_clear_cmd(t_command **lst, void (*del)(void *));
+t_command	*lst_last_cmd(t_command *cmd);
 
 //init_data.c
 int		init_data(t_data *data, char **env);

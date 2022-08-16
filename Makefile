@@ -25,6 +25,9 @@ SRC		= 	main.c \
 			parser/quotes_remover.c \
 			parser/recover_value.c \
 			parser/replace_var.c \
+			parser/create_command.c \
+			parser/parse_command.c \
+			parser/cmd_lst_utils.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
