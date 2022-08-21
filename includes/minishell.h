@@ -24,6 +24,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define SUCCESS 0
+# define FAILURE 1
+
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
 ******************************************************************************/
@@ -38,6 +41,7 @@ typedef struct	s_token
 	char			*str;
 	int				type;
 	int				status;
+	bool			join;
 	struct s_token	*prev;
 	struct s_token	*next;
 }               t_token;

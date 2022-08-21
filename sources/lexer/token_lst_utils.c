@@ -10,6 +10,7 @@ t_token	*lst_new_token(char *str, int type, int status)
 	new_node->str = str;
 	new_node->type = type;
 	new_node->status = status;
+	new_node->join = false;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
@@ -37,7 +38,7 @@ void	lst_add_back_token(t_token **alst, t_token *new_node)
 
 void	lstdelone_token(t_token *lst, void (*del)(void *))
 {
-	if (del && lst)
+	if (del && lst && lst->str)
 		(*del)(lst->str);
 	free(lst);
 }

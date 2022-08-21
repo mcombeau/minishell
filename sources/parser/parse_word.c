@@ -37,8 +37,8 @@ void	parse_word(t_data *data, t_token **token_lst)
 			printf("La cmd filled : %s\n", last_cmd->command);
 		}
 		else
-			//fill_args(&temp, last_cmd);
-		// &temp = (*temp)->next;
+			fill_args(&temp, last_cmd);
+		//&temp = (*temp)->next;
 		temp = temp->next;
 	}
 	*token_lst = temp;
