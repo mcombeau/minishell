@@ -184,7 +184,7 @@ int		count_len(char *str, int count, int i);
 int		remove_quotes(t_token **token_node);
 
 //create_command.c
-void	create_cmds(t_data *data, t_token *token);
+void	create_commands(t_data *data, t_token *token);
 
 //parse_command.c
 void	parse_word(t_data *data, t_token **token_lst);

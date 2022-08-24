@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	create_cmds(t_data *data, t_token *token)
+void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
 
