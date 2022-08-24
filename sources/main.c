@@ -39,6 +39,7 @@ int	main(int ac, char **av, char **env)
 		var_tokenization(&data);
 		print_token(data.token);
 		create_commands(&data, data.token);
+		execute(data.cmd);
 		free_data(&data);
 	}
 	free_data_2(&data);
