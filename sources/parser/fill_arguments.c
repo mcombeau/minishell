@@ -18,8 +18,7 @@ char	*join_vars(t_token **token_node)
 	
 	temp = *token_node;
 	str = ft_strdup(temp->str);
-	while (temp->type == VAR && temp->next->type == VAR 
-        && temp->next->join = true)
+	while (temp->type == VAR && temp->next->type == VAR && temp->next->join == true)
 	{
 		str = ft_strjoin(str, temp->next->str);
 		temp = temp->next;
@@ -69,7 +68,7 @@ int	count_args(t_token *temp)
 **            with the current token.
 */
 
-int	echo_mode(t_token **token_node, t_cmd *last_cmd)
+int	echo_mode(t_token **token_node, t_command *last_cmd)
 {
 	int nb_args;
 	t_token	*temp;
@@ -107,7 +106,7 @@ int	echo_mode(t_token **token_node, t_cmd *last_cmd)
 **        VAR or WORD, and fills last_cmd->args[i] with the current token 
 */
 
-int	default_mode(t_token **token_node, t_cmd *last_cmd)
+int	default_mode(t_token **token_node, t_command *last_cmd)
 {
 	int i;
 	t_token	*temp;
@@ -143,7 +142,7 @@ int	default_mode(t_token **token_node, t_cmd *last_cmd)
 **    - The default mode for all the other cases
 */
 
-int	fill_args(t_token	**token_node, t_cmd *last_cmd)
+int	fill_args(t_token	**token_node, t_command *last_cmd)
 {
 	if (!(ft_strcmp(last_cmd->command, "echo")))
 	{

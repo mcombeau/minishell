@@ -189,6 +189,13 @@ void	create_cmds(t_data *data, t_token *token);
 //parse_command.c
 void	parse_word(t_data *data, t_token **token_lst);
 
+//fill_arguments.c
+int		fill_args(t_token	**token_node, t_command *last_cmd);
+int		count_args(t_token *temp);
+char	*join_vars(t_token **token_node);
+int		default_mode(t_token **token_node, t_command *last_cmd);
+int		echo_mode(t_token **token_node, t_command *last_cmd);
+
 //cmd_lst_utils.c
 t_command	*lst_new_cmd(bool value);
 void	lst_add_back_cmd(t_command **alst, t_command *new_node);
