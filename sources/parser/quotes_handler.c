@@ -46,9 +46,7 @@ bool	quotes_in_string(char *str)
 int	handle_quotes(t_data *data)
 {
 	t_token *temp;
-	int i;
 
-	i = 0;
 	temp = data->token;
 	while (temp)
 	{
