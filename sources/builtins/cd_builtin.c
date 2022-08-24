@@ -33,7 +33,7 @@ int	cd_builtin(char **args)
 	char	*home_path;
 
 	home_path = get_env_var_value("HOME");
-	if (!args[1] || ft_strncmp(args[1], "--", 3) == 0)
+	if (!args || !args[1] || ft_strncmp(args[1], "--", 3) == 0)
 		return (!change_dir(home_path));
 	if (args[2])
 		return (errmsg("cd", NULL, "too many arguments", EXIT_FAILURE));
