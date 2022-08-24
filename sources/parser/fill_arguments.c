@@ -17,7 +17,7 @@ char	*join_vars(t_token **token_node)
 	char	*str;
 	
 	temp = *token_node;
-	str = temp->str;
+	str = ft_strdup(temp->str);
 	while (temp->type == VAR && temp->next->type == VAR 
         && temp->next->join = true)
 	{
