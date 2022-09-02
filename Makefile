@@ -28,6 +28,9 @@ SRC		= 	main.c \
 			parser/create_commands.c \
 			parser/parse_word.c \
 			parser/fill_arguments.c \
+			parser/parse_input.c \
+			parser/parse_trunc.c \
+			parser/parse_heredoc.c \
 			parser/cmd_lst_utils.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \

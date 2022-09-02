@@ -24,21 +24,26 @@ void	parse_word(t_data *data, t_token **token_lst)
 	t_command	*last_cmd;
 
 	temp = *token_lst;
-	lst_add_back_cmd(&data->cmd, lst_new_cmd(false));
-	last_cmd = lst_last_cmd(data->cmd);
 	while (temp->type == WORD || temp->type == VAR)
 	{
 		printf("je suis dans la boucle de parse_word\n");
 		printf("temp : %d, temp de next : %d\n", temp->type, temp->next->type);
 		// si c'est le premier c'est forcement la commande
-		if (temp == *token_lst)
-		{
+		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE))
+		// if (tmp == *token_lst)
+		{	
+			lst_add_back_cmd(&data->cmd, lst_new_cmd(false));
+			last_cmd = lst_last_cmd(data->cmd);
 			fill_cmd(last_cmd, temp->str);
 			printf("La cmd filled : %s\n", last_cmd->command);
 			temp = temp->next;
 		}
 		else
+		{	
+			last_cmd = lst_last_cmd(data->cmd);
 			fill_args(&temp, last_cmd);
+		}
+			
 		//&temp = (*temp)->next;
 		
 	}

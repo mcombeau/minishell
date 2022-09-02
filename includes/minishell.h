@@ -78,8 +78,11 @@ typedef struct s_command
 	bool				pipe_output;
 	bool				is_builtin;
 	bool				is_pipe;
+	bool				redir_out;
 	int					*pipe_fd;
 	t_io_fds			*io_fds;
+	int					error;
+	char				*err_msg;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -202,6 +205,12 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node);
 void	lst_delone_cmd(t_command *lst, void (*del)(void *));
 void	lst_clear_cmd(t_command **lst, void (*del)(void *));
 t_command	*lst_last_cmd(t_command *cmd);
+
+//parse_trunc.c
+void	parse_trunc(t_data *data, t_command **last_cmd, t_token **token_lst);
+
+//parse_input.c
+void	parse_input(t_command **last_cmd, t_token **token_lst);
 
 //init_data.c
 int		init_data(t_data *data, char **env);
