@@ -68,7 +68,7 @@ int	count_args(t_token *temp)
 **            with the current token.
 */
 
-int	echo_mode(t_token **token_node, t_command *last_cmd)
+int	create_args_echo_mode(t_token **token_node, t_command *last_cmd)
 {
 	int nb_args;
 	t_token	*temp;
@@ -90,7 +90,7 @@ int	echo_mode(t_token **token_node, t_command *last_cmd)
 		}
 		else
 			last_cmd->args[i] = temp->str;
-		printf("flags :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
+		printf("args :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
 		i++;
 		temp = temp->next;
 	}
@@ -106,7 +106,7 @@ int	echo_mode(t_token **token_node, t_command *last_cmd)
 **        VAR or WORD, and fills last_cmd->args[i] with the current token 
 */
 
-int	default_mode(t_token **token_node, t_command *last_cmd)
+int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
 {
 	int i;
 	t_token	*temp;
@@ -135,6 +135,52 @@ int	default_mode(t_token **token_node, t_command *last_cmd)
 	return (SUCCESS);
 }
 
+int	add_args_default_mode(t_token **token_node, t_command *last_cmd)
+{
+	int i;
+	int	len;
+	char **new_tab;
+	t_token	*temp;
+
+	printf("je suis dans add args\n");
+	i = 0;
+	temp = *token_node;
+	while (temp->type == WORD || temp->type == VAR)
+	{
+		i++;
+		temp = temp->next;
+	}
+	len = 0;
+	while (last_cmd->args[len])
+		len++;
+	new_tab = malloc(sizeof(char *) * (i + len + 1));
+	if (!new_tab)
+		return (FAILURE);
+	
+	i = 0;
+	printf("LEN : %d\n", len);
+	while (i < len)
+	{
+		new_tab[i] = last_cmd->args[i];
+		printf("NEW TAB:\nStr : |%s|\n", new_tab[i]);
+		i++;
+	}
+	temp = *token_node;
+	while (temp->type == WORD || temp->type == VAR)
+	{
+		new_tab[i] = temp->str;
+		printf("args :\ni : %d - str : |%s|\n", i, new_tab[i]);
+		i++;
+		temp = temp->next;
+	}
+	new_tab[i] = NULL;
+	// free_matrix(last_cmd->infos.flags);
+	free(last_cmd->args);
+	last_cmd->args = new_tab;
+	*token_node = temp;
+	return (SUCCESS);
+}
+
 /*
 **  This function fills the arguments in the command structure (command->args)
 **  It has two modes: 
@@ -143,16 +189,21 @@ int	default_mode(t_token **token_node, t_command *last_cmd)
 */
 
 int	fill_args(t_token	**token_node, t_command *last_cmd)
-{
+{	
+	printf("last_cmd->command : %s\n", last_cmd->command);
 	if (!(ft_strcmp(last_cmd->command, "echo")))
 	{
-		if (echo_mode(token_node, last_cmd) == FAILURE)
-			return (FAILURE);
+		if (!(last_cmd->args))
+				return (create_args_echo_mode(token_node, last_cmd));
+		// else
+		// 		return (add_args_in_echo_mode(token_node, last_cmd));
 	}
 	else
 	{
-		if (default_mode(token_node, last_cmd) == FAILURE)
-			return (FAILURE);
+		if (last_cmd && !(last_cmd->args))
+				return (create_args_default_mode(token_node, last_cmd));
+		else
+				return (add_args_default_mode(token_node, last_cmd));
 	}
 	return (SUCCESS);
 }
