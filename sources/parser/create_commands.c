@@ -10,9 +10,6 @@ void	create_commands(t_data *data, t_token *token)
 		printf("temp actuel : TYPE : %d - STR : |%s|\n", temp->type, temp->str);
 		if (temp->type == WORD || temp->type == VAR)
 			parse_word(data, &temp);
-		else if (temp->type == PIPE || temp->type == END)
-			break;
-		// 	parse_pipe(data, &temp);
 		// else if (temp->type == INPUT)
 		// 	parse_input(data, &temp);
 		// else if (temp->type == TRUNC)
@@ -21,5 +18,15 @@ void	create_commands(t_data *data, t_token *token)
 		// 	parse_heredoc(data, &temp);
 		// else if (temp->type == APPEND)
 		// 	parse_append(data, &temp);
+		else if (temp->type == PIPE || temp->type == END)
+			break;
+		// parse_pipe(data, &temp);
 	}
+	/*int i = 0;
+	while (data->cmd->args[i])
+	{
+		printf("BEFORE EXIT - Print flags :\ni : %d - str : |%s|\n", i, data->cmd->args[i]);
+		i++;
+	}
+	*/
 }
