@@ -66,7 +66,7 @@ void	parse_trunc(t_data *data, t_command **last_cmd, t_token **token_lst)
 		// char *test = get_absolute_path(data->envp, temp->next->str);
 		// printf("test : %s\n", test);
 		file = get_relative_path(temp->next->str);
-		fd = open(file, O_CREAT | O_RDWR);
+		fd = open(file, O_CREAT | O_RDWR, S_IRWXU);
 		if (fd == -1)
 		{
 			cmd->error = errno;
