@@ -211,9 +211,13 @@ t_command	*lst_last_cmd(t_command *cmd);
 
 //parse_trunc.c
 void	parse_trunc(t_data *data, t_command **last_cmd, t_token **token_lst);
+char	*get_relative_path(char *file_to_open);
 
 //parse_input.c
 void	parse_input(t_command **last_cmd, t_token **token_lst);
+
+//parse_append.c
+void	parse_append(t_command **last_cmd, t_token **token_lst);
 
 //init_data.c
 int		init_data(t_data *data, char **env);
