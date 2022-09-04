@@ -12,8 +12,11 @@ static int	consecutive_ops(t_token *token_node)
 	{
 		if (token_node->type == TRUNC && token_node->next->type == PIPE)
 			return (FALSE);
-		if ((token_node->type >= 4 && token_node->next->type >= 4)
+		if ((token_node->type >= 4 && token_node->next->type == PIPE)
 			&& token_node->next->type != END)
+			return (TRUE);
+		if (token_node->type >= 4 && token_node->next
+			&& (token_node->next->type != WORD && token_node->next->type != VAR))
 			return (TRUE);
 	}
 	return (FALSE);

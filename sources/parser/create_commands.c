@@ -11,7 +11,7 @@ void	create_commands(t_data *data, t_token *token)
 		if (temp->type == WORD || temp->type == VAR)
 			parse_word(data, &temp);
 		 //else if (temp->type == INPUT)
-		 //	parse_input(data, &temp);
+		 //	parse_input(&data->cmd, &temp);
 		 //else if (temp->type == TRUNC)
 		 //	parse_trunc(data, &data->cmd, &temp);
 		// else if (temp->type == HEREDOC)

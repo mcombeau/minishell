@@ -39,26 +39,21 @@ void	parse_append(t_command **last_cmd, t_token **token_lst)
 	cmd = *last_cmd;
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");
 	cmd->redir_out = true;
-	if (temp->next->type == WORD || temp->next->type == VAR)
+	// char *test = get_absolute_path(data->envp, temp->next->str);
+	// printf("test : %s\n", test);
+	file = get_relative_path(temp->next->str);
+	fd = open(file, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
+	if (fd == -1)
 	{
-		// char *test = get_absolute_path(data->env, temp->next->str);
-		// printf("test : %s\n", test);
-		file = get_relative_path(temp->next->str);
-		fd = open(file, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
-		if (fd == -1)
-		{
-			cmd->error = errno;
-			cmd->err_msg = ft_strdup(strerror(errno));
-			cmd->io_fds->fd_out = 2;
-			printf("N° d'erreur : %d - Erreur : %s - Fd : %d\n", cmd->error,\
-		cmd->err_msg, cmd->io_fds->fd_out);
-		}
-		else
-			cmd->io_fds->fd_out = fd;
-		free(file);
+		cmd->error = errno;
+		cmd->err_msg = ft_strdup(strerror(errno));
+		cmd->io_fds->fd_out = 2;
+		printf("N° d'erreur : %d - Erreur : %s - Fd : %d\n", cmd->error,\
+	cmd->err_msg, cmd->io_fds->fd_out);
 	}
-	// else // SYNTAX ERROR ex: echo hello > , ou echo hello > |
-	// à mettre dans lexer_utils maybe?
+	else
+		cmd->io_fds->fd_out = fd;
+	free(file);
 	printf("Fd : %d\n", cmd->io_fds->fd_out);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	*token_lst = temp->next->next;
