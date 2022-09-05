@@ -222,6 +222,9 @@ void	parse_input(t_command **last_cmd, t_token **token_lst);
 //parse_append.c
 void	parse_append(t_command **last_cmd, t_token **token_lst);
 
+//parse_pipec
+void	parse_pipe(t_command **cmd, t_token **token_lst);
+
 //init_data.c
 int		init_data(t_data *data, char **env);
 

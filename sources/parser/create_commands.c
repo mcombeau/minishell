@@ -1,14 +1,12 @@
 #include "minishell.h"
 
-//  if type == END
-// Peut etre creer un node de cmd vide pour pas segfault si on envoit un readline vide
-// car notre token_lst cree quand meme un node
-
 void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
 
 	temp = token;
+	if (temp->type == END)
+		return;
 	while (temp->next != NULL)
 	{
 		printf("temp actuel : TYPE : %d - STR : |%s|\n", temp->type, temp->str);
