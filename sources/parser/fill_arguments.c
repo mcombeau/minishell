@@ -89,12 +89,59 @@ int	create_args_echo_mode(t_token **token_node, t_command *last_cmd)
 			printf("je suis passé dans le join == true\n");
 		}
 		else
-			last_cmd->args[i] = temp->str;
+			last_cmd->args[i] = ft_strdup(temp->str);
 		printf("args :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
 		i++;
 		temp = temp->next;
 	}
 	last_cmd->args[i] = NULL;
+	*token_node = temp;
+	return (SUCCESS);
+}
+
+int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
+{
+	int i;
+	int	len;
+	int nb_args;
+	char **new_tab;
+	t_token	*temp;
+
+	printf("je suis dans add args\n");
+	i = 0;
+	temp = *token_node;
+	nb_args = count_args(temp);
+	len = 0;
+	while (last_cmd->args[len])
+		len++;
+	new_tab = malloc(sizeof(char *) * (nb_args + len + 1));
+	if (!new_tab)
+		return (FAILURE);
+	i = 0;
+	printf("LEN : %d\n", len);
+	while (i < len)
+	{
+		new_tab[i] = last_cmd->args[i];
+		printf("NEW TAB:\nStr : |%s|\n", new_tab[i]);
+		i++;
+	}
+	while (temp->type == WORD || temp->type == VAR)
+	{
+		if (temp->join == true)
+		{
+			new_tab[i] = join_vars(&temp);
+			printf("je suis passé dans le join == true\n");
+		}
+		else
+			new_tab[i] = ft_strdup(temp->str);
+		printf("args :\ni : %d - str : |%s|\n", i, new_tab[i]);
+		i++;
+		temp = temp->next;
+	}
+	new_tab[i] = NULL;
+	// free_tab;
+	free(last_cmd->args);
+	last_cmd->args = new_tab;
 	*token_node = temp;
 	return (SUCCESS);
 }
@@ -125,7 +172,7 @@ int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
 	i = 0;
 	while (temp->type == WORD || temp->type == VAR)
 	{
-		last_cmd->args[i] = temp->str;
+		last_cmd->args[i] = ft_strdup(temp->str);
 		printf("flags :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
 		i++;
 		temp = temp->next;
@@ -134,6 +181,7 @@ int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
 	*token_node = temp;
 	return (SUCCESS);
 }
+
 
 int	add_args_default_mode(t_token **token_node, t_command *last_cmd)
 {
@@ -168,13 +216,12 @@ int	add_args_default_mode(t_token **token_node, t_command *last_cmd)
 	temp = *token_node;
 	while (temp->type == WORD || temp->type == VAR)
 	{
-		new_tab[i] = temp->str;
+		new_tab[i] = ft_strdup(temp->str);
 		printf("args :\ni : %d - str : |%s|\n", i, new_tab[i]);
 		i++;
 		temp = temp->next;
 	}
 	new_tab[i] = NULL;
-	// free_matrix(last_cmd->infos.flags);
 	free(last_cmd->args);
 	last_cmd->args = new_tab;
 	*token_node = temp;
@@ -195,8 +242,8 @@ int	fill_args(t_token	**token_node, t_command *last_cmd)
 	{
 		if (!(last_cmd->args))
 				return (create_args_echo_mode(token_node, last_cmd));
-		// else
-		// 		return (add_args_in_echo_mode(token_node, last_cmd));
+		else
+				return (add_args_echo_mode(token_node, last_cmd));
 	}
 	else
 	{

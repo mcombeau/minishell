@@ -56,5 +56,9 @@ void	parse_append(t_command **last_cmd, t_token **token_lst)
 	free(file);
 	printf("Fd : %d\n", cmd->io_fds->fd_out);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-	*token_lst = temp->next->next;
+	if (temp->next->next && temp->next->next->type != PIPE)
+		temp = temp->next->next;
+	else
+		temp = temp->next;
+	*token_lst = temp;
 }

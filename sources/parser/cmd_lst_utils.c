@@ -7,9 +7,8 @@ t_command	*lst_new_cmd(bool value)
 	new_node = (t_command *)malloc(sizeof(t_command));
 	if (!(new_node))
 		return (NULL);
+	ft_memset(new_node, 0, sizeof(t_command));
 	new_node->is_pipe = value;
-	new_node->prev = NULL;
-	new_node->next = NULL;
 	return (new_node);
 }
 
@@ -33,15 +32,34 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node)
 	}
 }
 
+void	free_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			if (tab[i])
+			{
+				free(tab[i]);
+				tab[i] = NULL;
+			}
+			i++;
+		}
+		free(tab);
+		tab = NULL;
+	}
+}
+
 void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 {
 	(void)(*del);
-	// if (del && lst)
-	// 	(*del)(lst->infos);
-	// boucle speciale pour free les doubles tableaux
-		// (*del)(lst->flags);
-		// (*del)(lst->arg_env);
-	// ATTENTION : peut etre close les fd ici
+	if (lst->err_msg)
+		free(lst->err_msg);
+	if (lst->args)
+		free_tab(lst->args);
 	free(lst);
 }
 

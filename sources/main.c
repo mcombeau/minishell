@@ -27,6 +27,8 @@ int	main(int ac, char **av, char **env)
 		add_history(data.user_input);
 		if (tokenization(&data, data.user_input) == 1)
 			printf("Error with tokenization\n");
+		if (data.token->type == END)
+					break;
 		check_if_var(&data.token);
 		if (check_if_var(&data.token) == 1)
 		{

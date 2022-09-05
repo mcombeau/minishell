@@ -17,5 +17,5 @@ void	free_data_2(t_data *data)
 	if (data->cmd)
 		lst_clear_cmd(&data->cmd, &free);
 	// free_t_pipe(data);
-	rl_clear_history ();
+	clear_history ();
 }

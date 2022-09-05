@@ -192,14 +192,16 @@ int		remove_quotes(t_token **token_node);
 void	create_commands(t_data *data, t_token *token);
 
 //parse_command.c
-void	parse_word(t_data *data, t_token **token_lst);
+void	parse_word(t_command **cmd, t_token **token_lst);
 
 //fill_arguments.c
 int		fill_args(t_token	**token_node, t_command *last_cmd);
 int		count_args(t_token *temp);
 char	*join_vars(t_token **token_node);
-int		default_mode(t_token **token_node, t_command *last_cmd);
-int		echo_mode(t_token **token_node, t_command *last_cmd);
+int	add_args_default_mode(t_token **token_node, t_command *last_cmd);
+int	create_args_default_mode(t_token **token_node, t_command *last_cmd);
+int	add_args_echo_mode(t_token **token_node, t_command *last_cmd);
+int	create_args_echo_mode(t_token **token_node, t_command *last_cmd);
 
 //cmd_lst_utils.c
 t_command	*lst_new_cmd(bool value);
@@ -207,6 +209,7 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node);
 void	lst_delone_cmd(t_command *lst, void (*del)(void *));
 void	lst_clear_cmd(t_command **lst, void (*del)(void *));
 t_command	*lst_last_cmd(t_command *cmd);
+void	free_tab(char **tab);
 
 
 //parse_trunc.c
