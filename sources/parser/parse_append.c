@@ -36,7 +36,7 @@ void	parse_append(t_command **last_cmd, t_token **token_lst)
 	int		fd;
 
 	temp = *token_lst;
-	cmd = *last_cmd;
+	cmd = lst_last_cmd(*last_cmd);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");
 	cmd->redir_out = true;
 	// char *test = get_absolute_path(data->envp, temp->next->str);
@@ -47,16 +47,12 @@ void	parse_append(t_command **last_cmd, t_token **token_lst)
 	{
 		cmd->error = errno;
 		cmd->err_msg = ft_strdup(strerror(errno));
-		cmd->io_fds->fd_out = 2;
-		printf("N° d'erreur : %d - Erreur : %s - Fd : %d\n", cmd->error,\
-	cmd->err_msg, cmd->io_fds->fd_out);
 	}
-	else
-		cmd->io_fds->fd_out = fd;
+	cmd->io_fds->fd_out = fd;
 	free(file);
 	printf("Fd : %d\n", cmd->io_fds->fd_out);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-	if (temp->next->next && temp->next->next->type != PIPE)
+	if (temp->next->next)
 		temp = temp->next->next;
 	else
 		temp = temp->next;

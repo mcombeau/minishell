@@ -213,7 +213,7 @@ void	free_tab(char **tab);
 
 
 //parse_trunc.c
-void	parse_trunc(t_data *data, t_command **last_cmd, t_token **token_lst);
+void	parse_trunc(t_command **last_cmd, t_token **token_lst);
 char	*get_relative_path(char *file_to_open);
 
 //parse_input.c

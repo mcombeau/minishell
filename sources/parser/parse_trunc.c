@@ -34,6 +34,8 @@ char	*get_relative_path(char *file_to_open)
 	char *path;
 	char *ret;
 
+	if (file_to_open[0] == '/')
+		return (ft_strdup(file_to_open));
 	path = ft_strdup("./");
 	ret = ft_strjoin(path, file_to_open);
 	printf("PARSING - Get_rel_path function return : %s\n", ret);
@@ -49,36 +51,29 @@ char	*get_relative_path(char *file_to_open)
  * 	- With the fd information, completes the fields of 
  * 	  command structure : fd_out and potentially error and err_msg.
  */
-void	parse_trunc(t_data *data, t_command **last_cmd, t_token **token_lst)
+void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
 	t_command	*cmd;
 	char	*file;
 	int		fd;
 
-	(void) data;
 	temp = *token_lst;
-	cmd = *last_cmd;
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_redir_out function\n");
+	cmd = lst_last_cmd(*last_cmd);
 	cmd->redir_out = true;
-	// char *test = get_absolute_path(data->envp, temp->next->str);
-	// printf("test : %s\n", test);
 	file = get_relative_path(temp->next->str);
-	fd = open(file, O_CREAT | O_RDWR, S_IRWXU);
-	if (fd == -1)
+	if (cmd->io_fds->fd_in != -1)
 	{
-		cmd->error = errno;
-		cmd->err_msg = ft_strdup(strerror(errno));
-		cmd->io_fds->fd_out = 2;
-		printf("N° d'erreur : %d - Erreur : %s - Fd : %d\n", cmd->error,\
-	cmd->err_msg, cmd->io_fds->fd_out);
-	}
-	else
+		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+		if (fd == -1)
+		{
+			cmd->error = errno;
+			cmd->err_msg = ft_strdup(strerror(errno));
+		}
 		cmd->io_fds->fd_out = fd;
+	}
 	free(file);
-	printf("Fd out : %d\n", cmd->io_fds->fd_out);
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-	if (temp->next->next && temp->next->next->type != PIPE)
+	if (temp->next->next)
 		temp = temp->next->next;
 	else
 		temp = temp->next;
