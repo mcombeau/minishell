@@ -30,12 +30,11 @@ int	main(int ac, char **av, char **env)
 		if (data.token->type == END)
 					break;
 		check_if_var(&data.token);
-		if (check_if_var(&data.token) == 1)
+		if (check_if_var(&data.token) == FAILURE)
 		{
 			free_data(&data);
 			continue;
 		}
-		check_consecutives(&data.token);
 		var_expander(&data, &data.token);
 		handle_quotes(&data);
 		var_tokenization(&data);

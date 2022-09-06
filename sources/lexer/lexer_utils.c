@@ -34,10 +34,10 @@ int	check_consecutives(t_token **token_lst)
 		if (consecutive_ops(temp) == TRUE)
 		{
 			printf("Syntax error near unexpected token `%s'\n", temp->str);
-			return (1);
+			return (FAILURE);
 		}
 		temp = temp->next;
 	}
 	//print_token(*token_lst);
-	return (0);
+	return (SUCCESS);
 }

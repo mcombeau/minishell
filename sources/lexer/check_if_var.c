@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	variable_check(t_token **token_node)
+static void	variable_check(t_token **token_node)
 {
 	int	i;
  
@@ -8,7 +8,7 @@ void	variable_check(t_token **token_node)
 	while ((*token_node)->str[i])
 	{
 		if ((*token_node)->str[i] == '$')
-		{
+		{	
 			if ((*token_node)->prev && (*token_node)->prev->type == HEREDOC)
 				break;	
 			(*token_node)->type = VAR;
@@ -18,25 +18,23 @@ void	variable_check(t_token **token_node)
 	}
 }
 
-void	quote_status(t_token **token_node)
-{
-	if ((*token_node)->str[0] == '\"')
-		(*token_node)->status = DQUOTE;
-	else if ((*token_node)->str[0] == '\'')
-		(*token_node)->status = SQUOTE;
-}
-
 int	check_if_var(t_token **token_lst)
 {
 	t_token	*temp;
 
 	temp = *token_lst;
+	if (temp->type == PIPE)
+	{
+		printf("Syntax error near unexpected token `%s'\n", temp->str);
+		return (FAILURE);
+	}
 	while (temp)
 	{
 		variable_check(&temp);
-		quote_status(&temp);
+		if (check_consecutives(&temp) == FAILURE)
+			return (FAILURE);
 		temp = temp->next;
 	}
 	print_token(*token_lst);
-	return (0);
+	return (SUCCESS);
 }
