@@ -132,7 +132,7 @@ int	tokenization(t_data *data, char *str)
 	}
 	if (status != DEFAULT)
 	{
-		ft_putstr_fd("Unclosed quotes error\n", 2);
+		printf("Syntax error : the quotes are unclosed\n");
 		return (1);
 	}
 	return (0);
