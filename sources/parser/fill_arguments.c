@@ -125,14 +125,14 @@ static char	**copy_in_new_tab(
 
 int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
 {
-	int i;
+//	int i;
 	int	len;
 	int nb_args;
 	char **new_tab;
 	t_token	*temp;
 
 	printf("je suis dans add args\n");
-	i = 0;
+//	i = 0;
 	temp = *token_node;
 	nb_args = count_args(temp);
 	len = 0;
@@ -167,11 +167,14 @@ int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
 		i++;
 		temp = temp->next;
 	}
-	last_cmd->args = malloc(sizeof(char *) * (i + 1));
+	last_cmd->args = malloc(sizeof(char *) * (i + 2));
 	if (!last_cmd->args)
 		return (FAILURE);
 	temp = *token_node;
 	i = 0;
+	last_cmd->args[i] = ft_strdup(last_cmd->command);
+	printf("flags :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
+	i++;
 	while (temp->type == WORD || temp->type == VAR)
 	{
 		last_cmd->args[i] = ft_strdup(temp->str);

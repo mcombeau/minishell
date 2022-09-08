@@ -118,6 +118,20 @@ static int	get_children(t_command *cmd_list)
 	return (status);
 }
 
+void	debug_print_cmd(t_command *cmd)
+{
+	int	i;
+
+	printf("Segfault?\n");
+	printf("Command to exec: %s\n", cmd->command);
+	i = 0;
+	while (cmd->args[i] != NULL || cmd->args[i][0] != '\0')
+	{
+		printf("cmd arg[%d] = %s\n", i, cmd->args[i]);
+		i++;
+	}
+}
+
 /* execute:
 *	Executes the given commands by creating children processes
 *	and waiting for them to terminate. If the command is a builtin
@@ -132,6 +146,7 @@ int	execute(t_command *cmd_list)
 
 	ret = CMD_NOT_FOUND;
 	cmd = cmd_list;
+//	debug_print_cmd(cmd);
 	if (!create_pipes(cmd_list) || !open_infile_outfile(cmd_list->io_fds))
 		return (0);
 	pid = -1;

@@ -42,7 +42,9 @@ int	main(int ac, char **av, char **env)
 		var_tokenization(&data);
 		print_token(data.token);
 		create_commands(&data, data.token);
+		printf("------- MAIN: Launching exec.\n");
 		execute(data.cmd);
+		printf("------- Exec done.\n");
 		free_data(&data);
 	}
 	free_data_2(&data);
