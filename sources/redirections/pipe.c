@@ -40,7 +40,7 @@ bool	create_pipes(t_data *data)
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
-				free_data_2(data, false);
+				free_data(data, false);
 //				free_cmd_list(cmd_list);
 				return (false);
 			}

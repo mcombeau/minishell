@@ -73,24 +73,3 @@ void	free_io(t_io_fds *io)
 	if (io)
 		free(io);
 }
-
-/* free_cmd_list:
-*	Frees the list of commands.
-*/
-void	free_cmd_list(t_command *cmd_list)
-{
-	t_command	*tmp;
-
-	printf("\n\tFreeing execute command list.\n");
-	tmp = cmd_list;
-	if (tmp->io_fds)
-		free_io(tmp->io_fds);
-	while (tmp)
-	{
-		if (tmp->args)
-			free_str_array(tmp->args);
-		tmp = tmp->next;
-	}
-	if (tmp)
-		free(tmp);
-}

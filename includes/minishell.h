@@ -127,7 +127,7 @@ enum quoting_status {
 
 /* ------------------------ ERROR & EXIT HANDLING ---------------------------*/
 // exit.c
-void	exit_shell(t_command *cmd_list, int	exno);
+void	exit_shell(t_data *data, int	exno);
 
 // error.c
 int		errmsg(char *command, char *detail, char *error_message, int error_nb);
@@ -137,12 +137,12 @@ void	free_str_array(char **strs);
 void	close_fds(t_command *cmds, bool close_backups);
 void	free_str_array(char **strs);
 void	free_env_vars(void);
-void	free_cmd_list(t_command *cmd_list);
+//void	free_cmd_list(t_command *cmd_list);
 void	free_io(t_io_fds *io);
 
 //free_data.c
 //void	free_data (t_data *data);
-void	free_data_2 (t_data *data, bool clear_history);
+void	free_data (t_data *data, bool clear_history);
 
 /* ------------------------ LEXER -----------------------------------------*/
 // tokenize.c
@@ -249,10 +249,10 @@ bool	remove_env_var(int idx);
 int		env_builtin(char **args);
 int		pwd_builtin(char **args);
 int		echo_builtin(char **args);
-int		export_builtin(char **args);
+int		export_builtin(t_data *data, char **args);
 int		unset_builtin(char **args);
 int		cd_builtin(char **args);
-int		exit_builtin(char **args);
+int		exit_builtin(t_data *data, char **args);
 
 // signal.c
 void	handle_signal(int signo);
@@ -273,10 +273,12 @@ bool	open_infile_outfile(t_io_fds *io);
 bool	restore_io(t_io_fds *io);
 
 /* ------------------------ TESTING -----------------------------------------*/
-// test.c
+// test.c -- OBSOLETE!
+/*
 void	test_minishell(int ac, char **av);
 void	test_builtins(void);
 void	test_execution(void);
 void 	is_var_in_env(char *arg);
+*/
 
 #endif

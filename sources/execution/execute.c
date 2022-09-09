@@ -5,7 +5,7 @@
 *	Returns -1 if the command is not a builtin command.
 *	Returns 0 or 1 if the builtin command succeeded or failed.
 */
-static int	execute_builtin(t_command *cmd)
+static int	execute_builtin(t_data *data, t_command *cmd)
 {
 	int	ret;
 
@@ -17,9 +17,9 @@ static int	execute_builtin(t_command *cmd)
 	else if (ft_strncmp(cmd->command, "env", 4) == 0)
 		ret = env_builtin(cmd->args);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
-		ret = exit_builtin(cmd->args);
+		ret = exit_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "export", 7) == 0)
-		ret = export_builtin(cmd->args);
+		ret = export_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "pwd", 4) == 0)
 		ret = pwd_builtin(cmd->args);
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
@@ -72,17 +72,17 @@ static int	execute_local_bin(t_command *cmd)
 *	Child exits with it's executed program's exit code, or 1 if
 *	it could not find one.
 */
-static int	execute_command(t_command *cmd_list, t_command *cmd)
+static int	execute_command(t_data *data, t_command *cmd)
 {
 	int	ret;
 
-	set_pipe_fds(cmd_list, cmd);
-	close_fds(cmd_list, false);
+	set_pipe_fds(data->cmd, cmd);
+	close_fds(data->cmd, false);
 	if (!cmd->command)
 		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
-		ret = execute_builtin(cmd);
+		ret = execute_builtin(data, cmd);
 		if (ret != CMD_NOT_FOUND)
 			exit(ret);
 		ret = execute_sys_bin(cmd);
@@ -108,8 +108,7 @@ static int	get_children(t_data *data)
 	int			status;
 
 	close_fds(data->cmd, false);
-	free_data_2(data, false);
-//	free_cmd_list(cmd_list);
+	free_data(data, false);
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;
 	if (WIFEXITED(status))
@@ -117,20 +116,6 @@ static int	get_children(t_data *data)
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (status);
-}
-
-void	debug_print_cmd(t_command *cmd)
-{
-	int	i;
-
-	printf("Segfault?\n");
-	printf("Command to exec: %s\n", cmd->command);
-	i = 0;
-	while (cmd->args[i] != NULL || cmd->args[i][0] != '\0')
-	{
-		printf("cmd arg[%d] = %s\n", i, cmd->args[i]);
-		i++;
-	}
 }
 
 /* execute:
@@ -147,25 +132,23 @@ int	execute(t_data *data)
 
 	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-//	debug_print_cmd(cmd);
 	if (!create_pipes(data) || !open_infile_outfile(data->cmd->io_fds))
 		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
 		if (!cmd->pipe_output)
-			ret = execute_builtin(cmd);
+			ret = execute_builtin(data, cmd);
 		if (ret != CMD_NOT_FOUND)
 		{
-			free_data_2(data, false);
-//			free_cmd_list(data->cmd);
+			free_data(data, false);
 			return (ret);
 		}
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
-			execute_command(data->cmd, cmd);
+			execute_command(data, cmd);
 		cmd = cmd->next;
 	}
 	return (get_children(data));

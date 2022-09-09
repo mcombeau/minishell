@@ -24,19 +24,19 @@ int	main(int ac, char **av, char **env)
 		signal(SIGQUIT, handle_signal);
 		data.user_input = readline(PROMPT);
 		if (data.user_input == NULL)
-			exit_builtin(NULL);
+			exit_shell(&data, EXIT_FAILURE);
 		printf("input = %s\n", data.user_input);
 		add_history(data.user_input);
 		if (tokenization(&data, data.user_input) == FAILURE)
 		{
-			free_data_2(&data, false);
+			free_data(&data, false);
 			return (FAILURE);
 		}
 		if (data.token->type == END)
 					break;
 		if (check_if_var(&data.token) == FAILURE)
 		{
-			free_data_2(&data, false);
+			free_data(&data, false);
 			continue;
 		}
 		var_expander(&data, &data.token);
@@ -47,11 +47,8 @@ int	main(int ac, char **av, char **env)
 		printf("------- MAIN: Launching exec.\n");
 		execute(&data);
 		printf("------- Exec done.\n");
-//		free_data_2(&data, false);
 		printf("Segfault?\n");
 	}
-//	rl_clear_history();
-	free_data_2(&data, true);
-	exit_shell(NULL, EXIT_SUCCESS);
+	exit_shell(&data, EXIT_SUCCESS);
 	return (0);
 }

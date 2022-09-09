@@ -6,19 +6,19 @@
 *	In case of failure due to too many args, does not exit the shell
 *	and returns 1 instead.
 */
-int	exit_builtin(char **args)
+int	exit_builtin(t_data *data, char **args)
 {
 	int	i;
 	printf("exit\n");
 	if (!args || !args[1])
-		exit_shell(NULL, EXIT_SUCCESS);
+		exit_shell(data, EXIT_SUCCESS);
 	if (args[1])
 	{
 		i = 0;
 		while (args[1][i])
 		{
 			if (!isdigit(args[1][i]))
-				exit_shell(NULL, errmsg("exit", args[1], "numeric argument required", 2));
+				exit_shell(data, errmsg("exit", args[1], "numeric argument required", 2));
 			i++;
 		}
 	}
@@ -28,6 +28,6 @@ int	exit_builtin(char **args)
 		return (EXIT_FAILURE);
 	}
 	else
-		exit_shell(NULL, ft_atoi(args[1]));
+		exit_shell(data, ft_atoi(args[1]));
 	return (EXIT_SUCCESS);
 }

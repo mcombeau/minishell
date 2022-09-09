@@ -33,7 +33,7 @@ static char	**get_key_value_pair(char *arg)
 *	Returns 0 if all args were successfully added to env,
 *	or 1 if one or more args were not added to env.
 */
-int	export_builtin(char **args)
+int	export_builtin(t_data *data, char **args)
 {
 	int		i;
 	char	**tmp;
@@ -58,7 +58,7 @@ int	export_builtin(char **args)
 				if (!tmp)
 				{
 					errmsg("export", NULL, "Could not get key value pair", 1);
-					exit_shell(NULL, EXIT_FAILURE);
+					exit_shell(data, EXIT_FAILURE);
 				}
 				set_env_var(tmp[0], tmp[1]);
 				free(tmp);
