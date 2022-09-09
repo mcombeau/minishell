@@ -138,6 +138,11 @@ void	close_fds(t_command *cmds, bool close_backups);
 void	free_str_array(char **strs);
 void	free_env_vars(void);
 void	free_cmd_list(t_command *cmd_list);
+void	free_io(t_io_fds *io);
+
+//free_data.c
+//void	free_data (t_data *data);
+void	free_data_2 (t_data *data, bool clear_history);
 
 /* ------------------------ LEXER -----------------------------------------*/
 // tokenize.c
@@ -228,10 +233,6 @@ void	parse_pipe(t_command **cmd, t_token **token_lst);
 //init_data.c
 int		init_data(t_data *data, char **env);
 
-//free_data.c
-void	free_data (t_data *data);
-void	free_data_2 (t_data *data);
-
 /* ------------------------ EXECUTION ---------------------------------------*/
 // env.c
 bool	init_env(char **env);
@@ -257,13 +258,13 @@ int		exit_builtin(char **args);
 void	handle_signal(int signo);
 
 // execute.c
-int		execute(t_command *cmds);
+int		execute(t_data *data);
 
 // parse_path.c
 char	*get_cmd_path(char *cmd);
 
 // pipe.c
-bool	create_pipes(t_command *cmd_list);
+bool	create_pipes(t_data *data);
 bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 

@@ -103,12 +103,13 @@ static int	execute_command(t_command *cmd_list, t_command *cmd)
 *		exit status as provided by the POSIX 1003.1 waitpid function, or
 *		128+n if the command was terminated by signal n."
 */
-static int	get_children(t_command *cmd_list)
+static int	get_children(t_data *data)
 {
 	int			status;
 
-	close_fds(cmd_list, false);
-	free_cmd_list(cmd_list);
+	close_fds(data->cmd, false);
+	free_data_2(data, false);
+//	free_cmd_list(cmd_list);
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;
 	if (WIFEXITED(status))
@@ -138,16 +139,16 @@ void	debug_print_cmd(t_command *cmd)
 *	and its output is not piped to another command, it is not forked.
 *	Returns the exit code of the last child to terminate.
 */
-int	execute(t_command *cmd_list)
+int	execute(t_data *data)
 {
 	t_command	*cmd;
 	int			pid;
 	int			ret;
 
 	ret = CMD_NOT_FOUND;
-	cmd = cmd_list;
+	cmd = data->cmd;
 //	debug_print_cmd(cmd);
-	if (!create_pipes(cmd_list) || !open_infile_outfile(cmd_list->io_fds))
+	if (!create_pipes(data) || !open_infile_outfile(data->cmd->io_fds))
 		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)
@@ -156,15 +157,16 @@ int	execute(t_command *cmd_list)
 			ret = execute_builtin(cmd);
 		if (ret != CMD_NOT_FOUND)
 		{
-			free_cmd_list(cmd_list);
+			free_data_2(data, false);
+//			free_cmd_list(data->cmd);
 			return (ret);
 		}
 		pid = fork();
 		if (pid == -1)
 			errmsg("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
-			execute_command(cmd_list, cmd);
+			execute_command(data->cmd, cmd);
 		cmd = cmd->next;
 	}
-	return (get_children(cmd_list));
+	return (get_children(data));
 }

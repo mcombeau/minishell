@@ -27,12 +27,12 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd)
 *	of commands.
 *	Returns 1 if successful, 0 in case of failure.
 */
-bool	create_pipes(t_command *cmd_list)
+bool	create_pipes(t_data *data)
 {
 	int			*fd;
 	t_command	*tmp;
 
-	tmp = cmd_list;
+	tmp = data->cmd;
 	while (tmp)
 	{
 		if (tmp->pipe_output || (tmp->prev && tmp->prev->pipe_output))
@@ -40,7 +40,8 @@ bool	create_pipes(t_command *cmd_list)
 			fd = malloc(sizeof * fd * 2);
 			if (!fd || pipe(fd) != 0)
 			{
-				free_cmd_list(cmd_list);
+				free_data_2(data, false);
+//				free_cmd_list(cmd_list);
 				return (false);
 			}
 			tmp->pipe_fd = fd;
