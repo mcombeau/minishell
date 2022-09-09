@@ -11,7 +11,6 @@ OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
 			init_data.c \
-			free_data.c \
 			env/env.c \
 			env/env_set.c \
 			lexer/tokenization.c \
@@ -48,6 +47,7 @@ SRC		= 	main.c \
 			exit_utils/exit.c \
 			exit_utils/error.c \
 			exit_utils/cleanup.c \
+			exit_utils/free_data.c \
 			signals/signal.c \
 			testing/test.c \
 			testing/test_builtins.c \
