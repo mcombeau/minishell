@@ -25,6 +25,7 @@ int	main(int ac, char **av, char **env)
 		data.user_input = readline(PROMPT);
 		if (data.user_input == NULL)
 			exit_shell(&data, EXIT_FAILURE);
+		printf("\n\e[92m------- MAIN: Parse user input.\n");
 		printf("input = %s\n", data.user_input);
 		add_history(data.user_input);
 		if (tokenization(&data, data.user_input) == FAILURE)
@@ -43,11 +44,11 @@ int	main(int ac, char **av, char **env)
 		handle_quotes(&data);
 		var_tokenization(&data);
 		print_token(data.token);
+		printf("\n\e[32m------- MAIN: Create commands.\n");
 		create_commands(&data, data.token);
-		printf("------- MAIN: Launching exec.\n");
+		printf("\n\e[36m------- MAIN: Launch exec.\e[0m\n");
 		execute(&data);
-		printf("------- Exec done.\n");
-		printf("Segfault?\n");
+		printf("\e[36m------- Exec done.\e[0m\n");
 	}
 	exit_shell(&data, EXIT_SUCCESS);
 	return (0);
