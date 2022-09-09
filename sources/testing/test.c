@@ -1,3 +1,4 @@
+/* OBSOLETE TESTS!
 #include "minishell.h"
 
 #define NC		"\e[0m"
@@ -63,3 +64,4 @@ void	test_minishell(int ac, char **av)
 		}
 	}
 }
+*/

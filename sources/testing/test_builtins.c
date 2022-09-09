@@ -1,3 +1,5 @@
+// OBSOLETE
+/*
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -356,3 +358,4 @@ void	test_builtins(void)
 	printf(  "%s|                       ALL TESTS COMPLETE                          |%s\n", BYELLOW, NC);
 	printf(  "%s+-------------------------------------------------------------------+%s\n", BPURPLE, NC);
 }
+*/

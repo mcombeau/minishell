@@ -1,3 +1,4 @@
+/* OBSOLETE TESTS!
 #include "minishell.h"
 
 #define NC		"\e[0m"
@@ -20,11 +21,10 @@
 #define CYAN	"\e[36m"
 #define GREY	"\e[37m"
 
-/* basic_parse_with_inout_files:
-*	Fills a command structure with a very basic input containing
-*	a command name and some options, as well as an input and output file.
-*	Returns the created command. Exits the shell test in case of error.
-*/
+// basic_parse_with_inout_files:
+//	Fills a command structure with a very basic input containing
+//	a command name and some options, as well as an input and output file.
+//	Returns the created command. Exits the shell test in case of error.
 static t_io_fds *very_basic_inout_files(char *infile, char *outfile)
 {
 	t_io_fds	*io;
@@ -51,11 +51,10 @@ static t_io_fds *very_basic_inout_files(char *infile, char *outfile)
 	return(io);
 }
 
-/* super_basic_parse:
-*	Fills a command structure with a very basic input containing only
-*	a command name and some options.
-*	Returns the created command. Exits the shell test in case of error.
-*/
+// super_basic_parse:
+//	Fills a command structure with a very basic input containing only
+//	a command name and some options.
+//	Returns the created command. Exits the shell test in case of error.
 static t_command *super_basic_parse(char *input)
 {
 	t_command	*cmd;
@@ -119,12 +118,11 @@ void	test_execute_multiple_inout_file(char *infile, char *input1, char *input2, 
 	execute(cmd_first);
 }
 
-/* test_execute_multiple:
-*	Simulates two or three piped commands for testing purposes.
-*	Each input must be a string of characters starting with the
-*	command to execute followed by options separated by spaces.
-*	Requires at least two commands in order to pipe.
-*/
+// test_execute_multiple:
+//	Simulates two or three piped commands for testing purposes.
+//	Each input must be a string of characters starting with the
+//	command to execute followed by options separated by spaces.
+//	Requires at least two commands in order to pipe.
 void	test_execute_multiple(char *input1, char *input2, char *input3)
 {
 	t_command	*cmd_first;
@@ -150,11 +148,10 @@ void	test_execute_multiple(char *input1, char *input2, char *input3)
 	execute(cmd_first);
 }
 
-/* test_execute_basic:
-*	Simulates a simple non-piped command execution. Input must be
-*	a string of characters starting with the command to execute
-*	followed by options separated by spaces.
-*/
+// test_execute_basic:
+//	Simulates a simple non-piped command execution. Input must be
+//	a string of characters starting with the command to execute
+//	followed by options separated by spaces.
 void	test_execute_basic(char *input)
 {
 	t_command	*cmd;
@@ -335,3 +332,4 @@ void	test_execution(void)
 	test_pipe_invalid_exec();
 	test_basic_inout_file();
 }
+*/
