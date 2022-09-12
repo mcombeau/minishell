@@ -256,6 +256,8 @@ int		exit_builtin(t_data *data, char **args);
 
 // signal.c
 void	handle_signal(int signo);
+void	ignore_sigquit(void);
+void	set_signal_trap(void);
 
 // execute.c
 int		execute(t_data *data);
