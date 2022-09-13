@@ -49,7 +49,7 @@ int	export_builtin(t_data *data, char **args)
 		{
 			if (!is_valid_env_var_key(args[i]))
 			{
-				errmsg("export", args[i], "not a valid identifier", false);
+				errmsg_cmd("export", args[i], "not a valid identifier", false);
 				ret = EXIT_FAILURE;
 			}
 			else
@@ -57,7 +57,7 @@ int	export_builtin(t_data *data, char **args)
 				tmp = get_key_value_pair(args[i]);
 				if (!tmp)
 				{
-					errmsg("export", NULL, "Could not get key value pair", 1);
+					errmsg_cmd("export", NULL, "Could not get key value pair", 1);
 					exit_shell(data, EXIT_FAILURE);
 				}
 				set_env_var(tmp[0], tmp[1]);

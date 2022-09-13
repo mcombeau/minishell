@@ -130,7 +130,8 @@ enum quoting_status {
 void	exit_shell(t_data *data, int	exno);
 
 // error.c
-int		errmsg(char *command, char *detail, char *error_message, int error_nb);
+int		errmsg_cmd(char *command, char *detail, char *error_message, int error_nb);
+void	errmsg(char *errmsg, char *detail, int quotes);
 void	free_str_array(char **strs);
 
 // cleanup.c

@@ -40,7 +40,7 @@ static int	execute_sys_bin(t_command *cmd)
 	if (!cmd->path)
 		return (CMD_NOT_FOUND);
 	if (execve(cmd->path, cmd->args, g_env_vars) == -1)
-		errmsg("execve", NULL, strerror(errno), errno);
+		errmsg_cmd("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);
 }
 
@@ -56,7 +56,7 @@ static int	execute_local_bin(t_command *cmd)
 	if (access(cmd->command, F_OK | X_OK) != 0)
 		return (CMD_NOT_FOUND);
 	if (execve(cmd->command, cmd->args, g_env_vars) == -1)
-		errmsg("execve", NULL, strerror(errno), errno);
+		errmsg_cmd("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);
 }
 
@@ -79,7 +79,7 @@ static int	execute_command(t_data *data, t_command *cmd)
 	set_pipe_fds(data->cmd, cmd);
 	close_fds(data->cmd, false);
 	if (!cmd->command)
-		exit(errmsg("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
+		exit(errmsg_cmd("child process", NULL, "parsing error: no command to execute!", EXIT_FAILURE));
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
 		ret = execute_builtin(data, cmd);
@@ -92,7 +92,7 @@ static int	execute_command(t_data *data, t_command *cmd)
 	ret = execute_local_bin(cmd);
 	if (ret != CMD_NOT_FOUND)
 		exit(ret);
-	exit(errmsg(cmd->command, NULL, "command not found", EXIT_FAILURE));
+	exit(errmsg_cmd(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
 
 /* get_children:
@@ -146,7 +146,7 @@ int	execute(t_data *data)
 		}
 		pid = fork();
 		if (pid == -1)
-			errmsg("fork", NULL, strerror(errno), errno);
+			errmsg_cmd("fork", NULL, strerror(errno), errno);
 		else if (pid == 0)
 			execute_command(data, cmd);
 		cmd = cmd->next;

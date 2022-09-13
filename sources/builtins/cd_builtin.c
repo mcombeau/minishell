@@ -18,7 +18,7 @@ static bool	change_dir(char	*path)
 	}
 	else
 	{
-		errmsg("cd", path, strerror(errno), errno);
+		errmsg_cmd("cd", path, strerror(errno), errno);
 		return (false);
 	}
 	return (true);
@@ -36,11 +36,11 @@ int	cd_builtin(char **args)
 	if (!args || !args[1] || ft_strncmp(args[1], "--", 3) == 0)
 	{
 		if (!home_path)
-			return (errmsg("cd", NULL, "HOME not set", 0));
+			return (errmsg_cmd("cd", NULL, "HOME not set", 0));
 		return (!change_dir(home_path));
 	}
 	if (args[2])
-		return (errmsg("cd", NULL, "too many arguments", EXIT_FAILURE));
+		return (errmsg_cmd("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[1], "-", 2) == 0)
 	{
 		change_dir(get_env_var_value("OLDPWD"));

@@ -14,7 +14,7 @@ int	pwd_builtin(char **args)
 	cwd = getcwd(buf, BUFSIZ);
 	if (!cwd)
 	{
-		errmsg("pwd", NULL, strerror(errno), errno);
+		errmsg_cmd("pwd", NULL, strerror(errno), errno);
 		return (EXIT_FAILURE);
 	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);

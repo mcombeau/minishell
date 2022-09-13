@@ -62,10 +62,10 @@ static t_command *super_basic_parse(char *input)
 
 	cmd_args = ft_split(input, ' ');
 	if (!cmd_args)
-		exit_shell(NULL, errmsg("test", input, "Could not split args", 0));
+		exit_shell(NULL, errmsg_cmd("test", input, "Could not split args", 0));
 	cmd = malloc(sizeof * cmd);
 	if (!cmd)
-		exit_shell(NULL, errmsg("test", "malloc", strerror(errno), errno));
+		exit_shell(NULL, errmsg_cmd("test", "malloc", strerror(errno), errno));
 	cmd->command = cmd_args[0];
 	cmd->args = cmd_args;
 	cmd->next = NULL;

@@ -1,17 +1,22 @@
 #include "minishell.h"
 
-bool	start_check(int ac, char **av, char **env)
+static bool	start_check(int ac, char **av, char **env)
 {
 	if (ac != 1 || !av)
 	{
-		errmsg("Usage", NULL, "./minishell", 1);
+		errmsg_cmd("Usage", NULL, "./minishell", 1);
 		return (false);
 	}
 	if (!init_env(env))
 	{
-		errmsg("Fatal", NULL, "Could not initialize environment", 1);
+		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
 		return (false);
 	}
+	/*	if (ac >= 2 && (av[1][0] == 't' || av[1][0] == 'T'))
+	{
+		test_minishell(ac, av);
+		exit_shell(NULL, EXIT_SUCCESS);
+	}*/
 	return (true);
 }
 
@@ -19,16 +24,9 @@ int	main(int ac, char **av, char **env)
 {
 	t_data data;
 
-	(void)ac;
-	(void)av;
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!start_check(ac, av, env))
 		exit_shell(NULL, EXIT_FAILURE);
-/*	if (ac >= 2 && (av[1][0] == 't' || av[1][0] == 'T'))
-	{
-		test_minishell(ac, av);
-		exit_shell(NULL, EXIT_SUCCESS);
-	}*/
 	init_data(&data, env);
 	while (1)
 	{
@@ -45,10 +43,10 @@ int	main(int ac, char **av, char **env)
 		if (tokenization(&data, data.user_input) == FAILURE)
 		{
 			free_data(&data, false);
-			return (FAILURE);
+			continue;
 		}
 		if (data.token->type == END)
-					break;
+			break;
 		if (check_if_var(&data.token) == FAILURE)
 		{
 			free_data(&data, false);

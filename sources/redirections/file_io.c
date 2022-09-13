@@ -17,10 +17,10 @@ bool	restore_io(t_io_fds *io)
 		return (ret);
 	if (io->stdin_backup != -1)
 		if (dup2(io->stdin_backup, STDIN_FILENO) == -1)
-			ret = errmsg("dup2", "restoring stdin", strerror(errno), false);
+			ret = errmsg_cmd("dup2", "restoring stdin", strerror(errno), false);
 	if (io->stdout_backup != -1)
 		if (dup2(io->stdout_backup, STDOUT_FILENO) == -1)
-			ret = errmsg("dup2", "restoring stdout", strerror(errno), false);
+			ret = errmsg_cmd("dup2", "restoring stdout", strerror(errno), false);
 	return (ret);
 }
 
@@ -37,16 +37,16 @@ static bool	redirect_io(t_io_fds *io)
 	ret = true;
 	io->stdin_backup = dup(STDIN_FILENO);
 	if (io->stdin_backup == -1)
-		ret = errmsg("dup", "stdin backup", strerror(errno), false);
+		ret = errmsg_cmd("dup", "stdin backup", strerror(errno), false);
 	io->stdout_backup = dup(STDOUT_FILENO);
 	if (io->stdout_backup == -1)
-		ret = errmsg("dup", "stdout backup", strerror(errno), false);
+		ret = errmsg_cmd("dup", "stdout backup", strerror(errno), false);
 	if (io->fd_in != -1)
 		if (dup2(io->fd_in, STDIN_FILENO) == -1)
-			ret = errmsg("dup2", io->infile, strerror(errno), false);
+			ret = errmsg_cmd("dup2", io->infile, strerror(errno), false);
 	if (io->fd_out != -1)
 		if (dup2(io->fd_out, STDOUT_FILENO) == -1)
-			ret = errmsg("dup2", io->outfile, strerror(errno), false);
+			ret = errmsg_cmd("dup2", io->outfile, strerror(errno), false);
 	return (ret);
 }
 
@@ -70,7 +70,7 @@ static bool	open_infile(t_io_fds *io)
 	{
 		io->fd_in = open(io->infile, O_RDONLY);
 		if (io->fd_in == -1)
-			return (errmsg("open", io->infile, strerror(errno), false));
+			return (errmsg_cmd("open", io->infile, strerror(errno), false));
 	}
 	return (true);
 }
@@ -90,7 +90,7 @@ static bool	open_outfile(t_io_fds *io)
 	else
 		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (io->fd_out == -1)
-		return (errmsg("open", io->outfile, strerror(errno), false));
+		return (errmsg_cmd("open", io->outfile, strerror(errno), false));
 	return (true);
 }
 

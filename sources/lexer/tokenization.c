@@ -132,7 +132,11 @@ int	tokenization(t_data *data, char *str)
 	}
 	if (status != DEFAULT)
 	{
-		printf("Syntax error : the quotes are unclosed\n");
+		if (status == DQUOTE)
+			errmsg("unexpected EOF while looking for matching", "\"", true);
+		else if (status == SQUOTE)
+			errmsg("unexpected EOF while looking for matching", "\'", true);
+		errmsg("syntax error", "unexpected end of file", false);
 		return (1);
 	}
 	return (0);

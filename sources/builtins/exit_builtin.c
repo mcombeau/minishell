@@ -18,13 +18,13 @@ int	exit_builtin(t_data *data, char **args)
 		while (args[1][i])
 		{
 			if (!isdigit(args[1][i]))
-				exit_shell(data, errmsg("exit", args[1], "numeric argument required", 2));
+				exit_shell(data, errmsg_cmd("exit", args[1], "numeric argument required", 2));
 			i++;
 		}
 	}
 	if (args[2])
 	{
-		errmsg("exit", NULL, "too many arguments", 1);
+		errmsg_cmd("exit", NULL, "too many arguments", 1);
 		return (EXIT_FAILURE);
 	}
 	else

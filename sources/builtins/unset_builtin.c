@@ -19,7 +19,7 @@ int	unset_builtin(char **args)
 	{
 		if (!is_valid_env_var_key(args[i]) || ft_strchr(args[i], '=') != NULL)
 		{
-//			errmsg("unset", args[i], "not a valid identifier", false);
+//			errmsg_cmd("unset", args[i], "not a valid identifier", false);
 			ret = EXIT_FAILURE;
 		}
 		else

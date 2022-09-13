@@ -29,7 +29,7 @@ bool	init_env(char **env)
 	g_env_vars = ft_calloc(env_var_count(env) + 1, sizeof * g_env_vars);
 	if (!env || !env[0])
 	{
-		errmsg("Warning", NULL,
+		errmsg_cmd("Warning", NULL,
 			"No environment. Please provide paths for commands.", 1);
 		set_env_var("PWD", getcwd(buff, BUFSIZ));
 	}
