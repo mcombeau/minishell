@@ -77,10 +77,13 @@ int	create_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	temp = *token_node;
 	nb_args = count_args(temp);
 	printf("nb_args dans echo mode : %d\n", nb_args);
-	last_cmd->args = malloc(sizeof(char *) * (nb_args + 1));
+	last_cmd->args = malloc(sizeof(char *) * (nb_args + 2));
 	if (!last_cmd->args)
 		return (FAILURE);
 	i = 0;
+	last_cmd->args[i] = ft_strdup(last_cmd->command);
+	printf("flags :\ni : %d - str : |%s|\n", i, last_cmd->args[i]);
+	i++;
 	while (temp->type == WORD || temp->type == VAR)
 	{
 		if (temp->join == true)
