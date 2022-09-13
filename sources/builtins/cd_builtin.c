@@ -36,7 +36,7 @@ int	cd_builtin(char **args)
 	if (!args || !args[1] || ft_strncmp(args[1], "--", 3) == 0)
 	{
 		if (!home_path)
-			return (errmsg("cd", NULL, "No environment. Please provide a path.", 0));
+			return (errmsg("cd", NULL, "HOME not set", 0));
 		return (!change_dir(home_path));
 	}
 	if (args[2])
