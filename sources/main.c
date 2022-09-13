@@ -25,8 +25,10 @@ int	main(int ac, char **av, char **env)
 		data.user_input = readline(PROMPT);
 		if (data.user_input == NULL)
 			exit_builtin(&data, NULL);
+		else if (ft_strcmp(data.user_input, "\0") == 0)
+			continue;
 		printf("\n\e[92m------- MAIN: Parse user input.\n");
-		printf("input = %s\n", data.user_input);
+		printf("input = \"%s\"\n", data.user_input);
 		add_history(data.user_input);
 		if (tokenization(&data, data.user_input) == FAILURE)
 		{
