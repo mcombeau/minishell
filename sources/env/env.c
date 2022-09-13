@@ -25,6 +25,9 @@ bool	init_env(char **env)
 {
 	int	i;
 
+	if (!env || !env[0])
+		errmsg("Warning", NULL,
+			"No environment. Please provide paths for commands.", 1);
 	g_env_vars = ft_calloc(env_var_count(env) + 1, sizeof * g_env_vars);
 	i = 0;
 	while (env[i])

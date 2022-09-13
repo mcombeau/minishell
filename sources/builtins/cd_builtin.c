@@ -34,7 +34,11 @@ int	cd_builtin(char **args)
 
 	home_path = get_env_var_value("HOME");
 	if (!args || !args[1] || ft_strncmp(args[1], "--", 3) == 0)
+	{
+		if (!home_path)
+			return (errmsg("cd", NULL, "No environment. Please provide a path.", 0));
 		return (!change_dir(home_path));
+	}
 	if (args[2])
 		return (errmsg("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[1], "-", 2) == 0)
