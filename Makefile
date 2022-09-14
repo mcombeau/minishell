@@ -48,10 +48,7 @@ SRC		= 	main.c \
 			exit_utils/error.c \
 			exit_utils/cleanup.c \
 			exit_utils/free_data.c \
-			signals/signal.c \
-			testing/test.c \
-			testing/test_builtins.c \
-			testing/test_execution.c
+			signals/signal.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
