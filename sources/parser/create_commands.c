@@ -23,10 +23,15 @@ void	create_commands(t_data *data, t_token *token)
 		 	//parse_heredoc(data, &temp);
 		//else if (temp->type == APPEND)
 		 	//parse_append(&data->cmd, &temp);
-		//else if (temp->type == PIPE)
-			//parse_pipe(&data->cmd, &temp);
+		else if (temp->type == PIPE)
+			parse_pipe(&data->cmd, &temp);
 		else if (temp->type == END)
 			break;
+		else
+		{
+			printf("\tTOKEN NOT PARSABLE YET: %s\n", temp->str);
+			break;
+		}
 	}
 	if (data->cmd->args)
 	{

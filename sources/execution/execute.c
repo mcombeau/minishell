@@ -127,13 +127,25 @@ static int	get_children(t_data *data)
 int	execute(t_data *data)
 {
 	t_command	*cmd;
+	t_command	*tmp;
 	int			pid;
 	int			ret;
 
 	ret = CMD_NOT_FOUND;
+	if (!data->cmd ||  data->cmd->command == NULL)
+		return (EXIT_FAILURE);
 	cmd = data->cmd;
 	if (!create_pipes(data) || !open_infile_outfile(data->cmd->io_fds))
 		return (0);
+	printf("\nExecution: Commands received:\n");
+	tmp = cmd;
+	while (tmp)
+	{
+		printf("Command = %s\n", tmp->command);
+		printf("Pipe_output = %d\n", tmp->pipe_output);
+		tmp = tmp->next;
+	}
+	printf("\n");
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
