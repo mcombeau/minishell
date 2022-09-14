@@ -12,11 +12,6 @@ static bool	start_check(int ac, char **av, char **env)
 		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
 		return (false);
 	}
-	/*	if (ac >= 2 && (av[1][0] == 't' || av[1][0] == 'T'))
-	{
-		test_minishell(ac, av);
-		exit_shell(NULL, EXIT_SUCCESS);
-	}*/
 	return (true);
 }
 
