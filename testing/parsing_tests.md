@@ -77,14 +77,14 @@
 | ERROR	|`echo " $ " \| cat -e`	|` $ $`				|`$$`				|
 | ERROR	|`echo $:$= \| cat -e`	|`$:$=$`			|`$=$`				|
 | OK	|`export FOO=' " '`		|					|					|
-| ERROR	|`echo " $FOO " | cat -e`|`  "  $`			|`$`				|
+| ERROR	|`echo " $FOO " \| cat -e`|`  "  $`			|`$`				|
 
 ### Pipe tests
 
 | Status| Test										| Expected			| Output			|
 |-------|-------------------------------------------|-------------------|-------------------|
-| OK	|`echo test |cat`							|`test`				|`test`				|
-| OK	|`echo test ||| cat`						|syntax error		|syntax error		|
+| OK	|`echo test \|cat`							|`test`				|`test`				|
+| OK	|`echo test \|\|\| cat`						|syntax error		|syntax error		|
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|					|					|
 | ERROR	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`$C"$D"$F`			|
 
