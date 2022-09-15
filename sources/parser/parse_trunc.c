@@ -66,7 +66,7 @@ void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
 	// Initialize input-output structure if it doesn't exist.
 	init_io(first_cmd);
-	// Set the input filename as outfile in the io_fds structure of the
+	// Set the output filename as outfile in the io_fds structure of the
 	// first command in the list of commands.
 	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
 	// Mark outfile open mode as TRUNC.

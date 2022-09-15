@@ -31,27 +31,39 @@
 void	parse_append(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
-	t_command	*cmd;
-	char	*file;
-	int		fd;
+	t_command	*first_cmd;
+//	t_command	*cmd;
+//	char	*file;
+//	int		fd;
 
 	temp = *token_lst;
-	cmd = lst_last_cmd(*last_cmd);
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");
-	cmd->redir_out = true;
+	first_cmd = lst_first_cmd(*last_cmd);
+//	cmd = lst_last_cmd(*last_cmd);
+	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
+	// Initialize input-output structure if it doesn't exist.
+	init_io(first_cmd);
+	// Set the output filename as outfile in the io_fds structure of the
+	// first command in the list of commands.
+	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
+	// Mark outfile open mode as APPEND.
+	first_cmd->io_fds->mode = APPEND;
+	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->infile);
+
+//	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");
+//	cmd->redir_out = true;
 	// char *test = get_absolute_path(data->envp, temp->next->str);
 	// printf("test : %s\n", test);
-	file = get_relative_path(temp->next->str);
-	fd = open(file, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
-	if (fd == -1)
-	{
-		cmd->error = errno;
-		cmd->err_msg = ft_strdup(strerror(errno));
-	}
-	cmd->io_fds->fd_out = fd;
-	free(file);
-	printf("Fd : %d\n", cmd->io_fds->fd_out);
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+//	file = get_relative_path(temp->next->str);
+//	fd = open(file, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
+//	if (fd == -1)
+//	{
+//		cmd->error = errno;
+//		cmd->err_msg = ft_strdup(strerror(errno));
+//	}
+//	cmd->io_fds->fd_out = fd;
+//	free(file);
+//	printf("Fd : %d\n", cmd->io_fds->fd_out);
+//	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	if (temp->next->next)
 		temp = temp->next->next;
 	else
