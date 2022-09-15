@@ -1,36 +1,27 @@
 #include "minishell.h"
 
-/* echo_print:
-*	Prints a string for the echo builtin, while removing quote
-*	characters and adding spaces between words.
+/* is_n_flag:
+*	Checks whether an arg is an -n option flag.
+*	Returns true if the arg is some variation of -n, -nnnn, -nn, etc.
+*	Returns false if it contains anything other than - and n (ex. --n -nnnm -n1234)
 */
-/*
-static void	echo_print(char *arg)
+static bool	is_n_flag(char *arg)
 {
-	char	**tmp;
-	char	*str;
 	int		i;
+	bool	n_flag;
 
-	tmp = ft_split(arg, ' ');
+	n_flag = false;
 	i = 0;
-	while (tmp[i])
-	{
-		str = ft_strtrim(tmp[i], "\"\'");
-		ft_putstr_fd(str, STDOUT_FILENO);
-		free(str);
-		if (tmp[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
+	if (arg[i] != '-')
+			return (n_flag);
+	i++;
+	while (arg[i] && arg[i] == 'n')
 		i++;
-	}
-	i = 0;
-	while (tmp[i])
-	{
-		free(tmp[i]);
-		i++;
-	}
-	free(tmp);
+	if (arg[i] == '\0')
+		n_flag = true;
+	return (n_flag);
 }
-*/
+
 /* echo_builtin:
 *	Executes the echo builtin command: prints the given strings
 *	and adds a \n character or not depending on the -n option.
@@ -38,23 +29,25 @@ static void	echo_print(char *arg)
 */
 int	echo_builtin(char **args)
 {
+	printf("----- Echo builtin\n");
 	int		i;
 	bool	n_flag;
-
+	
 	n_flag = false;
-	if (!args[1])
+	i = 1;
+	while (args[i] && is_n_flag(args[i]))
 	{
+		n_flag = true;
+		i++;
+	}
+	if (!args[i])
+	{
+		printf("\tEcho: No arg, returning\n");
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
-	else if (ft_strncmp(args[1], "-n", 3) == 0)
-		n_flag = true;
-	i = 1;
-	if (n_flag)
-		i++;
 	while (args[i])
 	{
-//		echo_print(args[i]);
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
