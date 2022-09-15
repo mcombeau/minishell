@@ -98,3 +98,10 @@ t_command	*lst_last_cmd(t_command *cmd)
 		cmd = cmd->next;
 	return (cmd);
 }
+
+t_command	*lst_first_cmd(t_command *cmd)
+{
+	while (cmd->prev != NULL)
+		cmd = cmd->prev;
+	return (cmd);
+}

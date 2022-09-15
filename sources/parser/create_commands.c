@@ -15,8 +15,8 @@ void	create_commands(t_data *data, t_token *token)
 			lst_add_back_cmd(&data->cmd, lst_new_cmd(false));	
 		if (temp->type == WORD || temp->type == VAR)
 			parse_word(&data->cmd, &temp);
-		//else if (temp->type == INPUT)
-			//parse_input(&data->cmd, &temp);
+		else if (temp->type == INPUT)
+			parse_input(&data->cmd, &temp);
 		else if (temp->type == TRUNC)
 			parse_trunc(&data->cmd, &temp);
 		//else if (temp->type == HEREDOC)
