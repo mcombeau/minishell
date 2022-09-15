@@ -19,12 +19,12 @@ SRC		= 	main.c \
 			lexer/token_lst_utils.c \
 			lexer/token_lst_utils_2.c \
 			lexer/var_tokenization.c \
-			parser/var_expander.c \
-			parser/identify_var.c \
-			parser/quotes_handler.c \
-			parser/quotes_remover.c \
-			parser/recover_value.c \
-			parser/replace_var.c \
+			expansion/var_expander.c \
+			expansion/identify_var.c \
+			expansion/quotes_handler.c \
+			expansion/quotes_remover.c \
+			expansion/recover_value.c \
+			expansion/replace_var.c \
 			parser/create_commands.c \
 			parser/parse_word.c \
 			parser/fill_arguments.c \
@@ -67,6 +67,7 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)/builtins
 	mkdir -p $(OBJ_PATH)/lexer
+	mkdir -p $(OBJ_PATH)/expansion
 	mkdir -p $(OBJ_PATH)/parser
 	mkdir -p $(OBJ_PATH)/testing
 	mkdir -p $(OBJ_PATH)/env
