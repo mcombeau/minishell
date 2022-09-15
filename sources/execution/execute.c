@@ -118,6 +118,34 @@ static int	get_children(t_data *data)
 	return (status);
 }
 
+void	check_cmd_list(t_data *data)
+{
+	t_command *cmd;
+
+	cmd = data->cmd;
+	printf("\nExecution: Commands received:\n");
+	while (cmd)
+	{
+		printf("\tCommand = %s\n", cmd->command);
+		if (!cmd->args)
+		{
+			cmd->args = malloc(sizeof * cmd->args);
+			cmd->args[0] = ft_strdup(cmd->command);
+			cmd->args[1] = NULL;
+		}
+		for (int i = 0; cmd->args[i]; i++)	
+			printf("\tArgs[%d] = %s\n", i, cmd->args[i]);
+		printf("\tPipe_output = %d\n", cmd->pipe_output);
+		if (cmd->io_fds && cmd->io_fds->infile)
+			printf("\tInfile: %s\n", cmd->io_fds->infile);
+		if (cmd->io_fds && cmd->io_fds->outfile)
+			printf("\tOutfile: %s\n", cmd->io_fds->outfile);
+		printf("\n");
+		cmd = cmd->next;
+	}
+	printf("\n");
+}
+
 /* execute:
 *	Executes the given commands by creating children processes
 *	and waiting for them to terminate. If the command is a builtin
@@ -127,7 +155,6 @@ static int	get_children(t_data *data)
 int	execute(t_data *data)
 {
 	t_command	*cmd;
-	t_command	*tmp;
 	int			pid;
 	int			ret;
 
@@ -135,17 +162,9 @@ int	execute(t_data *data)
 	if (!data->cmd ||  data->cmd->command == NULL)
 		return (EXIT_FAILURE);
 	cmd = data->cmd;
+	check_cmd_list(data);
 	if (!create_pipes(data) || !open_infile_outfile(data->cmd->io_fds))
 		return (0);
-	printf("\nExecution: Commands received:\n");
-	tmp = cmd;
-	while (tmp)
-	{
-		printf("Command = %s\n", tmp->command);
-		printf("Pipe_output = %d\n", tmp->pipe_output);
-		tmp = tmp->next;
-	}
-	printf("\n");
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
