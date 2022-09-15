@@ -18,11 +18,12 @@ void	parse_pipe(t_command **cmd, t_token **token_lst)
 	// Create the pipe cmd
 //	lst_add_back_cmd(cmd, lst_new_cmd(true));
 	
+	// NE PAS RACCORDER, CA CASSE LE PIPE!
 	// Raccorder les nodes de la cmd précédente avec la cmd pipe
-	last_cmd = lst_last_cmd(*cmd);
-	temp->next = last_cmd;
-	last_cmd->prev = temp;
-	last_cmd->next = NULL;
+//	last_cmd = lst_last_cmd(*cmd);
+//	temp->next = last_cmd;
+//	last_cmd->prev = temp;
+//	last_cmd->next = NULL;
 
 	// Puis créer une autre commande pour la prochaine commande 
 	lst_add_back_cmd(&last_cmd, lst_new_cmd(false));

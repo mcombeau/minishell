@@ -140,6 +140,14 @@ void	check_cmd_list(t_data *data)
 			printf("\tInfile: %s\n", cmd->io_fds->infile);
 		if (cmd->io_fds && cmd->io_fds->outfile)
 			printf("\tOutfile: %s\n", cmd->io_fds->outfile);
+		if (cmd->prev == NULL)
+			printf("\tprev = NULL\n");
+		else
+			printf("\tprev = %s\n", cmd->prev->command);
+		if (cmd->next == NULL)
+			printf("\tnext = NULL\n");
+		else
+			printf("\tnext = %s\n", cmd->next->command);
 		printf("\n");
 		cmd = cmd->next;
 	}
@@ -159,11 +167,11 @@ int	execute(t_data *data)
 	int			ret;
 
 	ret = CMD_NOT_FOUND;
-	if (!data->cmd ||  data->cmd->command == NULL)
-		return (EXIT_FAILURE);
 	cmd = data->cmd;
+	if (!cmd || cmd->command == NULL)
+		return (ret);
 	check_cmd_list(data);
-	if (!create_pipes(data) || !open_infile_outfile(data->cmd->io_fds))
+	if (!create_pipes(data) || !open_infile_outfile(cmd->io_fds))
 		return (0);
 	pid = -1;
 	while (pid != 0 && cmd)

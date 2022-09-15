@@ -1,5 +1,39 @@
 #include "minishell.h"
 
+static void	check_cmd_list_parsing(t_data *data)
+{
+	t_command *cmd;
+
+	cmd = data->cmd;
+	printf("\n----- Parsing check commands to send to exec:\n\n");
+	cmd->prev = NULL;
+	while (cmd)
+	{
+		printf("\tCommand = %s\n", cmd->command);
+		if (!cmd->args)
+			printf("\tNo args.\n");
+		else
+			for (int i = 0; cmd->args[i]; i++)	
+				printf("\tArgs[%d] = %s\n", i, cmd->args[i]);
+		printf("\tPipe_output = %d\n", cmd->pipe_output);
+		if (cmd->io_fds && cmd->io_fds->infile)
+			printf("\tInfile: %s\n", cmd->io_fds->infile);
+		if (cmd->io_fds && cmd->io_fds->outfile)
+			printf("\tOutfile: %s\n", cmd->io_fds->outfile);
+		if (cmd->prev == NULL)
+			printf("\tprev = NULL\n");
+		else
+			printf("\tprev = %s\n", cmd->prev->command);
+		if (cmd->next == NULL)
+			printf("\tnext = NULL\n");
+		else
+			printf("\tnext = %s\n", cmd->next->command);
+		printf("\n");
+		cmd = cmd->next;
+	}
+	printf("\n");
+}
+
 void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
@@ -12,7 +46,7 @@ void	create_commands(t_data *data, t_token *token)
 		printf("temp actuel : TYPE : %d - STR : |%s|\n", temp->type, temp->str);
 		// si c'est le début de la chaine de token, créer automatiquement un t_command
 		if (temp == token)
-			lst_add_back_cmd(&data->cmd, lst_new_cmd(false));	
+			lst_add_back_cmd(&data->cmd, lst_new_cmd(false));
 		if (temp->type == WORD || temp->type == VAR)
 			parse_word(&data->cmd, &temp);
 		else if (temp->type == INPUT)
@@ -42,4 +76,5 @@ void	create_commands(t_data *data, t_token *token)
 			i++;
 		}
 	}
+	check_cmd_list_parsing(data);
 }

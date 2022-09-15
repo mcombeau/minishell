@@ -10,8 +10,6 @@ void	exit_shell(t_data *data, int exno)
 	{
 		if (data->cmd && data->cmd->io_fds)
 			close_fds(data->cmd, true);
-//		if (data->cmd)
-//			free_cmd_list(data->cmd);
 		free_data(data, true);
 	}
 	if (g_env_vars)
