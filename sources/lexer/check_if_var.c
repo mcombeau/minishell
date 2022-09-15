@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_if_var.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/15 23:40:24 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/15 23:40:32 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	variable_check(t_token **token_node)
 {
 	int	i;
- 
+
 	i = 0;
 	while ((*token_node)->str[i])
 	{
 		if ((*token_node)->str[i] == '$')
 		{	
 			if ((*token_node)->prev && (*token_node)->prev->type == HEREDOC)
-				break;	
+				break ;
 			(*token_node)->type = VAR;
 			return ;
 		}
@@ -35,6 +47,5 @@ int	check_if_var(t_token **token_lst)
 			return (FAILURE);
 		temp = temp->next;
 	}
-	print_token(*token_lst);
 	return (SUCCESS);
 }

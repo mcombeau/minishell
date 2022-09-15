@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_tokenization.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/16 00:13:43 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/16 00:13:47 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*copy_word(char *str, int end, int start)
@@ -6,7 +18,7 @@ static char	*copy_word(char *str, int end, int start)
 	int		i;
 
 	i = 0;
-	new_word = (char *)malloc(sizeof(char) * (end - start + 1));
+	new_word = malloc(sizeof(char) * (end - start + 1));
 	if (!new_word)
 		return (NULL);
 	while (start < end)
@@ -21,9 +33,9 @@ static char	*copy_word(char *str, int end, int start)
 
 static int	create_empty_str_in_new_node(t_token **token_lst)
 {
-	char *str;
+	char	*str;
 
-	str = (char *)malloc(sizeof(char) * 1);
+	str = malloc(sizeof(char) * 1);
 	if (!str)
 		return (1);
 	str[0] = '\0';
@@ -33,7 +45,7 @@ static int	create_empty_str_in_new_node(t_token **token_lst)
 
 static void	set_new_lst_to_true(t_token **new_lst)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *new_lst;
 	while (temp)
@@ -48,7 +60,7 @@ static t_token	*split_var(char *str, t_token *token_lst)
 	int		i;
 	int		start;
 	char	*new_word;
-	
+
 	i = 0;
 	if (!str[i])
 		create_empty_str_in_new_node(&token_lst);
@@ -86,7 +98,6 @@ int	var_tokenization(t_data *data)
 		if (temp->type == VAR)
 		{
 			new_lst = split_var(temp->str, token_lst);
-			print_token(data->token);
 			if (temp->join == true)
 				set_new_lst_to_true(&new_lst);
 			temp = insert_lst_between(&data->token, temp, new_lst);

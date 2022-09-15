@@ -158,10 +158,9 @@ int		check_if_var(t_token **token_lst);
 // token_lst_utils.c
 t_token	*lst_new_token(char *str, int type, int status);
 void	lst_add_back_token(t_token **alst, t_token *new_node);
-t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert);
 void	lstdelone_token(t_token *lst, void (*del)(void *));
 void	lstclear_token(t_token **lst, void (*del)(void *));
-void	print_token(t_token *lst);
+t_token	*insert_lst_between(t_token **head, t_token *to_del, t_token *insert);
 
 //var_tokenization.c
 int		var_tokenization(t_data *data);

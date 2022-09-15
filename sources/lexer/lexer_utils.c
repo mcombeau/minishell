@@ -1,10 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/15 23:45:35 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/15 23:45:43 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
- /*
- *  Checks if there are two consecutive operators or more in token
- *  linked list. Except the case where the operators are '|' and '>'
- *  Why token type >= 4? bc operators enums begin at number 4.
- */
+#include "minishell.h"
 
 static int	consecutive_ops(t_token *token_node)
 {
@@ -16,7 +22,8 @@ static int	consecutive_ops(t_token *token_node)
 			&& token_node->next->type != END)
 			return (TRUE);
 		if (token_node->type >= 4 && token_node->next
-			&& (token_node->next->type != WORD && token_node->next->type != VAR))
+			&& (token_node->next->type != WORD
+				&& token_node->next->type != VAR))
 			return (TRUE);
 		if (token_node->type >= 4 && token_node->next->type == END)
 			return (TRUE);
@@ -38,6 +45,5 @@ int	check_consecutives(t_token **token_lst)
 		}
 		temp = temp->next;
 	}
-	//print_token(*token_lst);
 	return (SUCCESS);
 }

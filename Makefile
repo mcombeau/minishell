@@ -17,6 +17,7 @@ SRC		= 	main.c \
 			lexer/check_if_var.c \
 			lexer/lexer_utils.c \
 			lexer/token_lst_utils.c \
+			lexer/token_lst_utils_2.c \
 			lexer/var_tokenization.c \
 			parser/var_expander.c \
 			parser/identify_var.c \

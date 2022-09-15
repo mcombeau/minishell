@@ -50,7 +50,6 @@ int	main(int ac, char **av, char **env)
 		var_expander(&data, &data.token);
 		handle_quotes(&data);
 		var_tokenization(&data);
-		print_token(data.token);
 		printf("\n\e[32m------- MAIN: Create commands.\n");
 		create_commands(&data, data.token);
 		printf("\n\e[36m------- MAIN: Launch exec.\e[0m\n");
