@@ -27,6 +27,8 @@ static void	display_error(t_command *cmd, char *infile)
 
 void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
+	printf("\n--- Parse input.\n");
+
 	t_token	*temp;
 	t_command	*cmd;
 	t_command	*first_cmd;
@@ -35,7 +37,7 @@ void	parse_input(t_command **last_cmd, t_token **token_lst)
 
 	temp = *token_lst;
 	cmd = lst_last_cmd(*last_cmd);
-	first_cmd = lst_first_cmd(*last_cmd);
+	first_cmd = *last_cmd;
 	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
 	{
 		*token_lst = temp->next->next;

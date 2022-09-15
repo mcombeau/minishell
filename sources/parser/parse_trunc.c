@@ -53,6 +53,7 @@ char	*get_relative_path(char *file_to_open)
  */
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
+	printf("\n--- Parse trunc.\n");
 	t_token	*temp;
 //	t_command	*cmd;
 	t_command	*first_cmd;
@@ -61,7 +62,8 @@ void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 
 	temp = *token_lst;
 //	cmd = lst_last_cmd(*last_cmd);
-	first_cmd = lst_first_cmd(*last_cmd);
+	first_cmd = *last_cmd;
+	printf("\tFirst command = %s\n", first_cmd->command);
 	init_io(first_cmd);
 	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
 	// Initialize input-output structure if it doesn't exist.
@@ -71,7 +73,7 @@ void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
 	// Mark outfile open mode as TRUNC.
 	first_cmd->io_fds->mode = TRUNC;
-	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->infile);
+	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->outfile);
 //	cmd->redir_out = true;
 //	file = get_relative_path(temp->next->str);
 //	if (cmd->io_fds->fd_in != -1)

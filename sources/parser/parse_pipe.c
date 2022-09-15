@@ -8,6 +8,7 @@
 	*/
 void	parse_pipe(t_command **cmd, t_token **token_lst)
 {
+	printf("\n--- Parse pipe.\n");
 	t_command *temp;
 	t_command *last_cmd;
 	
