@@ -54,25 +54,37 @@ char	*get_relative_path(char *file_to_open)
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
-	t_command	*cmd;
-	char	*file;
-	int		fd;
+//	t_command	*cmd;
+	t_command	*first_cmd;
+//	char	*file;
+//	int		fd;
 
 	temp = *token_lst;
-	cmd = lst_last_cmd(*last_cmd);
-	cmd->redir_out = true;
-	file = get_relative_path(temp->next->str);
-	if (cmd->io_fds->fd_in != -1)
-	{
-		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
-		if (fd == -1)
-		{
-			cmd->error = errno;
-			cmd->err_msg = ft_strdup(strerror(errno));
-		}
-		cmd->io_fds->fd_out = fd;
-	}
-	free(file);
+//	cmd = lst_last_cmd(*last_cmd);
+	first_cmd = lst_first_cmd(*last_cmd);
+	init_io(first_cmd);
+	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
+	// Initialize input-output structure if it doesn't exist.
+	init_io(first_cmd);
+	// Set the input filename as outfile in the io_fds structure of the
+	// first command in the list of commands.
+	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
+	// Mark outfile open mode as TRUNC.
+	first_cmd->io_fds->mode = TRUNC;
+	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->infile);
+//	cmd->redir_out = true;
+//	file = get_relative_path(temp->next->str);
+//	if (cmd->io_fds->fd_in != -1)
+//	{
+//		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+//		if (fd == -1)
+//		{
+//			cmd->error = errno;
+//			cmd->err_msg = ft_strdup(strerror(errno));
+//		}
+//		cmd->io_fds->fd_out = fd;
+//	}
+//	free(file);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else
