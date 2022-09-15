@@ -70,11 +70,11 @@
 | OK	|`echo test""test`		|`testtest`			|`testtest`			|
 | OK	|`echo test"" test`		|`test test`		|`test test`		|
 | OK	|`echo test ""test`		|`test test`		|`test test`		|
-| ERROR |`echo test "'"test`	|`test 'test`		|`test test`		|
+| OK	|`echo test "'"test`	|`test 'test`		|`test test`		|
 | OK	|`echo "\|" ls`			|`\| ls`			|`\| ls`			|
-| ERROR	|`echo '"abc"'`			|`"abc"`			|`abc`				|
-| ERROR	|`echo '  "abc" '`		|` "abc"`			|`abc`				|
-| ERROR	|`echo " $ " \| cat -e`	|` $ $`				|`$$`				|
+| OK	|`echo '"abc"'`			|`"abc"`			|`"abc"`			|
+| Ok	|`echo '  "abc" '`		|` "abc"`			|`"abc"`			|
+| OK	|`echo " $ " \| cat -e`	|` $ $`				|` $ $`				|
 | ERROR	|`echo $:$= \| cat -e`	|`$:$=$`			|`$=$`				|
 | OK	|`export FOO=' " '`		|					|					|
 | ERROR	|`echo " $FOO " \| cat -e`|`  "  $`			|`$`				|
@@ -86,7 +86,7 @@
 | OK	|`echo test \|cat`							|`test`				|`test`				|
 | OK	|`echo test \|\|\| cat`						|syntax error		|syntax error		|
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|					|					|
-| ERROR	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`$C"$D"$F`			|
+| ERROR	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`'$C"$D"$F"''`		|
 
 
 ---

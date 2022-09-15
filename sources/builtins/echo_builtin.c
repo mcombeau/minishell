@@ -4,6 +4,7 @@
 *	Prints a string for the echo builtin, while removing quote
 *	characters and adding spaces between words.
 */
+/*
 static void	echo_print(char *arg)
 {
 	char	**tmp;
@@ -29,7 +30,7 @@ static void	echo_print(char *arg)
 	}
 	free(tmp);
 }
-
+*/
 /* echo_builtin:
 *	Executes the echo builtin command: prints the given strings
 *	and adds a \n character or not depending on the -n option.
@@ -53,7 +54,8 @@ int	echo_builtin(char **args)
 		i++;
 	while (args[i])
 	{
-		echo_print(args[i]);
+//		echo_print(args[i]);
+		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		else if (!args[i + 1] && !n_flag)
