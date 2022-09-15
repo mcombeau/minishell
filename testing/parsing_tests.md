@@ -1,4 +1,9 @@
 # Parsing Tests
+
+## TODO
+
+* Handle var expansion for input and output files.
+* Handle var expansion for `$?` to show last command exit code.
 ## Test list
 
 * **Expected** column is Bash output.
@@ -74,6 +79,7 @@
 | OK	|`echo "\|" ls`			|`\| ls`			|`\| ls`			|
 | OK	|`echo '"abc"'`			|`"abc"`			|`"abc"`			|
 | Ok	|`echo '  "abc" '`		|` "abc"`			|`"abc"`			|
+| OK	|`echo "'abc'"`			|`'abc'`			|`'abc'`			|
 | OK	|`echo " $ " \| cat -e`	|` $ $`				|` $ $`				|
 | ERROR	|`echo $:$= \| cat -e`	|`$:$=$`			|`$=$`				|
 | OK	|`export FOO=' " '`		|					|					|
@@ -88,6 +94,31 @@
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|					|					|
 | ERROR	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`'$C"$D"$F"''`		|
 
+### Other Syntax errors
+| Status| Test					| Expected			| Output			|
+|-------|-----------------------|-------------------|-------------------|
+| OK	|`\|`					|syntax error		|syntax error		|
+| OK	|`echo test ; |`		|syntax error		|syntax error		|
+| OK	|`echo test > > out`	|syntax error		|syntax error		|
+| ERROR?|`echo hello > $fakevar`|ambiguous redirect	|no such file or dir|
+| ERROR	|`echo hello > $realvar`|write to var file	|no such file or dir|
+| OK	|`echo hello >>> test`	|syntax error		|syntax error		|
+| OK	|`echo hello \| \|`		|syntax error		|syntax error		|
+| ERROR |`echo bonjour \|;`		|syntax error		|no such file or dir|
+
+
+
+<!--
+OK		PARSING	echo '"abc"'	"abc"			
+OK		PARSING	echo "'abc'"	['abc']			
+OK		PARSING (séparateurs)	echo "" bonjour	[ bonjour]			
+?		PARSING (séparateurs)	echo[TAB]a	résultat attendu: [a]			
+PAF		PARSING (séparateurs)	echo\ a	echo a': cmd not found			
+OK		PARSING (séparateurs)	export ""  et unset ""	erreur			
+OK		PARSING (séparateurs)	export "test=ici"=coucou ; echo $test	test="ici=coucou"			
+OK		PARSING (séparateurs)	export var="cat Makefile | grep >" ; echo $var	cat Makefile | grep >
+	
+-->
 
 ---
 Thanks to okushnir for tests.

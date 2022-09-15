@@ -29,7 +29,6 @@ static bool	is_n_flag(char *arg)
 */
 int	echo_builtin(char **args)
 {
-	printf("----- Echo builtin\n");
 	int		i;
 	bool	n_flag;
 	
@@ -42,7 +41,6 @@ int	echo_builtin(char **args)
 	}
 	if (!args[i])
 	{
-		printf("\tEcho: No arg, returning\n");
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
