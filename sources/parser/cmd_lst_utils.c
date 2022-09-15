@@ -78,6 +78,8 @@ void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 		free(lst->err_msg);
 	if (lst->args)
 		free_tab(lst->args);
+	if (lst->io_fds)
+		free_io(lst->io_fds);
 	free(lst);
 }
 
