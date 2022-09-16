@@ -56,6 +56,10 @@ OK		EXPORT	export la même variable	modifie la variable (si new value
 OK		EXPORT	export var puis export var=test	verifier pas de doublon			
 OK		EXPORT	export "" test=a	export test=a et set $? à 1			
 OK		EXPORT	export "" test=a puis env
+
+OK		PARSING (séparateurs)	export ""  et unset ""	erreur			
+OK		PARSING (séparateurs)	export "test=ici"=coucou ; echo $test	test="ici=coucou"			
+OK		PARSING (séparateurs)	export var="cat Makefile | grep >" ; echo $var	cat Makefile | grep >
 -->
 
 ## UNSET

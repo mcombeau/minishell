@@ -104,21 +104,9 @@
 | ERROR	|`echo hello > $realvar`|write to var file	|no such file or dir|
 | OK	|`echo hello >>> test`	|syntax error		|syntax error		|
 | OK	|`echo hello \| \|`		|syntax error		|syntax error		|
-| ERROR |`echo bonjour \|;`		|syntax error		|no such file or dir|
-
-
-
-<!--
-OK		PARSING	echo '"abc"'	"abc"			
-OK		PARSING	echo "'abc'"	['abc']			
-OK		PARSING (séparateurs)	echo "" bonjour	[ bonjour]			
-?		PARSING (séparateurs)	echo[TAB]a	résultat attendu: [a]			
-PAF		PARSING (séparateurs)	echo\ a	echo a': cmd not found			
-OK		PARSING (séparateurs)	export ""  et unset ""	erreur			
-OK		PARSING (séparateurs)	export "test=ici"=coucou ; echo $test	test="ici=coucou"			
-OK		PARSING (séparateurs)	export var="cat Makefile | grep >" ; echo $var	cat Makefile | grep >
-	
--->
+| ERROR |`echo hello \|;`		|syntax error		|command not found	|
+| ERROR	|`echo\ a`				|`echo a` cmd not found|`echo\` cmd not found|
+|
 
 ---
 Thanks to okushnir for tests.
