@@ -8,7 +8,7 @@ int	save_separator(t_token **token_lst, char *str, int index, int type)
 	i = 0;
 	if (type == APPEND || type == HEREDOC)
 	{
-		sep = (char *)malloc(sizeof(char) * 3);
+		sep = malloc(sizeof(char) * 3);
 		if (!sep)
 			return (1);
 		while (i < 2)
@@ -18,7 +18,7 @@ int	save_separator(t_token **token_lst, char *str, int index, int type)
 	}
 	else
 	{
-		sep = (char *)malloc(sizeof(char) * 2);
+		sep = malloc(sizeof(char) * 2);
 		if (!sep)
 			return (1);
 		while (i < 1)
@@ -35,7 +35,7 @@ int	save_word(t_token **token_lst, char *str, int index, int start)
 	char	*word;
 
 	i = 0;
-	word = (char *)malloc(sizeof(char) * (index - start + 1));
+	word = malloc(sizeof(char) * (index - start + 1));
 	if (!word)
 		return (1);
 	while (start < index)
@@ -82,6 +82,27 @@ int	set_status(int status, char *str, int i)
 	return (status);
 }
 
+int	save_word_or_sep(int *i, char *str, int start, t_data *data)
+{
+	int	type;
+
+	type = is_separator(str, (*i));
+	if (type)
+	{
+		if ((*i) != 0 && is_separator(str, (*i) - 1) == 0)
+			save_word(&data->token, str, (*i), start);
+		if (type == APPEND || type == HEREDOC || type == PIPE
+			|| type == INPUT || type == TRUNC || type == END)
+		{
+			save_separator(&data->token, str, (*i), type);
+			if (type == APPEND || type == HEREDOC)
+				(*i)++;
+		}
+		start = (*i) + 1;
+	}
+	return (start);
+}
+
 /**
 *	This function divides the given string (user input) into two
 *   types of tokens : words or separators (pipes, heredoc , etc)
@@ -101,7 +122,6 @@ int	tokenization(t_data *data, char *str)
 	int	i;
 	int end;
 	int start;
-	int	type;
 	int	status;
 
 	i = 0;
@@ -112,22 +132,7 @@ int	tokenization(t_data *data, char *str)
 	{
 		status = set_status(status, str, i);
 		if (status == DEFAULT)
-		{
-			type = is_separator(str, i);
-			if (type) 
-			{
-				if (i != 0 && is_separator(str, i - 1) == 0)
-					save_word(&data->token, str, i, start);
-				if (type == APPEND || type == HEREDOC || type == PIPE
-					|| type == INPUT || type == TRUNC || type == END)
-				{
-					save_separator(&data->token, str, i, type);
-					if (type == APPEND || type == HEREDOC)
-						i++;
-				}
-				start = i + 1;
-			}
-		}
+			start = save_word_or_sep(&i, str, start, data);
 		i++;
 	}
 	if (status != DEFAULT)
