@@ -92,13 +92,13 @@
 | OK	|`echo test \|cat`							|`test`				|`test`				|
 | OK	|`echo test \|\|\| cat`						|syntax error		|syntax error		|
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|					|					|
-| ERROR	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`'$C"$D"$F"''`		|
+| OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`1'2$C"$D5"$F"'7'8`|
 
 ### Other Syntax errors
 | Status| Test					| Expected			| Output			|
 |-------|-----------------------|-------------------|-------------------|
 | OK	|`\|`					|syntax error		|syntax error		|
-| OK	|`echo test ; |`		|syntax error		|syntax error		|
+| OK	|`echo test ; \|`		|syntax error		|syntax error		|
 | OK	|`echo test > > out`	|syntax error		|syntax error		|
 | ERROR?|`echo hello > $fakevar`|ambiguous redirect	|no such file or dir|
 | ERROR	|`echo hello > $realvar`|write to var file	|no such file or dir|
