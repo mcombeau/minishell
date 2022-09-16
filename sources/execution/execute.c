@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int	g_last_exit_code;
+
 /* execute_builtin:
 *	Executes the given command if it is a builtin command.
 *	Returns -1 if the command is not a builtin command.
@@ -112,10 +114,12 @@ static int	get_children(t_data *data)
 	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
 		continue ;
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+		g_last_exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (status);
+		g_last_exit_code = 128 + WTERMSIG(status);
+	else
+		g_last_exit_code = status;
+	return (g_last_exit_code);
 }
 
 void	check_cmd_list(t_data *data)
