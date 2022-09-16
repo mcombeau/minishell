@@ -94,6 +94,8 @@ static int	execute_command(t_data *data, t_command *cmd)
 	ret = execute_local_bin(data, cmd);
 	if (ret != CMD_NOT_FOUND)
 		exit(ret);
+	if (get_env_var_value(data->env, "PATH") == NULL)
+		exit(errmsg_cmd(cmd->command, NULL, "No such file or directory", 127));
 	exit(errmsg_cmd(cmd->command, NULL, "command not found", EXIT_FAILURE));
 }
 
