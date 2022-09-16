@@ -9,6 +9,8 @@
 int	exit_builtin(t_data *data, char **args)
 {
 	int	i;
+	if (data->cmd && ft_strcmp(data->cmd->command, "exit") != 0)
+		return (EXIT_SUCCESS);
 	printf("exit\n");
 	if (!args || !args[1])
 		exit_shell(data, EXIT_SUCCESS);

@@ -113,13 +113,12 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 ### Pipe Tests
 
-| Status| Test										| Bash									| Minishell					|
-|-------|-------------------------------------------|---------------------------------------|---------------------------|
-| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash				|
-| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory	|
-| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found			|
-| ERROR	|`ls \| exit`								|No output, does not exit shell			|Exits shell				|
-| ERROR	|`sleep 5 \| exit`							|Sleeps 5 seconds, does not exit shell	|Exits shell immediately	|
+| Status| Test										| Bash									| Minishell								|
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						|
+
 
 ### Redirection Tests
 
@@ -190,7 +189,14 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 |-------|---------------------------|-------------------|-------------------|
 | OK	|`env` then `export d=3 a=12 c=0` then `env`||Vars not sorted		|
 
+### EXIT
 
+| Status| Test										| Bash									| Minishell								|
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
+| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		|
+| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	|
+| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				|
+| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		|
 
 
 ---
