@@ -113,13 +113,13 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 ### Pipe Tests
 
-| Status| Test									| Bash									| Minishell					|
-|-------|---------------------------------------|---------------------------------------|---------------------------|
-| OK	|`cat \| cat \| cat \| ls`				|`ls` output then hangs, `enter` 3 times|Same as bash				|
-| OK	|`cat Makefile | grep a | wc -l | cd x`	|No such file or directory				|No such file or directory	|
-| OK	|`cat Makefile | grep a | wc -l | x`	|command not found						|command not found			|
-| ERROR	|`ls | exit`							|No output, does not exit shell			|Exits shell				|
-| ERROR	|`sleep 5 | exit`						|Sleeps 5 seconds, does not exit shell	|Exits shell immediately	|
+| Status| Test										| Bash									| Minishell					|
+|-------|-------------------------------------------|---------------------------------------|---------------------------|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash				|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory	|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found			|
+| ERROR	|`ls \| exit`								|No output, does not exit shell			|Exits shell				|
+| ERROR	|`sleep 5 \| exit`							|Sleeps 5 seconds, does not exit shell	|Exits shell immediately	|
 
 ### Redirection Tests
 
