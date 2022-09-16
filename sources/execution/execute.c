@@ -174,11 +174,22 @@ int	execute(t_data *data)
 
 	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-	if (!cmd || cmd->command == NULL)
+	if (!cmd)
+	{
+		free_data(data, false);
 		return (ret);
-	check_cmd_list(data);
+	}
 	if (!create_pipes(data) || !open_infile_outfile(cmd->io_fds))
+	{
+		free_data(data, false);
 		return (0);
+	}
+	if (cmd->command == NULL)
+	{
+		free_data(data, false);
+		return (ret);
+	}
+	check_cmd_list(data);
 	pid = -1;
 	while (pid != 0 && cmd)
 	{

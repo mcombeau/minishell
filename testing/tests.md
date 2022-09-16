@@ -123,7 +123,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 ### Redirection Tests
 
-
+| Status| Test									| Bash									| Minishell					|
+|-------|---------------------------------------|---------------------------------------|---------------------------|
+| OK	|`< hello`								|No such file or directory				|No such file or directory	|
 
 ### Signal Tests
 

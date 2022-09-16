@@ -70,7 +70,7 @@ static bool	open_infile(t_io_fds *io)
 	{
 		io->fd_in = open(io->infile, O_RDONLY);
 		if (io->fd_in == -1)
-			return (errmsg_cmd("open", io->infile, strerror(errno), false));
+			return (errmsg_cmd("", io->infile, strerror(errno), false));
 	}
 	return (true);
 }
@@ -90,7 +90,7 @@ static bool	open_outfile(t_io_fds *io)
 	else
 		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (io->fd_out == -1)
-		return (errmsg_cmd("open", io->outfile, strerror(errno), false));
+		return (errmsg_cmd("", io->outfile, strerror(errno), false));
 	return (true);
 }
 

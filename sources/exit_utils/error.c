@@ -11,7 +11,7 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	bool	detail_quotes;
 
 	detail_quotes = false;
-	if (command != NULL)
+	if (command != NULL && command[0] != '\0')
 		msg = ft_strjoin("minishell: ", command);
 	else
 		msg = ft_strdup("minishell");
