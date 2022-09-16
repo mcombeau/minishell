@@ -5,12 +5,13 @@
 *	current working directory path.
 *	Returns 0 if successful, 1 if an error occured.
 */
-int	pwd_builtin(char **args)
+int	pwd_builtin(t_data *data, char **args)
 {
 	char	buf[BUFSIZ];
 	char	*cwd;
 	
 	(void)args;
+	(void)data;
 	cwd = getcwd(buf, BUFSIZ);
 	if (!cwd)
 	{

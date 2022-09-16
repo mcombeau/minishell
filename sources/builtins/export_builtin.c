@@ -42,7 +42,7 @@ int	export_builtin(t_data *data, char **args)
 	ret = EXIT_SUCCESS;
 	i = 1;
 	if (!args[i])
-		return (env_builtin(NULL));
+		return (env_builtin(data, NULL));
 	while (args[i])
 	{
 		if (ft_strchr(args[i], '=') != NULL)
@@ -60,7 +60,7 @@ int	export_builtin(t_data *data, char **args)
 					errmsg_cmd("export", NULL, "Could not get key value pair", 1);
 					exit_shell(data, EXIT_FAILURE);
 				}
-				set_env_var(tmp[0], tmp[1]);
+				set_env_var(data, tmp[0], tmp[1]);
 				free(tmp);
 			}
 		}

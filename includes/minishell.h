@@ -31,7 +31,8 @@
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
 ******************************************************************************/
-extern char	**g_env_vars;
+//extern char	**g_env_vars;
+//extern int	last_exit_code;
 
 /******************************************************************************
 *								STRUCTS									      *
@@ -125,6 +126,11 @@ enum quoting_status {
 *								FUNCTIONS									  *
 ******************************************************************************/
 
+/* ------------------------ INITIALIZATION ----------------------------------*/
+//init_data.c
+bool	init_data(t_data *data, char **env);
+void	init_io(t_command *cmd);
+
 /* ------------------------ ERROR & EXIT HANDLING ---------------------------*/
 // exit.c
 void	exit_shell(t_data *data, int	exno);
@@ -137,7 +143,7 @@ void	free_str_array(char **strs);
 // cleanup.c
 void	close_fds(t_command *cmds, bool close_backups);
 void	free_str_array(char **strs);
-void	free_env_vars(void);
+//void	free_env_vars(void);
 //void	free_cmd_list(t_command *cmd_list);
 void	free_io(t_io_fds *io);
 
@@ -231,29 +237,24 @@ void	parse_append(t_command **last_cmd, t_token **token_lst);
 //parse_pipec
 void	parse_pipe(t_command **cmd, t_token **token_lst);
 
-//init_data.c
-int		init_data(t_data *data, char **env);
-void	init_io(t_command *cmd);
-
 /* ------------------------ EXECUTION ---------------------------------------*/
 // env.c
-bool	init_env(char **env);
 int		env_var_count(char **env);
-int		get_env_var_index(char *var);
-char	*get_env_var_value(char *var);
+int		get_env_var_index(char **env, char *var);
+char	*get_env_var_value(char **env, char *var);
 bool	is_valid_env_var_key(char *var);
 
 // env_set.c
-bool	set_env_var(char *key, char *value);
-bool	remove_env_var(int idx);
+bool	set_env_var(t_data *data, char *key, char *value);
+bool	remove_env_var(t_data *data, int idx);
 
 // builtins
-int		env_builtin(char **args);
-int		pwd_builtin(char **args);
-int		echo_builtin(char **args);
+int		env_builtin(t_data *data, char **args);
+int		pwd_builtin(t_data *data, char **args);
+int		echo_builtin(t_data *data, char **args);
 int		export_builtin(t_data *data, char **args);
-int		unset_builtin(char **args);
-int		cd_builtin(char **args);
+int		unset_builtin(t_data *data, char **args);
+int		cd_builtin(t_data *data, char **args);
 int		exit_builtin(t_data *data, char **args);
 
 // signal.c
@@ -264,7 +265,7 @@ void	set_signal_trap(void);
 int		execute(t_data *data);
 
 // parse_path.c
-char	*get_cmd_path(char *cmd);
+char	*get_cmd_path(t_data *data, char *cmd);
 
 // pipe.c
 bool	create_pipes(t_data *data);

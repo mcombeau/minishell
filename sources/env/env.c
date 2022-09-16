@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-char	**g_env_vars;
-
 /* env_var_count:
 *	Counts how many original environment variables there are.
 *	Returns the number of environment variables.
@@ -16,34 +14,6 @@ int	env_var_count(char **env)
 	return (i);
 }
 
-/* init_env:
-*	Initializes a global variable, g_env_vars, with the contents
-*	of the environment variables inherited from the original shell.
-*	Returns 0 on failure, 1 on success.
-*/
-bool	init_env(char **env)
-{
-	int		i;
-	char	buff[BUFSIZ];
-
-	g_env_vars = ft_calloc(env_var_count(env) + 1, sizeof * g_env_vars);
-	if (!env || !env[0])
-	{
-		errmsg_cmd("Warning", NULL,
-			"No environment. Please provide paths for commands.", 1);
-		set_env_var("PWD", getcwd(buff, BUFSIZ));
-	}
-	i = 0;
-	while (env[i])
-	{
-		g_env_vars[i] = ft_strdup(env[i]);
-		if (!g_env_vars[i])
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 /* get_env_var_index:
 *	Searches for the given variable in the environment variables.
 *
@@ -52,7 +22,7 @@ bool	init_env(char **env)
 *	supported: the given string must be a full variable name.
 *	Returns -1 if the string cannot be found in the environment.
 */
-int	get_env_var_index(char *var)
+int	get_env_var_index(char **env, char *var)
 {
 	int		i;
 	char	*tmp;
@@ -61,9 +31,9 @@ int	get_env_var_index(char *var)
 	if (!tmp)
 		return (-1);
 	i = 0;
-	while (g_env_vars[i])
+	while (env[i])
 	{
-		if (ft_strncmp(tmp, g_env_vars[i], ft_strlen(tmp)) == 0)
+		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
 			free(tmp);
 			return (i);
@@ -82,7 +52,7 @@ int	get_env_var_index(char *var)
 *	supported: the given string must be a full variable name.
 *	Returns NULL if the string cannot be found in the environment.
 */
-char *get_env_var_value(char *var)
+char *get_env_var_value(char **env, char *var)
 {
 	int		i;
 	char	*tmp;
@@ -91,12 +61,12 @@ char *get_env_var_value(char *var)
 	if (!tmp)
 		return (NULL);
 	i = 0;
-	while (g_env_vars[i])
+	while (env[i])
 	{
-		if (ft_strncmp(tmp, g_env_vars[i], ft_strlen(tmp)) == 0)
+		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
 			free(tmp);
-			return (ft_strchr(g_env_vars[i], '=') + 1);
+			return (ft_strchr(env[i], '=') + 1);
 		}
 		i++;
 	}

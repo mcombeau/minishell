@@ -9,5 +9,9 @@ void	free_data(t_data *data, bool clear_history)
 	if (data->cmd)
 		lst_clear_cmd(&data->cmd, &free);
 	if (clear_history == true)
-		rl_clear_history ();
+	{
+		if (data->env)
+			free_tab(data->env);
+		rl_clear_history();
+	}
 }

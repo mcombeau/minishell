@@ -12,7 +12,5 @@ void	exit_shell(t_data *data, int exno)
 			close_fds(data->cmd, true);
 		free_data(data, true);
 	}
-	if (g_env_vars)
-		free_env_vars();
 	exit(exno);
 }

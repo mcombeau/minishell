@@ -27,11 +27,12 @@ static bool	is_n_flag(char *arg)
 *	and adds a \n character or not depending on the -n option.
 *	Returns 1 on completion.
 */
-int	echo_builtin(char **args)
+int	echo_builtin(t_data *data, char **args)
 {
 	int		i;
 	bool	n_flag;
 	
+	(void)data;
 	n_flag = false;
 	i = 1;
 	while (args[i] && is_n_flag(args[i]))

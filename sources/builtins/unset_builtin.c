@@ -7,7 +7,7 @@
 *	Returns 0 if all args were successfully unset, or 1 if
 *	one or more args could not be unset.
 */
-int	unset_builtin(char **args)
+int	unset_builtin(t_data *data, char **args)
 {
 	int	i;
 	int	idx;
@@ -24,9 +24,9 @@ int	unset_builtin(char **args)
 		}
 		else
 		{
-			idx = get_env_var_index(args[i]);
+			idx = get_env_var_index(data->env, args[i]);
 			if (idx != - 1)
-				remove_env_var(idx);
+				remove_env_var(data, idx);
 		}
 		i++;
 	}

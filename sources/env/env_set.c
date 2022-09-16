@@ -6,7 +6,7 @@
 *	Returns a pointer to the new environment variables
 *	or NULL in case of a memory allocation error.
 */
-static char	**realloc_env_vars(int size)
+static char	**realloc_env_vars(t_data *data, int size)
 {
 	char	**new_env;
 	int		i;
@@ -15,13 +15,13 @@ static char	**realloc_env_vars(int size)
 	if (!new_env)
 		return (NULL);
 	i = 0;
-	while (g_env_vars[i] && i < size)
+	while (data->env[i] && i < size)
 	{
-		new_env[i] = ft_strdup(g_env_vars[i]);
-		free(g_env_vars[i]);
+		new_env[i] = ft_strdup(data->env[i]);
+		free(data->env[i]);
 		i++;
 	}
-	free(g_env_vars);
+	free(data->env);
 	return (new_env);
 }
 
@@ -34,29 +34,29 @@ static char	**realloc_env_vars(int size)
 *	Returns 1 if the operation was successful, or 0 if
 *	in case of error.
 */
-bool	set_env_var(char *key, char *value)
+bool	set_env_var(t_data *data, char *key, char *value)
 {
 	int		idx;
 	char	*tmp;
 
-	idx = get_env_var_index(key);
+	idx = get_env_var_index(data->env, key);
 	if (value == NULL)
 		value = "";
 	tmp = ft_strjoin("=", value);
 	if (!tmp)
 		return (false);
-	if (idx != -1 && g_env_vars[idx])
+	if (idx != -1 && data->env[idx])
 	{
-		free(g_env_vars[idx]);
-		g_env_vars[idx] = ft_strjoin(key, tmp);
+		free(data->env[idx]);
+		data->env[idx] = ft_strjoin(key, tmp);
 	}
 	else
 	{
-		idx = env_var_count(g_env_vars);
-		g_env_vars = realloc_env_vars(idx + 1);
-		if (!g_env_vars)
+		idx = env_var_count(data->env);
+		data->env = realloc_env_vars(data, idx + 1);
+		if (!data->env)
 			return (false);
-		g_env_vars[idx] = ft_strjoin(key, tmp);
+		data->env[idx] = ft_strjoin(key, tmp);
 	}
 	free(tmp);
 	return (true);
@@ -69,25 +69,25 @@ bool	set_env_var(char *key, char *value)
 *	Returns 1 if the removal was successful, 0 if case
 *	of an invalid index or a memory allocation error.
 */
-bool	remove_env_var(int idx)
+bool	remove_env_var(t_data *data, int idx)
 {
 	int	i;
 	int	count;
 
-	if (idx > env_var_count(g_env_vars))
+	if (idx > env_var_count(data->env))
 		return (false);
-	free(g_env_vars[idx]);
+	free(data->env[idx]);
 	i = idx;
 	count = idx;
-	while (g_env_vars[i + 1])
+	while (data->env[i + 1])
 	{
-		g_env_vars[i] = ft_strdup(g_env_vars[i + 1]);
-		free(g_env_vars[i + 1]);
+		data->env[i] = ft_strdup(data->env[i + 1]);
+		free(data->env[i + 1]);
 		count++;
 		i++;
 	}
-	g_env_vars = realloc_env_vars(count);
-	if (!g_env_vars)
+	data->env = realloc_env_vars(data, count);
+	if (!data->env)
 		return (false);
 	return (true);
 }

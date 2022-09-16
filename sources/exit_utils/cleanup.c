@@ -43,6 +43,7 @@ void	free_str_array(char **strs)
 /* free_env_vars:
 *	Frees the global variable g_env_vars.
 */
+/*
 void	free_env_vars(void)
 {
 	int	i;
@@ -57,7 +58,7 @@ void	free_env_vars(void)
 	}
 	free(g_env_vars);
 }
-
+*/
 /* free_io:
 *	Frees the input/output fd structure.
 */

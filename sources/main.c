@@ -1,15 +1,10 @@
 #include "minishell.h"
 
-static bool	start_check(int ac, char **av, char **env)
+static bool	start_check(int ac, char **av)
 {
 	if (ac != 1 || !av)
 	{
 		errmsg_cmd("Usage", NULL, "./minishell", 1);
-		return (false);
-	}
-	if (!init_env(env))
-	{
-		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
 		return (false);
 	}
 	return (true);
@@ -20,9 +15,8 @@ int	main(int ac, char **av, char **env)
 	t_data data;
 
 	ft_memset(&data, 0, sizeof(t_data));
-	if (!start_check(ac, av, env))
+	if (!start_check(ac, av) || !init_data(&data, env))
 		exit_shell(NULL, EXIT_FAILURE);
-	init_data(&data, env);
 	while (1)
 	{
 		ignore_sigquit();
