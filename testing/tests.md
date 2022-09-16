@@ -1,6 +1,6 @@
 # Minishell Tests
 
-This is a master table of tests for the 42 project Minishell. Minishell output should be compared to Bash behavior. "Expected" column shows Bash output, "Output" column shows our Minishell output.
+This is a master table of tests for the 42 project Minishell. Minishell output should be compared to Bash behavior.
 
 Leading and trailling spaces in the output are denoted with the `█` character.
 
