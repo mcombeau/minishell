@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 17:50:51 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 17:51:11 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* env_var_count:
@@ -52,7 +64,7 @@ int	get_env_var_index(char **env, char *var)
 *	supported: the given string must be a full variable name.
 *	Returns NULL if the string cannot be found in the environment.
 */
-char *get_env_var_value(char **env, char *var)
+char	*get_env_var_value(char **env, char *var)
 {
 	int		i;
 	char	*tmp;

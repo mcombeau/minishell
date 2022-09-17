@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 17:52:31 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 18:06:16 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* make_str_from_tab:
@@ -11,18 +23,13 @@ static char	*make_str_from_tab(char **tab)
 	char	*tmp;
 	int		i;
 
-	str = NULL;
-	i = 0;
+	str = ft_strdup(tab[0]);
+	i = 1;
 	while (tab[i])
 	{
-		if (i == 0)
-			str = ft_strdup(tab[i]);
-		else
-		{
-			tmp = str;
-			str = ft_strjoin(tmp, tab[i]);
-			free(tmp);
-		}
+		tmp = str;
+		str = ft_strjoin(tmp, tab[i]);
+		free(tmp);
 		if (!str)
 			break ;
 		if (tab[i + 1])
@@ -66,6 +73,36 @@ static char	*get_expanded_var_line(t_data *data, char *line)
 	return (make_str_from_tab(words));
 }
 
+/* fill_heredoc:
+*	Copies user input into a temporary file. If user inputs an environment variable
+*	like $USER, expands the variable before writing to the heredoc.
+*	Returns true on success, false on failure.
+*/
+bool	fill_heredoc(t_data *data, char *delimiter, int fd)
+{
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		line = readline(">");
+		if (line == NULL || ft_strcmp(line, delimiter) == 0)
+			return (true);
+		if (ft_strchr(line, '$'))
+		{
+			line = get_expanded_var_line(data, line);
+			if (!line)
+			{
+				free(line);
+				return (false);
+			}
+		}
+		ft_putendl_fd(line, fd);
+		free(line);
+	}
+	return (false);
+}
+
 /* get_heredoc:
 *	Opens a heredoc awaiting user input.
 *	Translates any given variables into	their environment values.
@@ -74,32 +111,11 @@ static char	*get_expanded_var_line(t_data *data, char *line)
 bool	get_heredoc(t_data *data, t_io_fds *io)
 {
 	int		tmp_fd;
-	char	*line;
 	bool	ret;
-	
+
 	ret = true;
-	line = NULL;
 	tmp_fd = open(io->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	while (1)
-	{
-		line = readline(">");
-		if (line == NULL)
-			break ;
-		if (ft_strcmp(line, io->heredoc_delimiter) == 0)
-			break ;
-		if (ft_strchr(line, '$'))
-		{
-			line = get_expanded_var_line(data, line);
-			if (!line)
-			{
-				ret = false;
-				free(line);
-				break ;
-			}
-		}
-		ft_putendl_fd(line, tmp_fd);
-		free(line);
-	}
+	ret = fill_heredoc(data, io->heredoc_delimiter, tmp_fd);
 	close(tmp_fd);
 	return (ret);
 }

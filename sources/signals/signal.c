@@ -1,10 +1,19 @@
-/* _XOPEN_SOURCE definition is necessary for sigaction. Without it,
-*	"incomplete type" errors appear during compilation.*/
-# define _XOPEN_SOURCE
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 18:28:50 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 /* signal_reset_prompt:
-*	Resets the readline user input prompt for signal handling.
+*	Resets the readline user input prompt for interactive signal handling.
 */
 void	signal_reset_prompt(int signo)
 {
@@ -15,17 +24,45 @@ void	signal_reset_prompt(int signo)
 	rl_redisplay();
 }
 
-/* set_signal_trap:
+/* set_interactive_signal_trap:
 *	Sets a signal trap to intercept SIGINT (ctrl-c). SIGINT resets
 *	the user input prompt to a new blank line.
+*	Used when minishell is in interactive mode, meaning it is awaiting
+*	user input.
 */
-void	set_signal_trap(void)
+void	set_interactive_signal_trap(void)
 {
 	struct sigaction	act;
 
 	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &signal_reset_prompt;
 	sigaction(SIGINT, &act, NULL);
+}
+
+/* signal_print_newline:
+*	Prints a newline for noninteractive signal handling.
+*/
+void	signal_print_newline(int signal)
+{
+	(void)signal;
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
+/* set_noninteractive_signal_trap:
+*	Sets a signal trap to intercept SIGINT (ctrl -c) and SIGQUIT (ctrl -D).
+*	Used when minishell is in noninteractive mode, meaning it is not awaiting
+*	user input. For example, when a command is running (i.e. cat), minishell
+*	should not react to SIGINT and SIGQUIT because only the running process (cat)
+*	needs to react to those signals.
+*/
+void	set_noninteractive_signal_trap(void)
+{
+	struct sigaction	act;
+
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = &signal_print_newline;
+	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
 }
 
 /* ignore_sigquit:

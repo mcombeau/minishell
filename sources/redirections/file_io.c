@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_io.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 17:52:24 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // TODO : heredoc functions.
@@ -20,7 +32,8 @@ bool	restore_io(t_io_fds *io)
 			ret = errmsg_cmd("dup2", "restoring stdin", strerror(errno), false);
 	if (io->stdout_backup != -1)
 		if (dup2(io->stdout_backup, STDOUT_FILENO) == -1)
-			ret = errmsg_cmd("dup2", "restoring stdout", strerror(errno), false);
+			ret = errmsg_cmd("dup2", "restoring stdout",
+					strerror(errno), false);
 	return (ret);
 }
 
@@ -62,7 +75,7 @@ static bool	open_infile(t_data *data, t_io_fds *io)
 		return (true);
 	if (io->heredoc_delimiter)
 		if (!get_heredoc(data, io))
-			return(false);
+			return (false);
 	io->fd_in = open(io->infile, O_RDONLY);
 	if (io->fd_in == -1)
 		return (errmsg_cmd("", io->infile, strerror(errno), false));
@@ -95,7 +108,8 @@ static bool	open_outfile(t_io_fds *io)
 */
 bool	open_infile_outfile(t_data *data)
 {
-	t_io_fds *io;
+	t_io_fds	*io;
+
 	io = data->cmd->io_fds;
 	if (!io || (!io->infile && !io->outfile))
 		return (true);
@@ -103,4 +117,3 @@ bool	open_infile_outfile(t_data *data)
 		return (redirect_io(io));
 	return (false);
 }
-

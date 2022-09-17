@@ -1,5 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_path.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 17:46:45 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 17:50:33 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/* find_valid_cmd_path:
+*	Checks access and permissions for each possible command path to find
+*	a valid path to binay files for a command.
+*	Returns the valid path to a command binary, or NULL if no valid path is
+*	found.
+*/
 static char	*find_valid_cmd_path(char *cmd, char **paths)
 {
 	int		i;
@@ -12,17 +30,24 @@ static char	*find_valid_cmd_path(char *cmd, char **paths)
 		cmd_path = ft_strjoin(paths[i], cmd);
 		if (!cmd_path)
 		{
-			errmsg_cmd("malloc", NULL, "an unexpected error occured", EXIT_FAILURE);
+			errmsg_cmd("malloc", NULL,
+				"an unexpected error occured", EXIT_FAILURE);
 			return (NULL);
 		}
 		if (access(cmd_path, F_OK | X_OK) == 0)
-			return(cmd_path);
+			return (cmd_path);
 		free(cmd_path);
 		i++;
 	}
 	return (NULL);
 }
 
+/* get_cmd_path:
+*	Searches the PATH environment variable for the location of the given
+*	command's binary file.
+*	Returns the path to the command binary file. NULL if no valid path
+*	is found.
+*/
 char	*get_cmd_path(t_data *data, char *name)
 {
 	char	**env_paths;

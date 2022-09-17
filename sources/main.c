@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:40:53 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/17 18:22:43 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		ignore_sigquit();
-		set_signal_trap();
+		set_interactive_signal_trap();
 		data.user_input = readline(PROMPT);
+		set_noninteractive_signal_trap();
 		if (parse_user_input(&data) == true)
 		{
 			printf("\n\e[36m------- MAIN: Launch exec.\e[0m\n");
