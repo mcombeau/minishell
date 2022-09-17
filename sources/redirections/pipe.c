@@ -41,7 +41,6 @@ bool	create_pipes(t_data *data)
 			if (!fd || pipe(fd) != 0)
 			{
 				free_data(data, false);
-//				free_cmd_list(cmd_list);
 				return (false);
 			}
 			tmp->pipe_fd = fd;
