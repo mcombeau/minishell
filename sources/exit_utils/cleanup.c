@@ -67,6 +67,11 @@ void	free_io(t_io_fds *io)
 	if (!io)
 		return ;
 	restore_io(io);
+	if (io->heredoc_delimiter)
+	{
+		unlink(io->infile);
+		free(io->heredoc_delimiter);
+	}
 	if (io->infile)
 		free(io->infile);
 	if (io->outfile)

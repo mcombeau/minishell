@@ -57,7 +57,8 @@ typedef struct s_io_fds
 {
 	char	*infile;
 	char	*outfile;
-	int		mode;	//Append? Heredoc?
+	int		out_mode;
+	char	*heredoc_delimiter;
 	int		fd_in;
 	int		fd_out;
 	int		stdin_backup;
@@ -233,6 +234,9 @@ void	parse_input(t_command **last_cmd, t_token **token_lst);
 //parse_append.c
 void	parse_append(t_command **last_cmd, t_token **token_lst);
 
+//parse_heredoc.c
+void	parse_heredoc(t_command **last_cmd, t_token **token_lst);
+
 //parse_pipec
 void	parse_pipe(t_command **cmd, t_token **token_lst);
 
@@ -274,6 +278,9 @@ void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 // file_io.c
 bool	open_infile_outfile(t_io_fds *io);
 bool	restore_io(t_io_fds *io);
+
+// heredoc.c
+void	get_heredoc(t_io_fds *io);
 
 /* ------------------------ TESTING -----------------------------------------*/
 // test.c -- OBSOLETE!

@@ -51,7 +51,8 @@ void	init_io(t_command *cmd)
 			return ;
 		cmd->io_fds->infile = NULL;
 		cmd->io_fds->outfile = NULL;
-		cmd->io_fds->mode = 0;
+		cmd->io_fds->out_mode = 0;
+		cmd->io_fds->heredoc_delimiter = NULL;
 		cmd->io_fds->fd_in = -1;
 		cmd->io_fds->fd_out = -1;
 		cmd->io_fds->stdin_backup = -1;

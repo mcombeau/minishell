@@ -34,7 +34,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo $"USER"`			|`USER`				|`USER`				|
 | OK	|`echo $'USER'`			|`USER`				|`USER`				|
 | ERROR	|`echo $NULL test`		|`test`				|`█test`			|
-
+| OK	|`echo hello$USER`		|`hellousername`	|`hellousername`	|
+| OK	|`echo hello$USERtest`	|`hello`			|`hello`			|
+| ERROR	|`echo $USER.test`		|`username.test`	|`(newline)`		|
 
 ### Quote handling
 

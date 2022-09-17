@@ -45,6 +45,7 @@ SRC		= 	main.c \
 			execution/parse_path.c \
 			redirections/pipe.c \
 			redirections/file_io.c \
+			redirections/heredoc.c \
 			exit_utils/exit.c \
 			exit_utils/error.c \
 			exit_utils/cleanup.c \

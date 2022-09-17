@@ -47,7 +47,7 @@ void	parse_append(t_command **last_cmd, t_token **token_lst)
 	// first command in the list of commands.
 	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
 	// Mark outfile open mode as APPEND.
-	first_cmd->io_fds->mode = APPEND;
+	first_cmd->io_fds->out_mode = APPEND;
 	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->outfile);
 
 //	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");

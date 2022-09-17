@@ -48,6 +48,7 @@ bool	create_pipes(t_data *data)
 		}
 		tmp = tmp->next;
 	}
+	printf("Create pipes OK\n");
 	return (true);
 }
 

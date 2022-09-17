@@ -60,18 +60,11 @@ static bool	open_infile(t_io_fds *io)
 {
 	if (!io->infile)
 		return (true);
-	if (io->mode == HEREDOC)
-	{
-		// Get heredoc contents and save them to a tmp file.
-		// Open tmp file in read mode here.
-		return (false); // change this return when heredoc is implemented
-	}
-	else
-	{
-		io->fd_in = open(io->infile, O_RDONLY);
-		if (io->fd_in == -1)
-			return (errmsg_cmd("", io->infile, strerror(errno), false));
-	}
+	if (io->heredoc_delimiter)
+		get_heredoc(io);
+	io->fd_in = open(io->infile, O_RDONLY);
+	if (io->fd_in == -1)
+		return (errmsg_cmd("", io->infile, strerror(errno), false));
 	return (true);
 }
 
@@ -85,7 +78,7 @@ static bool	open_outfile(t_io_fds *io)
 {
 	if (!io->outfile)
 		return (true);
-	if (io->mode == HEREDOC || io->mode == APPEND)
+	if (io->out_mode == APPEND)
 		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);

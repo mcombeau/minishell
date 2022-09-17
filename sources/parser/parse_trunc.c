@@ -72,7 +72,7 @@ void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 	// first command in the list of commands.
 	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
 	// Mark outfile open mode as TRUNC.
-	first_cmd->io_fds->mode = TRUNC;
+	first_cmd->io_fds->out_mode = TRUNC;
 	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->outfile);
 //	cmd->redir_out = true;
 //	file = get_relative_path(temp->next->str);
