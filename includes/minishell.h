@@ -185,10 +185,11 @@ bool	is_var_compliant(char c);
 
 //replace_var.c
 int		replace_var(t_token **token_node, char *var_value, int index);
-int		erase_and_replace(t_token **token_node, char *str, char *var_value, int index);
+char	*erase_and_replace(t_token **token_node, char *str, char *var_value, int index);
 void	copy_var_value(char *new_str, char *var_value, int *j);
 int		erase_var(t_token **token_node, char *str, int index);
-
+char	*var_expander_heredoc(t_data *data, char *str);
+char	*replace_str_heredoc(char *str, char *var_value, int index);
 
 /* ------------------------ PARSER ---------------------------------------*/
 //quotes_handler.c

@@ -41,13 +41,9 @@ char	*recover_val(char *str, t_data *data)
 
 	var = identify_var(str);
 	if (var && var_exists(data, var) == 0)
-	{
 		value =	search_env_var(data, var);
-	}
 	else
-	{
 		value = NULL;
-	}
 	free(var);
 	return (value);
 }

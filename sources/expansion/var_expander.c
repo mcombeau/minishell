@@ -66,3 +66,25 @@ int	var_expander(t_data *data, t_token **token_lst)
 	}
 	return (0);
 }
+
+/* var_expander_heredoc:
+*	Heredoc variant of var_expander. Replaces a string containing an
+*	environment variable, like $USER with its corresponding value.
+*	Returns the replaced string. May return NULL on error.
+*/
+char	*var_expander_heredoc(t_data *data, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$'
+			&& is_next_char_a_sep(str[i + 1]) == false
+			&& var_between_quotes(str, i) == false)
+			str = replace_str_heredoc(str, recover_val(str + i, data), i);
+		else
+			i++;
+	}
+	return (str);
+}

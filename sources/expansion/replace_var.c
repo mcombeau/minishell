@@ -43,7 +43,11 @@ void	copy_var_value(char *new_str, char *var_value, int *j)
 	}
 }
 
-int	erase_and_replace(t_token **token_node, char *str, char *var_value, int index)
+// Changed return type from int to char * to adapt the function
+// to work for heredoc variable expansion. Heredoc has no tokens so token_node
+// becomes optional.
+// Heredoc variant replace_str_heredoc calls this function with token_node == NULL!
+char	*erase_and_replace(t_token **token_node, char *str, char *var_value, int index)
 {
 	int i;
 	int j;
@@ -54,7 +58,7 @@ int	erase_and_replace(t_token **token_node, char *str, char *var_value, int inde
 	new_str = (char *)malloc(sizeof(char) *
 		(ft_strlen(str) - var_length(str + index) + ft_strlen(var_value)));
 	if (!new_str)
-		return (1);
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '$' && i == index)
@@ -67,10 +71,13 @@ int	erase_and_replace(t_token **token_node, char *str, char *var_value, int inde
 		new_str[j++] = str[i++];
 	}
 	new_str[j] = '\0';
-	free((*token_node)->str);
-	(*token_node)->str = new_str;
-	// printf("str dans le nod : %s\n", (*token_node)->str);
-	return (0);
+	if (token_node && *token_node)
+	{
+		free((*token_node)->str);
+		(*token_node)->str = new_str;
+		// printf("str dans le nod : %s\n", (*token_node)->str);
+	}
+	return (new_str);
 }
 
 int	replace_var(t_token **token_node, char *var_value, int index)
@@ -85,7 +92,7 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	}
 	else
 	{
-		if (erase_and_replace(token_node, (*token_node)->str, var_value, index) == 1)
+		if (erase_and_replace(token_node, (*token_node)->str, var_value, index) == NULL)
 		{
 			free(var_value);
 			return (1);
@@ -93,4 +100,26 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	}
 	free(var_value);
 	return (0);
+}
+
+/* replace_str_heredoc:
+*	Heredoc variant of replace_var, replaces an environment variable
+*	by its value. Ex. $USER -> username.
+*	Returns the replaced string.
+*/
+char *replace_str_heredoc(char *str, char *var_value, int index)
+{
+	char *tmp;
+
+	tmp = NULL;
+	if (var_value == NULL)
+		*str = '\0';
+	else
+	{
+		tmp = str;
+		str = erase_and_replace(NULL, str, var_value, index);
+		free(tmp);
+	}
+	free(var_value);
+	return (str);
 }
