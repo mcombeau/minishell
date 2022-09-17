@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_builtin.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 18:30:41 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 18:32:28 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* get_key_value_pair:
@@ -53,11 +65,6 @@ int	export_builtin(t_data *data, char **args)
 		else if (ft_strchr(args[i], '=') != NULL)
 		{
 			tmp = get_key_value_pair(args[i]);
-			if (!tmp)
-			{
-				errmsg_cmd("export", NULL, "Could not get key value pair", 1);
-				exit_shell(data, EXIT_FAILURE);
-			}
 			set_env_var(data, tmp[0], tmp[1]);
 			free(tmp);
 		}

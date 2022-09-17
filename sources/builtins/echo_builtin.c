@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo_builtin.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 18:55:59 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 19:03:02 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* is_n_flag:
@@ -13,13 +25,34 @@ static bool	is_n_flag(char *arg)
 	n_flag = false;
 	i = 0;
 	if (arg[i] != '-')
-			return (n_flag);
+		return (n_flag);
 	i++;
 	while (arg[i] && arg[i] == 'n')
 		i++;
 	if (arg[i] == '\0')
 		n_flag = true;
 	return (n_flag);
+}
+
+/* echo_print_args:
+*	Prints the given array of aruments to STDOUT.
+*/
+static void	echo_print_args(char **args, bool n_flag, int i)
+{
+	if (!args[i])
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return ;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		else if (!args[i + 1] && !n_flag)
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		i++;
+	}
 }
 
 /* echo_builtin:
@@ -31,7 +64,7 @@ int	echo_builtin(t_data *data, char **args)
 {
 	int		i;
 	bool	n_flag;
-	
+
 	(void)data;
 	n_flag = false;
 	i = 1;
@@ -40,19 +73,6 @@ int	echo_builtin(t_data *data, char **args)
 		n_flag = true;
 		i++;
 	}
-	if (!args[i])
-	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		return (EXIT_SUCCESS);
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		else if (!args[i + 1] && !n_flag)
-			ft_putchar_fd('\n', STDOUT_FILENO);
-		i++;
-	}
+	echo_print_args(args, n_flag, i);
 	return (EXIT_SUCCESS);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd_builtin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 18:30:28 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 18:30:34 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* pwd_builtin:
@@ -9,7 +21,7 @@ int	pwd_builtin(t_data *data, char **args)
 {
 	char	buf[BUFSIZ];
 	char	*cwd;
-	
+
 	(void)args;
 	(void)data;
 	cwd = getcwd(buf, BUFSIZ);

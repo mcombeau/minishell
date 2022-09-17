@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 18:29:52 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 18:30:24 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* unset_builtin:
@@ -25,7 +37,7 @@ int	unset_builtin(t_data *data, char **args)
 		else
 		{
 			idx = get_env_var_index(data->env, args[i]);
-			if (idx != - 1)
+			if (idx != -1)
 				remove_env_var(data, idx);
 		}
 		i++;
