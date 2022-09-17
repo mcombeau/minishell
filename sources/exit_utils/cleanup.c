@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 19:06:10 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* close_fds:
@@ -26,7 +38,7 @@ void	close_fds(t_command *cmds, bool close_backups)
 */
 void	free_str_array(char **strs)
 {
-	int i;
+	int	i;
 
 	if (!strs)
 		return ;
@@ -40,25 +52,6 @@ void	free_str_array(char **strs)
 	return ;
 }
 
-/* free_env_vars:
-*	Frees the global variable g_env_vars.
-*/
-/*
-void	free_env_vars(void)
-{
-	int	i;
-
-	if (g_env_vars == NULL)
-		return ;
-	i = 0;
-	while (g_env_vars[i])
-	{
-		free(g_env_vars[i]);
-		i++;
-	}
-	free(g_env_vars);
-}
-*/
 /* free_io:
 *	Frees the input/output fd structure.
 */

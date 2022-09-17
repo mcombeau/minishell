@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 19:06:33 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* errmsg_cmd:
@@ -34,9 +46,9 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	return (error_nb);
 }
 
-void errmsg(char *errmsg, char *detail, int quotes)
+void	errmsg(char *errmsg, char *detail, int quotes)
 {
-	char *msg;
+	char	*msg;
 
 	msg = ft_strjoin("minishell: ", errmsg);
 	if (quotes)

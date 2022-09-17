@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:09:34 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/17 19:07:54 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static bool	init_env(t_data *data, char **env)
 	return (true);
 }
 
-// TODO: Fix env init for var expansion + export unset to work!
 bool	init_data(t_data *data, char **env)
 {
 	if (!init_env(data, env))
@@ -52,7 +51,6 @@ bool	init_data(t_data *data, char **env)
 	return (true);
 }
 
-// TODO: exit validation
 void	init_io(t_command *cmd)
 {
 	if (!cmd->io_fds)
