@@ -42,6 +42,7 @@ SRC		= 	main.c \
 			builtins/echo_builtin.c \
 			builtins/exit_builtin.c \
 			execution/execute.c \
+			execution/execute_cmd.c \
 			execution/parse_path.c \
 			redirections/pipe.c \
 			redirections/file_io.c \
@@ -50,7 +51,8 @@ SRC		= 	main.c \
 			exit_utils/error.c \
 			exit_utils/cleanup.c \
 			exit_utils/free_data.c \
-			signals/signal.c
+			signals/signal.c \
+			debug/debug.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
@@ -76,6 +78,7 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)/exit_utils
 	mkdir -p $(OBJ_PATH)/redirections
 	mkdir -p $(OBJ_PATH)/signals
+	mkdir -p $(OBJ_PATH)/debug
 
 # Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c

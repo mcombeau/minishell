@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
+/*   Updated: 2022/09/17 17:09:34 by mcombeau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* init_env:
@@ -36,7 +48,6 @@ bool	init_data(t_data *data, char **env)
 		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
 		return (false);
 	}
-//	data->env = env;
 	data->token = NULL;
 	return (true);
 }
