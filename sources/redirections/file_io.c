@@ -56,12 +56,13 @@ static bool	redirect_io(t_io_fds *io)
 *	that temporary file as input.
 *	Returns 1 on success, 0 on failure.
 */
-static bool	open_infile(t_io_fds *io)
+static bool	open_infile(t_data *data, t_io_fds *io)
 {
 	if (!io->infile)
 		return (true);
 	if (io->heredoc_delimiter)
-		get_heredoc(io);
+		if (!get_heredoc(data, io))
+			return(false);
 	io->fd_in = open(io->infile, O_RDONLY);
 	if (io->fd_in == -1)
 		return (errmsg_cmd("", io->infile, strerror(errno), false));
@@ -92,11 +93,13 @@ static bool	open_outfile(t_io_fds *io)
 *	accordingly.
 *	Returns 1 on success, 0 on failure.
 */
-bool	open_infile_outfile(t_io_fds *io)
+bool	open_infile_outfile(t_data *data)
 {
+	t_io_fds *io;
+	io = data->cmd->io_fds;
 	if (!io || (!io->infile && !io->outfile))
 		return (true);
-	if (open_infile(io) == true && open_outfile(io) == true)
+	if (open_infile(data, io) == true && open_outfile(io) == true)
 		return (redirect_io(io));
 	return (false);
 }

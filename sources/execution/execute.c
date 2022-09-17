@@ -179,7 +179,7 @@ int	execute(t_data *data)
 		free_data(data, false);
 		return (ret);
 	}
-	if (!create_pipes(data) || !open_infile_outfile(cmd->io_fds))
+	if (!create_pipes(data) || !open_infile_outfile(data))
 	{
 		free_data(data, false);
 		return (0);

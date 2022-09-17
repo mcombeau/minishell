@@ -97,6 +97,11 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars	|`env` shows vars	|
 | OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`1'2$C"$D5"$F"'7'8`|
 
+### Heredoc tests
+| Status| Test							| Bash					| Minishell				|
+|-------|-------------------------------|-----------------------|-----------------------|
+| ERROR |`< Makefile cat \| << END cat`	|Heredoc + cat execute	|syntax error			|
+
 ### Other Syntax errors
 | Status| Test					| Bash					| Minishell				|
 |-------|-----------------------|-----------------------|-----------------------|

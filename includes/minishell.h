@@ -276,19 +276,10 @@ bool	set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void	close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 
 // file_io.c
-bool	open_infile_outfile(t_io_fds *io);
+bool	open_infile_outfile(t_data *data);
 bool	restore_io(t_io_fds *io);
 
 // heredoc.c
-void	get_heredoc(t_io_fds *io);
-
-/* ------------------------ TESTING -----------------------------------------*/
-// test.c -- OBSOLETE!
-/*
-void	test_minishell(int ac, char **av);
-void	test_builtins(void);
-void	test_execution(void);
-void 	is_var_in_env(char *arg);
-*/
+bool	get_heredoc(t_data *data, t_io_fds *io);
 
 #endif
