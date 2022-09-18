@@ -222,7 +222,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`./not_executable_file`|Permission denied			|Permission denied			| OK [126]	|
 | OK	|`cat clac 3`			|2 error msg				|2 error msg				| OK [1]	|
 | OK	|`cd $?`				|Number: no such file or dir|Number: no such file..		| OK [1]	|
-| OK	|`cat |||`				|syntax error				|syntax error				| OK [2]	|
+| OK	|`cat \|\|\|`				|syntax error				|syntax error				| OK [2]	|
 | OK	|`echo "hell`			|unexpected EOF + syntax	|unexpected EOF + syntax	| OK [2]	|
 
 ---
