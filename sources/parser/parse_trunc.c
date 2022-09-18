@@ -42,6 +42,28 @@ char	*get_relative_path(char *file_to_open)
 	return (ret);
 }
 
+static void	open_outfile_trunc(t_io_fds *io, char *file)
+{
+	if (io->outfile)
+	{
+		// If there aleady is an ouotfile and it could not be opened,
+		// Do not update further outfiles.
+		// echo hello > forbidden_file > test
+		// Shows only "forbidden_file: permission denied" and does not
+		// proceed to create the file "test"
+		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
+			return ;
+		free(io->outfile);
+		close(io->fd_out);
+	}
+	// Mark outfile open mode as TRUNC.
+	io->out_mode = TRUNC;
+	io->outfile = ft_strdup(file);
+	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (io->fd_out == -1)
+		errmsg_cmd("", io->outfile, strerror(errno), false);
+}
+
 /**
  * When encountering a TRUNC typed token ('>'), this function :
  * 	- sets the boolean command->redir_out to TRUE;
@@ -53,40 +75,13 @@ char	*get_relative_path(char *file_to_open)
  */
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
-	printf("\n--- Parse trunc.\n");
 	t_token	*temp;
-//	t_command	*cmd;
 	t_command	*first_cmd;
-//	char	*file;
-//	int		fd;
 
 	temp = *token_lst;
-//	cmd = lst_last_cmd(*last_cmd);
 	first_cmd = *last_cmd;
-	printf("\tFirst command = %s\n", first_cmd->command);
 	init_io(first_cmd);
-	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
-	// Initialize input-output structure if it doesn't exist.
-	init_io(first_cmd);
-	// Set the output filename as outfile in the io_fds structure of the
-	// first command in the list of commands.
-	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
-	// Mark outfile open mode as TRUNC.
-	first_cmd->io_fds->out_mode = TRUNC;
-	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->outfile);
-//	cmd->redir_out = true;
-//	file = get_relative_path(temp->next->str);
-//	if (cmd->io_fds->fd_in != -1)
-//	{
-//		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
-//		if (fd == -1)
-//		{
-//			cmd->error = errno;
-//			cmd->err_msg = ft_strdup(strerror(errno));
-//		}
-//		cmd->io_fds->fd_out = fd;
-//	}
-//	free(file);
+	open_outfile_trunc(first_cmd->io_fds, temp->next->str);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else

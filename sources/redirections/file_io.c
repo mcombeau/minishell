@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:52:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 13:38:19 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static bool	redirect_io(t_io_fds *io)
 *	that temporary file as input.
 *	Returns 1 on success, 0 on failure.
 */
+/*
 static bool	open_infile(t_data *data, t_io_fds *io)
 {
 	if (!io->infile)
@@ -81,13 +82,14 @@ static bool	open_infile(t_data *data, t_io_fds *io)
 		return (errmsg_cmd("", io->infile, strerror(errno), false));
 	return (true);
 }
-
+*/
 /* open_outfile:
 *	Opens the provided output file in write-only mode. If the specified mode
 *	is HEREDOC or APPEND, opens the file in append mode, otherwise opens in
 *	truncate mode.
 *	Returns 1 on success, 0 on failure.
 */
+/*
 static bool	open_outfile(t_io_fds *io)
 {
 	if (!io->outfile)
@@ -100,7 +102,7 @@ static bool	open_outfile(t_io_fds *io)
 		return (errmsg_cmd("", io->outfile, strerror(errno), false));
 	return (true);
 }
-
+*/
 /* open_infile_outfile:
 *	Opens the input and output files and redirects the input and output
 *	accordingly.
@@ -113,7 +115,12 @@ bool	open_infile_outfile(t_data *data)
 	io = data->cmd->io_fds;
 	if (!io || (!io->infile && !io->outfile))
 		return (true);
-	if (open_infile(data, io) == true && open_outfile(io) == true)
-		return (redirect_io(io));
-	return (false);
+	if (io->heredoc_delimiter)
+		get_heredoc(data, io);
+	if ((io->infile && io->fd_in == -1)
+		|| (io->outfile && io->fd_out == -1))
+		return (false);
+//	if (open_infile(data, io) == true && open_outfile(io) == true)
+	return (redirect_io(io));
+//	return (false);
 }

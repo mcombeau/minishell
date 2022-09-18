@@ -17,6 +17,31 @@
               the write operation are performed as a single atomic step."
 */
 
+static void	open_outfile_append(t_io_fds *io, char *file)
+{
+	if (io->outfile)
+	{
+		// If there aleady is an ouotfile and it could not be opened,
+		// Do not update further outfiles.
+		// echo hello > forbidden_file >> test
+		// echo hello >> forbidden_file >> test
+		// Shows only "forbidden_file: permission denied" and does not
+		// proceed to create the file "test"
+		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
+			return ;
+		// TODO: Case of input fd == -1, too :
+		// >a ls <e >>b >c -> create a, e: no such file or directory. No further files created.
+		free(io->outfile);
+		close(io->fd_out);
+	}
+	// Mark outfile open mode as APPEND.
+	io->out_mode = APPEND;
+	io->outfile = ft_strdup(file);
+	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if (io->fd_out == -1)
+		errmsg_cmd("", io->outfile, strerror(errno), false);
+}
+
 /**
  * When encountering a APPEND typed token ('>>'), this function :
  *  - sets the boolean cmd->iredir_out to TRUE
@@ -30,41 +55,13 @@
  */
 void	parse_append(t_command **last_cmd, t_token **token_lst)
 {
-	printf("\n--- Parse append.\n");
 	t_token	*temp;
 	t_command	*first_cmd;
-//	t_command	*cmd;
-//	char	*file;
-//	int		fd;
 
 	temp = *token_lst;
 	first_cmd = *last_cmd;
-//	cmd = lst_last_cmd(*last_cmd);
-	printf("\tAdding outfile to io_fds: %s\n", temp->next->str);
-	// Initialize input-output structure if it doesn't exist.
 	init_io(first_cmd);
-	// Set the output filename as outfile in the io_fds structure of the
-	// first command in the list of commands.
-	first_cmd->io_fds->outfile = ft_strdup(temp->next->str);
-	// Mark outfile open mode as APPEND.
-	first_cmd->io_fds->out_mode = APPEND;
-	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->outfile);
-
-//	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\nPARSE - Parse_append function\n");
-//	cmd->redir_out = true;
-	// char *test = get_absolute_path(data->envp, temp->next->str);
-	// printf("test : %s\n", test);
-//	file = get_relative_path(temp->next->str);
-//	fd = open(file, O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
-//	if (fd == -1)
-//	{
-//		cmd->error = errno;
-//		cmd->err_msg = ft_strdup(strerror(errno));
-//	}
-//	cmd->io_fds->fd_out = fd;
-//	free(file);
-//	printf("Fd : %d\n", cmd->io_fds->fd_out);
-//	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	open_outfile_append(first_cmd->io_fds, temp->next->str);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else

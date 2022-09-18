@@ -23,17 +23,34 @@ static void	display_error(t_command *cmd, char *infile)
 	cmd->error = errno;
 	cmd->err_msg = ft_strdup(strerror(errno));
 	printf("bash: %s: %s\n", infile, cmd->err_msg);
-}*/
+}
+*/
+
+static void	open_infile(t_io_fds *io, char *file)
+{
+	if (io->infile)
+	{
+		// If there aleady is an infile and it could not be opened,
+		// Do nothing.
+		// < Ma < Makefile cat
+		// Shows only "Ma: No such file or directory" and does not
+		// proceed to cat the Makefile
+		if (io->fd_in == -1)
+			return ;
+		free(io->infile);
+		close(io->fd_in);
+	}
+	io->infile = ft_strdup(file);
+	io->fd_in = open(io->infile, O_RDONLY);
+	if (io->fd_in == -1)
+		errmsg_cmd("", io->infile, strerror(errno), false);
+}
 
 void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
-	printf("\n--- Parse input.\n");
-
 	t_token	*temp;
 	t_command	*cmd;
 	t_command	*first_cmd;
-//	char	*file;
-//	int		fd;
 
 	temp = *token_lst;
 	cmd = lst_last_cmd(*last_cmd);
@@ -43,20 +60,8 @@ void	parse_input(t_command **last_cmd, t_token **token_lst)
 		*token_lst = temp->next->next;
 		return ;
 	}
-//	cmd->redir_in = true;
-//	file = get_relative_path(temp->next->str);
-	printf("\tAdding infile to io_fds: %s\n", temp->next->str);
-	// Initialize input-output structure if it doesn't exist.
 	init_io(first_cmd);
-	// Set the input filename as infile in the io_fds structure of the
-	// first command in the list of commands.
-	first_cmd->io_fds->infile = ft_strdup(temp->next->str);
-	printf("\tDone setting cmd io file: %s\n", (*last_cmd)->io_fds->infile);
-//	fd = open(file, O_RDWR, S_IRWXU);
-//	if (fd == -1)
-//		display_error(cmd, temp->next->str);
-//	cmd->io_fds->fd_in = fd;
-//	free(file);
+	open_infile(first_cmd->io_fds, temp->next->str);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else

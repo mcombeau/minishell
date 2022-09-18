@@ -174,28 +174,29 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 ## Redirection Tests
 
-| Status| Test					| Bash													| Minishell									|
-|-------|-----------------------|-------------------------------------------------------|-------------------------------------------|
-| OK	|`< hello`				|No such file or directory								|No such file or directory					|
-| OK	|`cat <t`				|No such file or directory								|No such file or directory					|
-| OK	|`> x`					|`x` file created empty									|`x` file created empty						|
-| OK	|`echo "File A" > a`	|Create file `a` with contents `File A`					|Create file `a` with contents `File A`		|
-| OK	|`echo "File B" >> b`	|Create file `b` with contents `File B`					|Create file `b` with contents `File B`		|
-| OK	|`echo File C >c`		|Create file `c` with contents `File C`					|Create file `c` with contents `File C`		|
-| OK	|`<a cat <b <c`			|`cat` shows contents of file `c` only					|`cat` shows contents of file `c` only		|
-| OK	|`chmod 000 b`			|Remove rights to `b` file								|Remove rights to `b` file					|
-| ERROR	|`<a cat <b <c`			|`b: Permission denied`, does not show `c`				|`cat` shows contents of file `c` only		|
-| OK	|`chmod 644 b`; `rm a`	|Restore rights to `b` file, delete `a`					|Restore rights to `b` file, delete `a`		|
-| ERROR	|`>a cat <b >>c`		|Create empty `a`, `c` gets contents of `b`				|`c` gets contents of `b` (no `a` created)	|
-| OK	|`rm a b c`				|Delete `a`, `b` and `c` files							|Delete `a`, `b` and `c` files				|
-| ERROR	|`>a ls >b >>c >d`		|`a`, `b`, `c`, `d` created, `ls` ouput only in `d`		|Only `d` created							|
-| ERROR	|`>a ls <e >>b >c`		|`e`: no such file; `a` created `b` and `c` not created	|`e`: no such file, no files created		|
-| ERROR	|`cat -e >t1 <t2`		|`t2`: no such file; `t1` created						|`t2`: no such file; no files created		|
-| ERROR	|`echo 2 >o1 >>o2`		|`2` written to `o2`, `o1` empty						|`2` written to `o2`, `o1` not created		|
-| OK	|`echo 42 >o2 >>o1`		|`o1` and `o2` contain the same thing					|`o1` and `o2` contain the same thing		|
-| CRASH	|`echo hello > k\ 1`	|Creates file "`k 1`"									|CRASH in parsing!!							|
-| CRASH	|`echo test >f test1`	|Creates file `f` with contents `test test1`			|CRASH in parsing!!							|
-| OK	|`fakecmd hello > z`	|Command not found, file `z` created					|Command not found, file `z` created		|
+| Status| Test					| Bash													| Minishell										|
+|-------|-----------------------|-------------------------------------------------------|-----------------------------------------------|
+| OK	|`< hello`				|hello: no such file or directory						|hello: no such file or directory				|
+| OK	|`cat <t`				|t: no such file or directory							|t: no such file or directory					|
+| OK	|`> x`					|`x` file created empty									|`x` file created empty							|
+| OK	|`< Ma < Makefile cat`	|Ma: no such file or directory (no cat output)			|Ma: no such file or directory (no cat output)	|
+| OK	|`echo "File A" > a`	|Create file `a` with contents `File A`					|Create file `a` with contents `File A`			|
+| OK	|`echo "File B" >> b`	|Create file `b` with contents `File B`					|Create file `b` with contents `File B`			|
+| OK	|`echo File C >c`		|Create file `c` with contents `File C`					|Create file `c` with contents `File C`			|
+| OK	|`<a cat <b <c`			|`cat` shows contents of file `c` only					|`cat` shows contents of file `c` only			|
+| OK	|`chmod 000 b`			|Remove rights to `b` file								|Remove rights to `b` file						|
+| OK	|`<a cat <b <c`			|`b: Permission denied`, does not show `c`				|`b: Permission denied`, does not show `c`		|
+| OK	|`chmod 644 b`; `rm a`	|Restore rights to `b` file, delete `a`					|Restore rights to `b` file, delete `a`			|
+| OK	|`>a cat <b >>c`		|Create empty `a`, `c` gets contents of `b`				|Create empty `a`, `c` gets contents of `b`		|
+| OK	|`rm a b c`				|Delete `a`, `b` and `c` files							|Delete `a`, `b` and `c` files					|
+| OK	|`>a ls >b >>c >d`		|`a`, `b`, `c`, `d` created, `ls` ouput only in `d`		|`a`, `b`, `c`, `d` created, `ls` ouput only in `d`|
+| OK	|`>a ls <e >>b >c`		|`e`: no such file; `a` created `b` and `c` not created	|`e`: no such file; `a` created `b` and `c` not created|
+| OK	|`cat -e >t1 <t2`		|`t2`: no such file; `t1` created						|`t2`: no such file; `t1` created				|
+| OK	|`echo 2 >o1 >>o2`		|`2` written to `o2`, `o1` empty						|`2` written to `o2`, `o1` empty				|
+| OK	|`echo 42 >o2 >>o1`		|`o1` and `o2` contain the same thing					|`o1` and `o2` contain the same thing			|
+| CRASH	|`echo hello > k\ 1`	|Creates file "`k 1`"									|CRASH in parsing!!								|
+| CRASH	|`echo test >f test1`	|Creates file `f` with contents `test test1`			|CRASH in parsing!!								|
+| OK	|`fakecmd hello > z`	|Command not found, file `z` created					|Command not found, file `z` created			|
 
 ## Signal Tests
 ## Other Syntax Error Tests
