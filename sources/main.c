@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 15:13:33 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:34:41 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 		if (parse_user_input(&data) == true)
 		{
 			printf("\n\e[36m------- MAIN: Launch exec.\e[0m\n");
-			execute(&data);
+			g_last_exit_code = execute(&data);
 			printf("\e[36m------- Exec done.\e[0m\n");
 		}
 		free_data(&data, false);

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:26:45 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:30:37 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int	execute_command(t_data *data, t_command *cmd)
 	if (ret != CMD_NOT_FOUND)
 		exit(ret);
 	if (get_env_var_value(data->env, "PATH") == NULL)
-		exit(errmsg_cmd(cmd->command, NULL, "No such file or directory", 127));
+		exit(errmsg_cmd(cmd->command, NULL, "No such file or directory", CMD_NOT_FOUND));
 	exit(errmsg_cmd(cmd->command, NULL, "command not found", CMD_NOT_FOUND));
 }
