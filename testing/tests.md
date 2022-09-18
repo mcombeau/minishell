@@ -6,81 +6,81 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 ## CD
 
-| Status| Test						| Bash								| Minishell					|
-|-------|---------------------------|-----------------------------------|---------------------------|
-| OK	|`cd ../../../../../..`		|`pwd` shows `/`					|`pwd` shows `/`			|
-| OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
-| OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
-| OK	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
-| OK	|`unset HOME`, then `cd` 	|HOME not set; exit 1				|HOME not set; $? = 1		|
-| OK	|`export HOME=` then `cd`	|No error msg; exit 0				|No error msg; $? = 0		|
-| OK	|`cd /t /w`					|Too many arguments; exit 1			|Too many arguments; $? = 1	|
-| OK	|`cd ./fakepath`			|No such directory; exit 1			|No such directory; $? = 1	|
-| OK	|`cd -`						|Return to OLDPWD, print CWD		|Return to OLDPWD, print CWD|
-| OK	|`unset OLDPWD`; `cd -`		|OLDPWD not set; exit 1				|OLDPWD not set; $? = 1		|
-| ERROR	|`mkdir a`; `mkdir a/b`; `cd a/b`; `rm -r ../../a`; `cd ..`	|Error msg but still go back a directory, update PWD and OLDPWD, exit 0 | |
+| Status| Test						| Bash								| Minishell					| Exit Code |
+|-------|---------------------------|-----------------------------------|---------------------------|-----------|
+| OK	|`cd ../../../../../..`		|`pwd` shows `/`					|`pwd` shows `/`			| OK [0]	|
+| OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	| OK [0]	|
+| OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	| OK [0]	|
+| OK	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			| OK [0]	|
+| OK	|`unset HOME`, then `cd` 	|HOME not set						|HOME not set				| OK [1]	|
+| OK	|`export HOME=` then `cd`	|No error msg						|No error msg				| OK [0]	|
+| OK	|`cd /t /w`					|Too many arguments					|Too many arguments			| OK [1]	|
+| OK	|`cd ./fakepath`			|No such directory					|No such directory			| OK [1]	|
+| OK	|`cd -`						|Return to OLDPWD, print CWD		|Return to OLDPWD, print CWD| OK [0]	|
+| OK	|`unset OLDPWD`; `cd -`		|OLDPWD not set;					|OLDPWD not set				| OK [1]	|
+| ERROR	|`mkdir a`; `mkdir a/b`; `cd a/b`; `rm -r ../../a`; `cd ..`	|Error msg but still go back a directory, update PWD and OLDPWD, exit 0 | TODO | TODO |
 
 ## ECHO
 
-| Status| Test						| Bash				| Minishell			|
-|-------|---------------------------|-------------------|-------------------|
-| OK	|`echo -n -n -nnnn -nnnnm`	|`-nnnnm`           |`-nnnnm`			|
-| OK	|`echo a	-nnnnma`		|`a -nnnnma`		|`a -nnnnma`		|
-| OK	|`echo -n -nnn hello -n`	|`hello -n`			|`hello -n`			|
-| OK	|`echo a	hello -na`		|`a hello -na`		|`a hello -na`		|
+| Status| Test						| Bash				| Minishell			| Exit Code |
+|-------|---------------------------|-------------------|-------------------|-----------|
+| OK	|`echo -n -n -nnnn -nnnnm`	|`-nnnnm`           |`-nnnnm`			| OK [0]	|
+| OK	|`echo a	-nnnnma`		|`a -nnnnma`		|`a -nnnnma`		| OK [0]	|
+| OK	|`echo -n -nnn hello -n`	|`hello -n`			|`hello -n`			| OK [0]	|
+| OK	|`echo a	hello -na`		|`a hello -na`		|`a hello -na`		| OK [0]	|
 
 ## EXPORT
 
-| Status| Test						| Bash								| Minishell							|
-|-------|---------------------------|-----------------------------------|-----------------------------------|
-| OK	|`export ""`				|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export 42`				|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export =`					|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export hello`				|`env \| grep hello` shows nothing	|`env \| grep hello` shows nothing	|
-| OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		|
-| OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`|
-| OK	|`echo $var $foo`			|`foo test`							|`foo test`							|
+| Status| Test						| Bash								| Minishell							| Exit Code |
+|-------|---------------------------|-----------------------------------|-----------------------------------|-----------|
+| OK	|`export ""`				|Not a valid identifier				|Not a valid identifier				| OK [1]	|
+| OK	|`export 42`				|Not a valid identifier				|Not a valid identifier				| OK [1]	|
+| OK	|`export =`					|Not a valid identifier				|Not a valid identifier				| OK [1]	|
+| OK	|`export hello`				|`env \| grep hello` shows nothing	|`env \| grep hello` shows nothing	| OK [0]	|
+| OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		| OK [0]	|
+| OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`| OK [0]	|
+| OK	|`echo $var $foo`			|`foo test`							|`foo test`							| OK [0]	|
 
 ## UNSET
 
 On some tests, ? because Bash used to write error messages for unset, but no longer does.
 
-| Status| Test							| Bash							| Minishell						|
-|-------|-------------------------------|-------------------------------|-------------------------------|
-| OK	|`unset PATH`					|`echo $PATH` shows `(newline)`	|`echo $PATH` shows `(newline)`	|
-| OK	|`ls` (after `unset PATH`)		|No such file or directory		|No such file or directory		|
-| ?		|`unset "" test`				|?								|Not a valid identifier			|
-| ?		|`unset =`						|?								|Not a valid identifier			|
-| OK	|`unset FAKEVAR`				|Does nothing					|Does nothing					|
-| OK	|`export var1=test`				|`env \| grep var` shows var1	|`env \| grep var` shows var1	|
-| OK	|`unset var` (following `var1`)	|Does not delete `var1`			|Does not delete `var1`			|
+| Status| Test							| Bash							| Minishell						| Exit Code |
+|-------|-------------------------------|-------------------------------|-------------------------------|-----------|
+| OK	|`unset PATH`					|`echo $PATH` shows `(newline)`	|`echo $PATH` shows `(newline)`	| OK [0]	|
+| OK	|`ls` (after `unset PATH`)		|No such file or directory		|No such file or directory		| OK [127]	|
+| ?		|`unset "" test`				|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| ?		|`unset =`						|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| OK	|`unset FAKEVAR`				|Does nothing					|Does nothing					| OK [0]	|
+| OK	|`export var1=test`				|`env \| grep var` shows var1	|`env \| grep var` shows var1	| OK [0]	|
+| OK	|`unset var` (following `var1`)	|Does not delete `var1`			|Does not delete `var1`			| OK [0]	|
 
 ## ENV
 
-| Status| Test										| Bash				| Minishell			|
-|-------|-------------------------------------------|-------------------|-------------------|
-| OK	|`env` then `export d=3 a=12 c=0` then `env`|					|Vars not sorted	|
+| Status| Test										| Bash				| Minishell			| Exit Code |
+|-------|-------------------------------------------|-------------------|-------------------|-----------|
+| OK	|`env` then `export d=3 a=12 c=0` then `env`|					|Vars not sorted	| OK [0]	|
 
 ## EXIT
 
-| Status| Test										| Bash									| Minishell								|
-|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
-| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		|
-| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	|
-| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				|
-| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		|
+| Status| Test										| Bash									| Minishell								| Exit Code |
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|-----------|
+| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
+| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
+| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				| OK [0]	|
+| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		| OK [0]	|
 
 ## Pipe tests
 
-| Status| Test										| Bash									| Minishell								|
-|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
-| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							|
-| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				|
-| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						|
-| OK	|`echo test \|cat`							|`test`									|`test`									|
-| OK	|`echo test \|\|\| cat`						|syntax error							|syntax error							|
-| OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars						|`env` shows vars						|
-| OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`					|`1'2$C"$D5"$F"'7'8`					|
+| Status| Test										| Bash									| Minishell								| Exit Code |
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|-----------|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							| ERR [bash:0][mini:141]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				| ERR [bash:0][mini:141]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						| ERR [bash:0][mini:141]	|
+| OK	|`echo test \|cat`							|`test`									|`test`									| OK [0]	|
+| OK	|`echo test \|\|\| cat`						|syntax error							|syntax error							| OK [2]	|
+| OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars						|`env` shows vars						| OK [0]	|
+| OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`					|`1'2$C"$D5"$F"'7'8`					| OK [0]	|
 ## Variable Expansion Tests
 
 | Status| Test					| Bash				| Minishell			|
