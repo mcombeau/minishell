@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 13:38:19 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:54:16 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,52 +63,12 @@ static bool	redirect_io(t_io_fds *io)
 	return (ret);
 }
 
-/* bool_open_infile:
-*	Opens the specified input file in read-only mode. If the input is a
-*	heredoc, creates a temporary file to write the contents and uses
-*	that temporary file as input.
+/* check_infile_outfile:
+*	Checks if the infile and outfile are set correctly.
+*	If they are, redirects input and output accordingly.
 *	Returns 1 on success, 0 on failure.
 */
-/*
-static bool	open_infile(t_data *data, t_io_fds *io)
-{
-	if (!io->infile)
-		return (true);
-	if (io->heredoc_delimiter)
-		if (!get_heredoc(data, io))
-			return (false);
-	io->fd_in = open(io->infile, O_RDONLY);
-	if (io->fd_in == -1)
-		return (errmsg_cmd("", io->infile, strerror(errno), false));
-	return (true);
-}
-*/
-/* open_outfile:
-*	Opens the provided output file in write-only mode. If the specified mode
-*	is HEREDOC or APPEND, opens the file in append mode, otherwise opens in
-*	truncate mode.
-*	Returns 1 on success, 0 on failure.
-*/
-/*
-static bool	open_outfile(t_io_fds *io)
-{
-	if (!io->outfile)
-		return (true);
-	if (io->out_mode == APPEND)
-		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else
-		io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (io->fd_out == -1)
-		return (errmsg_cmd("", io->outfile, strerror(errno), false));
-	return (true);
-}
-*/
-/* open_infile_outfile:
-*	Opens the input and output files and redirects the input and output
-*	accordingly.
-*	Returns 1 on success, 0 on failure.
-*/
-bool	open_infile_outfile(t_data *data)
+bool	check_infile_outfile(t_data *data)
 {
 	t_io_fds	*io;
 
@@ -116,11 +76,13 @@ bool	open_infile_outfile(t_data *data)
 	if (!io || (!io->infile && !io->outfile))
 		return (true);
 	if (io->heredoc_delimiter)
-		get_heredoc(data, io);
+	{
+		if (!get_heredoc(data, io))
+			return (false);
+		io->fd_in = open(io->infile, O_RDONLY);
+	}
 	if ((io->infile && io->fd_in == -1)
 		|| (io->outfile && io->fd_out == -1))
 		return (false);
-//	if (open_infile(data, io) == true && open_outfile(io) == true)
 	return (redirect_io(io));
-//	return (false);
 }

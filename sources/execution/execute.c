@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:46:34 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:47:01 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	execute(t_data *data)
 
 	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-	if (!create_pipes(data) || !open_infile_outfile(data))
+	if (!create_pipes(data) || !check_infile_outfile(data))
 		return (0);
 	if (!check_cmd_list(data))
 		return (ret);

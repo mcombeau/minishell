@@ -42,21 +42,26 @@ char	*get_relative_path(char *file_to_open)
 	return (ret);
 }
 
+/* open_outfile_trunc:
+*	Opens an outfile in truncated mode. If an outfile was already set, frees it
+*	and overwrites it. If a previous infile or outfile open failed (file does
+*	not exist or permission denied), does not open any further output file.
+*
+*	Ex.:
+*		echo hello > forbidden_file > test
+*		echo hello >> forbidden_file > test
+*		< forbidden_file cat > test
+*	In these 3 cases, the test file should not be opened or created.
+*/
 static void	open_outfile_trunc(t_io_fds *io, char *file)
 {
 	if (io->outfile)
 	{
-		// If there aleady is an ouotfile and it could not be opened,
-		// Do not update further outfiles.
-		// echo hello > forbidden_file > test
-		// Shows only "forbidden_file: permission denied" and does not
-		// proceed to create the file "test"
 		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
 			return ;
 		free(io->outfile);
 		close(io->fd_out);
 	}
-	// Mark outfile open mode as TRUNC.
 	io->out_mode = TRUNC;
 	io->outfile = ft_strdup(file);
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);

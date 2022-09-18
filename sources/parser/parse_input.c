@@ -26,15 +26,20 @@ static void	display_error(t_command *cmd, char *infile)
 }
 */
 
+/* open_infile:
+*	Opens an infile. If an infile was already set, frees it
+*	and overwrites it. If a previous infile open failed (file does
+*	not exist or permission denied), does not open any further input file.
+*	Ex.:
+*		< Makefile <README.md cat > test
+*			Uses contents of README as input (ignores Makefile)
+*		< forbidden <README.md cat > test
+*			Permission denied (no README cat)
+*/
 static void	open_infile(t_io_fds *io, char *file)
 {
 	if (io->infile)
 	{
-		// If there aleady is an infile and it could not be opened,
-		// Do nothing.
-		// < Ma < Makefile cat
-		// Shows only "Ma: No such file or directory" and does not
-		// proceed to cat the Makefile
 		if (io->fd_in == -1)
 			return ;
 		free(io->infile);

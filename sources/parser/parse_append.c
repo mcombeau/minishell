@@ -17,24 +17,26 @@
               the write operation are performed as a single atomic step."
 */
 
+/* open_outfile_append:
+*	Opens an outfile in append mode. If an outfile was already set, frees it
+*	and overwrites it. If a previous infile or outfile open failed (file does
+*	not exist or permission denied), does not open any further output file.
+*
+*	Ex.:
+*		echo hello > forbidden_file >> test
+*		echo hello >> forbidden_file >> test
+*		< forbidden_file cat >> test
+*	In these 3 cases, the test file should not be opened or created.
+*/
 static void	open_outfile_append(t_io_fds *io, char *file)
 {
 	if (io->outfile)
 	{
-		// If there aleady is an ouotfile and it could not be opened,
-		// Do not update further outfiles.
-		// echo hello > forbidden_file >> test
-		// echo hello >> forbidden_file >> test
-		// Shows only "forbidden_file: permission denied" and does not
-		// proceed to create the file "test"
 		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
 			return ;
-		// TODO: Case of input fd == -1, too :
-		// >a ls <e >>b >c -> create a, e: no such file or directory. No further files created.
 		free(io->outfile);
 		close(io->fd_out);
 	}
-	// Mark outfile open mode as APPEND.
 	io->out_mode = APPEND;
 	io->outfile = ft_strdup(file);
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
