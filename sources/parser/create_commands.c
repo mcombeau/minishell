@@ -20,7 +20,7 @@ void	create_commands(t_data *data, t_token *token)
 		else if (temp->type == TRUNC)
 			parse_trunc(&data->cmd, &temp);
 		else if (temp->type == HEREDOC)
-		 	parse_heredoc(&data->cmd, &temp);
+		 	parse_heredoc(data, &data->cmd, &temp);
 		else if (temp->type == APPEND)
 		 	parse_append(&data->cmd, &temp);
 		else if (temp->type == PIPE)

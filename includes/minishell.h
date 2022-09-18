@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 14:53:05 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:04:24 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ void		parse_input(t_command **last_cmd, t_token **token_lst);
 void		parse_append(t_command **last_cmd, t_token **token_lst);
 
 //parse_heredoc.c
-void		parse_heredoc(t_command **last_cmd, t_token **token_lst);
+void		parse_heredoc(t_data *data, t_command **last_cmd, t_token **token_lst);
 
 //parse_pipec
 void		parse_pipe(t_command **cmd, t_token **token_lst);

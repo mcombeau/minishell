@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 14:54:16 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:11:30 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,6 @@ bool	check_infile_outfile(t_data *data)
 	io = data->cmd->io_fds;
 	if (!io || (!io->infile && !io->outfile))
 		return (true);
-	if (io->heredoc_delimiter)
-	{
-		if (!get_heredoc(data, io))
-			return (false);
-		io->fd_in = open(io->infile, O_RDONLY);
-	}
 	if ((io->infile && io->fd_in == -1)
 		|| (io->outfile && io->fd_out == -1))
 		return (false);
