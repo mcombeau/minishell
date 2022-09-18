@@ -5,18 +5,6 @@
  *      is a builtin, set the bool builtin to true.
  * 
  */
-void	fill_cmd(t_command *last_cmd, char *token_str)
-{
-	last_cmd->command = token_str;
-	if (ft_strcmp("echo", token_str)
-		|| ft_strcmp("cd", token_str)
-		|| ft_strcmp("pwd", token_str)
-		|| ft_strcmp("export", token_str)
-		|| ft_strcmp("unset", token_str)
-		|| ft_strcmp("env", token_str)
-		|| ft_strcmp("exit", token_str))
-		last_cmd->is_builtin = true;
-}
 
 void	parse_word(t_command **cmd, t_token **token_lst)
 {
@@ -31,7 +19,7 @@ void	parse_word(t_command **cmd, t_token **token_lst)
 		last_cmd = lst_last_cmd(*cmd);
 		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE) || last_cmd->command == NULL)
 		{	
-			fill_cmd(last_cmd, temp->str);
+			last_cmd->command = temp->str;
 			printf("La cmd filled : %s\n", last_cmd->command);
 			temp = temp->next;
 		}

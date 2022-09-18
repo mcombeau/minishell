@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:24 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 18:06:31 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:13:58 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ bool	create_pipes(t_data *data)
 		}
 		tmp = tmp->next;
 	}
-	printf("Create pipes OK\n");
 	return (true);
 }
 

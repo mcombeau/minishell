@@ -6,13 +6,7 @@ void	initialize_cmd(t_command **cmd)
 	(*cmd)->path = NULL;
 	(*cmd)->args = NULL;
 	(*cmd)->pipe_output = false;
-	(*cmd)->is_builtin = false;
-	(*cmd)->is_pipe = false;
-	(*cmd)->redir_in = false;
-	(*cmd)->redir_out = false;
 	(*cmd)->pipe_fd = 0;
-	(*cmd)->error = 0;
-	(*cmd)->err_msg  = NULL;
 	(*cmd)->prev = NULL;
 	(*cmd)->next = NULL;
 }
@@ -25,7 +19,7 @@ t_command	*lst_new_cmd(bool value)
 	if (!(new_node))
 		return (NULL);
 	ft_memset(new_node, 0, sizeof(t_command));
-	new_node->is_pipe = value;
+	new_node->pipe_output = value;
 	initialize_cmd(&new_node);
 	return (new_node);
 }
@@ -74,8 +68,6 @@ void	free_tab(char **tab)
 void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 {
 	(void)(*del);
-	if (lst->err_msg)
-		free(lst->err_msg);
 	if (lst->args)
 		free_tab(lst->args);
 	if (lst->io_fds)

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 15:04:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:29:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_io_fds
 {
 	char	*infile;
 	char	*outfile;
-	int		out_mode;
 	char	*heredoc_delimiter;
 	int		fd_in;
 	int		fd_out;
@@ -90,14 +89,8 @@ typedef struct s_command
 	char				*path;
 	char				**args;
 	bool				pipe_output;
-	bool				is_builtin;
-	bool				is_pipe;
-	bool				redir_out;
-	bool				redir_in;
 	int					*pipe_fd;
 	t_io_fds			*io_fds;
-	int					error;
-	char				*err_msg;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -293,7 +286,7 @@ bool		set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void		close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 
 // file_io.c
-bool		check_infile_outfile(t_data *data);
+bool		redirect_infile_outfile(t_data *data);
 bool		restore_io(t_io_fds *io);
 
 // heredoc.c

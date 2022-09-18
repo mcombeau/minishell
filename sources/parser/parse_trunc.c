@@ -62,7 +62,6 @@ static void	open_outfile_trunc(t_io_fds *io, char *file)
 		free(io->outfile);
 		close(io->fd_out);
 	}
-	io->out_mode = TRUNC;
 	io->outfile = ft_strdup(file);
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (io->fd_out == -1)

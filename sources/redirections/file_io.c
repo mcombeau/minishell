@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 15:11:30 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:13:27 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static bool	redirect_io(t_io_fds *io)
 	return (ret);
 }
 
-/* check_infile_outfile:
+/* redirect_infile_outfile:
 *	Checks if the infile and outfile are set correctly.
 *	If they are, redirects input and output accordingly.
 *	Returns 1 on success, 0 on failure.
 */
-bool	check_infile_outfile(t_data *data)
+bool	redirect_infile_outfile(t_data *data)
 {
 	t_io_fds	*io;
 

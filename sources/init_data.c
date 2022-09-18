@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 19:07:54 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:29:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	init_io(t_command *cmd)
 			return ;
 		cmd->io_fds->infile = NULL;
 		cmd->io_fds->outfile = NULL;
-		cmd->io_fds->out_mode = 0;
 		cmd->io_fds->heredoc_delimiter = NULL;
 		cmd->io_fds->fd_in = -1;
 		cmd->io_fds->fd_out = -1;

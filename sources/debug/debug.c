@@ -23,10 +23,6 @@ void	print_cmd_list(t_data *data)
 				printf("\tHeredoc delimiter: %s\n", cmd->io_fds->heredoc_delimiter);
 			if (cmd->io_fds->outfile)
 				printf("\tOutfile: %s\n", cmd->io_fds->outfile);
-			if (cmd->io_fds->out_mode == APPEND)
-				printf("\tOut mode: APPEND\n");
-			else if (cmd->io_fds->out_mode == TRUNC)
-				printf("\tOut mode: TRUNC\n");
 		}
 		if (cmd->prev == NULL)
 			printf("\tprev = NULL\n");
