@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 19:03:13 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:04:37 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *	OLDPWD environment variable.
 *	Returns 1 on success, 0 on failure.
 */
-static bool	change_dir(t_data *data, char	*path)
+static bool	change_dir(t_data *data, char *path)
 {
 	char	*cwd;
 	char	buff[BUFSIZ];
@@ -42,23 +42,26 @@ static bool	change_dir(t_data *data, char	*path)
 */
 int	cd_builtin(t_data *data, char **args)
 {
-	char	*home_path;
+	char	*path;
 
-	home_path = get_env_var_value(data->env, "HOME");
+	path = get_env_var_value(data->env, "HOME");
 	if (!args || !args[1] || ft_strncmp(args[1], "--", 3) == 0)
 	{
-		if (!home_path)
-			return (errmsg_cmd("cd", NULL, "HOME not set", 0));
-		return (!change_dir(data, home_path));
+		if (!path)
+			return (errmsg_cmd("cd", NULL, "HOME not set", EXIT_FAILURE));
+		else if (*path == '\0')
+			return (EXIT_SUCCESS);
+		return (!change_dir(data, path));
 	}
 	if (args[2])
 		return (errmsg_cmd("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[1], "-", 2) == 0)
 	{
-		change_dir(data, get_env_var_value(data->env, "OLDPWD"));
-		printf("%s\n", get_env_var_value(data->env, "PWD"));
-		return (EXIT_SUCCESS);
+		path = get_env_var_value(data->env, "OLDPWD");
+		if (!path)
+			return (errmsg_cmd("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
+		printf("%s\n", get_env_var_value(data->env, "OLDPWD"));
+		return(!change_dir(data, get_env_var_value(data->env, "OLDPWD")));
 	}
-	change_dir(data, args[1]);
-	return (EXIT_SUCCESS);
+	return (!change_dir(data, args[1]));
 }

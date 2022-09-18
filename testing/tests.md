@@ -12,11 +12,12 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
 | OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
 | OK	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
-| OK	|`unset HOME`, then `cd` 	|HOME not set + exit 1				|HOME not set				|
-| ERROR	|`export HOME=` then `cd`	|No error msg, + exit 0				|No such directory			|
-| OK	|`cd /t /w`					|Too many arguments + exit 1		|Too many arguments			|
-| OK	|`cd ./fakepath`			|No such directory + exit 1			|No such directory			|
+| OK	|`unset HOME`, then `cd` 	|HOME not set; exit 1				|HOME not set; $? = 1		|
+| OK	|`export HOME=` then `cd`	|No error msg; exit 0				|No error msg; $? = 0		|
+| OK	|`cd /t /w`					|Too many arguments; exit 1			|Too many arguments; $? = 1	|
+| OK	|`cd ./fakepath`			|No such directory; exit 1			|No such directory; $? = 1	|
 | OK	|`cd -`						|Return to OLDPWD, print CWD		|Return to OLDPWD, print CWD|
+| OK	|`unset OLDPWD`; `cd -`		|OLDPWD not set; exit 1				|OLDPWD not set; $? = 1		|
 | ERROR	|`mkdir a`; `mkdir a/b`; `cd a/b`; `rm -r ../../a`; `cd ..`	|Error msg but still go back a directory, update PWD and OLDPWD, exit 0 | |
 
 ## ECHO
