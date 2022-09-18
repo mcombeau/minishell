@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:30:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:44:35 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 */
 static int	execute_local_bin(t_data *data, t_command *cmd)
 {
-	if (access(cmd->command, F_OK | X_OK) != 0)
+	if (access(cmd->command, F_OK) != 0)
 		return (CMD_NOT_FOUND);
+	else if (access(cmd->command, F_OK | X_OK) != 0)
+		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND - 1));
 	if (execve(cmd->command, cmd->args, data->env) == -1)
 		errmsg_cmd("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);

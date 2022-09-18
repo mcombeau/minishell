@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:34:41 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:41:47 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	main(int ac, char **av, char **env)
 			g_last_exit_code = execute(&data);
 			printf("\e[36m------- Exec done.\e[0m\n");
 		}
+		else
+			g_last_exit_code = 2;
 		free_data(&data, false);
 	}
 	exit_shell(&data, EXIT_SUCCESS);

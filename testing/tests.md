@@ -213,5 +213,17 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | ERROR |`echo hello \|;`		|syntax error			|command not found		|
 | ERROR	|`echo\ a`				|`echo a` cmd not found	|`echo\` cmd not found	|
 
+
+## Other Exit Status Tests
+| Status| Test					| Bash							| Minishell						|
+|-------|-----------------------|-------------------------------|-------------------------------|
+| OK	|`fake_cmd`				|Command not found; exit 127	|Command not found; $? = 127	|
+| OK	|`ls not_a_path`		|No such file or dir; exit 2	|No such file or dir; $? = 2	|
+| OK	|`./not_executable_file`|Permission denied; exit 126	|Permission denied; $? = 126	|
+| OK	|`cat clac 3`			|2 error msg; exit 1			|2 error msg; $? = 1			|
+| OK	|`cd $?`				|Number: no such file or dir; 1	|Number: no such file..; $? = 1	|
+| OK	|`cat |||`				|syntax error; exit 2			|syntax error; $? = 2			|
+| OK	|`echo "hell`			|unexpected EOF + syntax; exit 2|unexpected EOF + syntax; $? = 2|
+
 ---
 Thanks to okushnir for help with tests.
