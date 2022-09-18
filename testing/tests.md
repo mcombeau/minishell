@@ -4,10 +4,83 @@ This is a master table of tests for the 42 project Minishell. Minishell output s
 
 Leading and trailling spaces in the output are denoted with the `█` character.
 
-## Parsing Tests
+## CD
 
+| Status| Test						| Bash								| Minishell					|
+|-------|---------------------------|-----------------------------------|---------------------------|
+| OK	|`cd ../../../../../..`		|`pwd` shows `/`					|`pwd` shows `/`			|
+| OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
+| OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
+| ERROR	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
+| OK	|`unset HOME`, then `cd` 	|HOME not set + exit 1				|HOME not set				|
+| ERROR	|`export HOME=` then `cd`	|No error msg, + exit 0				|No such directory			|
+| OK	|`cd /t /w`					|Too many arguments + exit 1		|Too many arguments			|
+| OK	|`cd ./fakepath`			|No such directory + exit 1			|No such directory			|
+| OK	|`cd -`						|Return to OLDPWD, print CWD		|Return to OLDPWD, print CWD|
+| ERROR	|`mkdir a`; `mkdir a/b`; `cd a/b`; `rm -r ../../a`; `cd ..`	|Error msg but still go back a directory, update PWD and OLDPWD, exit 0 | |
 
-### Variable expansion
+## ECHO
+
+| Status| Test						| Bash				| Minishell			|
+|-------|---------------------------|-------------------|-------------------|
+| OK	|`echo -n -n -nnnn -nnnnm`	|`-nnnnm`           |`-nnnnm`			|
+| OK	|`echo a	-nnnnma`		|`a -nnnnma`		|`a -nnnnma`		|
+| OK	|`echo -n -nnn hello -n`	|`hello -n`			|`hello -n`			|
+| OK	|`echo a	hello -na`		|`a hello -na`		|`a hello -na`		|
+
+## EXPORT
+
+| Status| Test						| Bash								| Minishell							|
+|-------|---------------------------|-----------------------------------|-----------------------------------|
+| OK	|`export ""`				|Not a valid identifier				|Not a valid identifier				|
+| OK	|`export 42`				|Not a valid identifier				|Not a valid identifier				|
+| OK	|`export =`					|Not a valid identifier				|Not a valid identifier				|
+| OK	|`export hello`				|`env \| grep hello` shows nothing	|`env \| grep hello` shows nothing	|
+| OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		|
+| OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`|
+| OK	|`echo $var $foo`			|`foo test`							|`foo test`							|
+
+## UNSET
+
+On some tests, ? because Bash used to write error messages for unset, but no longer does.
+
+| Status| Test							| Bash							| Minishell						|
+|-------|-------------------------------|-------------------------------|-------------------------------|
+| OK	|`unset PATH`					|`echo $PATH` shows `(newline)`	|`echo $PATH` shows `(newline)`	|
+| OK	|`ls` (after `unset PATH`)		|No such file or directory		|No such file or directory		|
+| ?		|`unset "" test`				|?								|Not a valid identifier			|
+| ?		|`unset =`						|?								|Not a valid identifier			|
+| OK	|`unset FAKEVAR`				|Does nothing					|Does nothing					|
+| OK	|`export var1=test`				|`env \| grep var` shows var1	|`env \| grep var` shows var1	|
+| OK	|`unset var` (following `var1`)	|Does not delete `var1`			|Does not delete `var1`			|
+
+## ENV
+
+| Status| Test										| Bash				| Minishell			|
+|-------|-------------------------------------------|-------------------|-------------------|
+| OK	|`env` then `export d=3 a=12 c=0` then `env`|					|Vars not sorted	|
+
+## EXIT
+
+| Status| Test										| Bash									| Minishell								|
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
+| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		|
+| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	|
+| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				|
+| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		|
+
+## Pipe tests
+
+| Status| Test										| Bash									| Minishell								|
+|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						|
+| OK	|`echo test \|cat`							|`test`									|`test`									|
+| OK	|`echo test \|\|\| cat`						|syntax error							|syntax error							|
+| OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars						|`env` shows vars						|
+| OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`					|`1'2$C"$D5"$F"'7'8`					|
+## Variable Expansion Tests
 
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|
@@ -38,7 +111,7 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo hello$USERtest`	|`hello`			|`hello`			|
 | ERROR	|`echo $USER.test`		|`username.test`	|`(newline)`		|
 
-### Quote handling
+## Quote Handling Tests
 
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|
@@ -88,21 +161,44 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | ERROR	|`echo "\\x"`			|`\x`				|`\\x`				|
 | ERROR	|`echo "\\\x"`			|`\\x`				|`\\\x`				|
 
-### Pipe tests
+## Heredoc Tests
+| Status| Test								| Bash							| Minishell						|
+|-------|-----------------------------------|-------------------------------|-------------------------------|
+| OK	|`<< END cat`; `$USER$USER`; `END`	|`usernameusername`				|`usernameusername`				|
+| OK	|`<< END cat`; `$USER'$USER'`; `END`|`username'username'`			|`username'username'`			|
+| OK	|`<< END cat`; `$USER"$USER"`; `END`|`username"username"`			|`username"username"`			|
+| OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
+| OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
+| OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
+| ERROR |`< Makefile cat \| << END cat`		|Heredoc + cat execute			|syntax error					|
 
-| Status| Test										| Bash				| Minishell			|
-|-------|-------------------------------------------|-------------------|-------------------|
-| OK	|`echo test \|cat`							|`test`				|`test`				|
-| OK	|`echo test \|\|\| cat`						|syntax error		|syntax error		|
-| OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars	|`env` shows vars	|
-| OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`|`1'2$C"$D5"$F"'7'8`|
+## Redirection Tests
 
-### Heredoc tests
-| Status| Test							| Bash					| Minishell				|
-|-------|-------------------------------|-----------------------|-----------------------|
-| ERROR |`< Makefile cat \| << END cat`	|Heredoc + cat execute	|syntax error			|
+| Status| Test					| Bash													| Minishell									|
+|-------|-----------------------|-------------------------------------------------------|-------------------------------------------|
+| OK	|`< hello`				|No such file or directory								|No such file or directory					|
+| OK	|`cat <t`				|No such file or directory								|No such file or directory					|
+| OK	|`> x`					|`x` file created empty									|`x` file created empty						|
+| OK	|`echo "File A" > a`	|Create file `a` with contents `File A`					|Create file `a` with contents `File A`		|
+| OK	|`echo "File B" >> b`	|Create file `b` with contents `File B`					|Create file `b` with contents `File B`		|
+| OK	|`echo File C >c`		|Create file `c` with contents `File C`					|Create file `c` with contents `File C`		|
+| OK	|`<a cat <b <c`			|`cat` shows contents of file `c` only					|`cat` shows contents of file `c` only		|
+| OK	|`chmod 000 b`			|Remove rights to `b` file								|Remove rights to `b` file					|
+| ERROR	|`<a cat <b <c`			|`b: Permission denied`, does not show `c`				|`cat` shows contents of file `c` only		|
+| OK	|`chmod 644 b`; `rm a`	|Restore rights to `b` file, delete `a`					|Restore rights to `b` file, delete `a`		|
+| ERROR	|`>a cat <b >>c`		|Create empty `a`, `c` gets contents of `b`				|`c` gets contents of `b` (no `a` created)	|
+| OK	|`rm a b c`				|Delete `a`, `b` and `c` files							|Delete `a`, `b` and `c` files				|
+| ERROR	|`>a ls >b >>c >d`		|`a`, `b`, `c`, `d` created, `ls` ouput only in `d`		|Only `d` created							|
+| ERROR	|`>a ls <e >>b >c`		|`e`: no such file; `a` created `b` and `c` not created	|`e`: no such file, no files created		|
+| ERROR	|`cat -e >t1 <t2`		|`t2`: no such file; `t1` created						|`t2`: no such file; no files created		|
+| ERROR	|`echo 2 >o1 >>o2`		|`2` written to `o2`, `o1` empty						|`2` written to `o2`, `o1` not created		|
+| OK	|`echo 42 >o2 >>o1`		|`o1` and `o2` contain the same thing					|`o1` and `o2` contain the same thing		|
+| CRASH	|`echo hello > k\ 1`	|Creates file "`k 1`"									|CRASH in parsing!!							|
+| CRASH	|`echo test >f test1`	|Creates file `f` with contents `test test1`			|CRASH in parsing!!							|
+| OK	|`fakecmd hello > z`	|Command not found, file `z` created					|Command not found, file `z` created		|
 
-### Other Syntax errors
+## Signal Tests
+## Other Syntax Error Tests
 | Status| Test					| Bash					| Minishell				|
 |-------|-----------------------|-----------------------|-----------------------|
 | OK	|`\|`					|syntax error			|syntax error			|
@@ -114,97 +210,6 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo hello \| \|`		|syntax error			|syntax error			|
 | ERROR |`echo hello \|;`		|syntax error			|command not found		|
 | ERROR	|`echo\ a`				|`echo a` cmd not found	|`echo\` cmd not found	|
-
-
-## Execution Tests
-
-### Pipe Tests
-
-| Status| Test										| Bash									| Minishell								|
-|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
-| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							|
-| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				|
-| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						|
-
-
-### Redirection Tests
-
-| Status| Test									| Bash									| Minishell					|
-|-------|---------------------------------------|---------------------------------------|---------------------------|
-| OK	|`< hello`								|No such file or directory				|No such file or directory	|
-
-### Signal Tests
-
-
-
-### CD
-
-| Status| Test						| Bash								| Minishell					|
-|-------|---------------------------|-----------------------------------|---------------------------|
-| OK	|`cd ../../../../../..`		|`pwd` shows `/`					|`pwd` shows `/`			|
-| OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
-| OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
-| ERROR	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
-| OK	|`unset HOME`, then `cd` 	|HOME not set + exit 1				|HOME not set				|
-| ERROR	|`export HOME=` then `cd`	|No error msg, + exit 0				|No such directory			|
-| OK	|`cd /t /w`					|Too many arguments + exit 1		|Too many arguments			|
-| OK	|`cd ./fakepath`			|No such directory + exit 1			|No such directory			|
-| OK	|`cd -`						|Return to OLDPWD, print CWD		|Return to OLDPWD, print CWD|
-| ERROR	|`mkdir a`; `mkdir a/b`; `cd a/b`; `rm -r ../../a`; `cd ..`	|Error msg but still go back a directory, update PWD and OLDPWD, exit 0 | |
-
-### ECHO
-
-| Status| Test						| Bash				| Minishell			|
-|-------|---------------------------|-------------------|-------------------|
-| OK	|`echo -n -n -nnnn -nnnnm`	|`-nnnnm`           |`-nnnnm`			|
-| OK	|`echo a	-nnnnma`		|`a -nnnnma`		|`a -nnnnma`		|
-| OK	|`echo -n -nnn hello -n`	|`hello -n`			|`hello -n`			|
-| OK	|`echo a	hello -na`		|`a hello -na`		|`a hello -na`		|
-
-
-
-### EXPORT
-
-
-| Status| Test						| Bash								| Minishell							|
-|-------|---------------------------|-----------------------------------|-----------------------------------|
-| OK	|`export ""`				|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export 42`				|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export =`					|Not a valid identifier				|Not a valid identifier				|
-| OK	|`export hello`				|`env \| grep hello` shows nothing	|`env \| grep hello` shows nothing	|
-| OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		|
-| OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`|
-| OK	|`echo $var $foo`			|`foo test`							|`foo test`							|
-
-### UNSET
-
-On some tests, ? because Bash used to write error messages for unset, but no longer does.
-
-| Status| Test						| Bash								| Minishell							|
-|-------|---------------------------|-----------------------------------|-----------------------------------|
-| OK	|`unset PATH`				|`echo $PATH` shows `(newline)`		|`echo $PATH` shows `(newline)`		|
-| OK	|`ls` (after `unset PATH`)	|No such file or directory			|No such file or directory			|
-| ?		|`unset "" test`			|?									|Not a valid identifier				|
-| ?		|`unset =`					|?									|Not a valid identifier				|
-| OK	|`unset FAKEVAR`			|Does nothing						|Does nothing						|
-| OK	|`export var1=test`			|`env \| grep var` shows var1		|`env \| grep var` shows var1		|
-| OK	|`unset var` (following `var1`)|Does not delete `var1`			|Does not delete `var1`				|
-
-### ENV
-
-| Status| Test						| Bash				| Minishell			|
-|-------|---------------------------|-------------------|-------------------|
-| OK	|`env` then `export d=3 a=12 c=0` then `env`||Vars not sorted		|
-
-### EXIT
-
-| Status| Test										| Bash									| Minishell								|
-|-------|-------------------------------------------|---------------------------------------|---------------------------------------|
-| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		|
-| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	|
-| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				|
-| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		|
-
 
 ---
 Thanks to okushnir for help with tests.
