@@ -215,15 +215,15 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 
 ## Other Exit Status Tests
-| Status| Test					| Bash							| Minishell						|
-|-------|-----------------------|-------------------------------|-------------------------------|
-| OK	|`fake_cmd`				|Command not found; exit 127	|Command not found; $? = 127	|
-| OK	|`ls not_a_path`		|No such file or dir; exit 2	|No such file or dir; $? = 2	|
-| OK	|`./not_executable_file`|Permission denied; exit 126	|Permission denied; $? = 126	|
-| OK	|`cat clac 3`			|2 error msg; exit 1			|2 error msg; $? = 1			|
-| OK	|`cd $?`				|Number: no such file or dir; 1	|Number: no such file..; $? = 1	|
-| OK	|`cat |||`				|syntax error; exit 2			|syntax error; $? = 2			|
-| OK	|`echo "hell`			|unexpected EOF + syntax; exit 2|unexpected EOF + syntax; $? = 2|
+| Status| Test					| Bash						| Minishell					| Exit Code |
+|-------|-----------------------|---------------------------|---------------------------|-----------|
+| OK	|`fake_cmd`				|Command not found			|Command not found			| OK [127]	|
+| OK	|`ls not_a_path`		|No such file or dir		|No such file or dir		| OK [2]	|
+| OK	|`./not_executable_file`|Permission denied			|Permission denied			| OK [126]	|
+| OK	|`cat clac 3`			|2 error msg				|2 error msg				| OK [1]	|
+| OK	|`cd $?`				|Number: no such file or dir|Number: no such file..		| OK [1]	|
+| OK	|`cat |||`				|syntax error				|syntax error				| OK [2]	|
+| OK	|`echo "hell`			|unexpected EOF + syntax	|unexpected EOF + syntax	| OK [2]	|
 
 ---
 Thanks to okushnir for help with tests.
