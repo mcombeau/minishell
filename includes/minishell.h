@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 16:06:50 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:24:03 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 *								MACROS										  *
 ******************************************************************************/
 # define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell $ \001\e[0m\002"
-# define CMD_NOT_FOUND -42
+# define CMD_NOT_FOUND 127
 
 # define TRUE 1
 # define FALSE 0

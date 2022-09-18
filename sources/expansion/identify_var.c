@@ -1,10 +1,13 @@
 #include "minishell.h"
 
+// only alphanumeric characters and _ are allowed as env variable names.
+// ex. $USER.bot must turn into username.bot
 bool	is_var_compliant(char c)
 {
-	if (c == ' ' || c == '$' || c == '\0' || c == '\'' || c == '\"' 
-		|| (c >= '\t' && c <= '\r')
-		|| c == '=' || c == '[' || c == ']' || c == '{' || c == '}')
+//	if (c == ' ' || c == '$' || c == '\0' || c == '\'' || c == '\"' 
+//		|| (c >= '\t' && c <= '\r')
+//		|| c == '=' || c == '[' || c == ']' || c == '{' || c == '}')
+	if (ft_isalnum(c) == 0 && c != '_')
 		return (false);
 	else
 		return (true);
@@ -20,7 +23,7 @@ int	var_length(char *str)
 	while (str[i] != '$')
 		i++;
 	i++;
-	if (str[i] >= '0' && str[i] <= '9')
+	if ((str[i] >= '0' && str[i] <= '9') || str[i] == '?')
 		return (count + 1);
 	while (str[i])
 	{
@@ -47,7 +50,7 @@ char	*identify_var(char *str)
 		{
 			start = i + 1;
 			break ;
-		}	
+		}
 		i++;
 	}
 	len = var_length(str);

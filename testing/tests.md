@@ -11,7 +11,7 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`cd ../../../../../..`		|`pwd` shows `/`					|`pwd` shows `/`			|
 | OK	|`cd /home/user/`			|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
 | OK	|`cd $HOME`					|`pwd` shows `/home/user`			|`pwd` shows `/home/user`	|
-| ERROR	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
+| OK	|`cd $HOME/Documents`      	|`pwd` shows `/home/user/Documents`	|No such directory			|
 | OK	|`unset HOME`, then `cd` 	|HOME not set + exit 1				|HOME not set				|
 | ERROR	|`export HOME=` then `cd`	|No error msg, + exit 0				|No such directory			|
 | OK	|`cd /t /w`					|Too many arguments + exit 1		|Too many arguments			|
@@ -87,21 +87,21 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo $USER`			|`username`			|`username`			|
 | OK	|`echo $`				|`$`				|`$`				|
 | OK	|`echo $""`				|`(newline)`		|`(newline)`		|
-| ERROR |`echo $$$USER`			|`26153username`	|`$$username`		|
-| ERROR	|`echo $$USER`			|`26153USER`		|`$username`		|
+| ERROR?|`echo $$$USER`			|`26153username`	|`$$username`		|
+| ERROR?|`echo $$USER`			|`26153USER`		|`$username`		|
 | OK	|`echo $USER$USER`		|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER""$USER`	|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER" "$USER`	|`username username`|`username username`|
 | OK	|`echo test$1test`		|`testtest`			|`testtest`			|
 | OK	|`echo test$FAKE_VAR`	|`test`				|`test`				|
-| ERROR	|`echo "$USER>>"`		|`username>>`		|`(newline)`		|
+| OK	|`echo "$USER>>"`		|`username>>`		|`username>>`		|
 | OK	|`echo "$USER11111ffjf"`|`(newline)`		|`(newline)`		|
 | ERROR |`echo $\"echo`			|`"echo`			|syntax error		|
-| ERROR |`echo "test$<test"`	|`test$<test`		|`test`				|
+| ERROR |`echo "test$<test"`	|`test$<test`		|`test<test`		|
 | ERROR |`echo test$<test`		|test: no such file	|`test$`			|
-| ERROR	|`echo "test$-r"`		|`testhimBHsr`		|`test`				|
-| ERROR |`echo "test$-?"`		|`testhimBHs?`		|`test`				|
-| ERROR	|`echo $-1$USER`		|`himBHs1username`	|`username`			|
+| ERROR	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
+| ERROR |`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
+| ERROR	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
 | OK	|`echo $1`				|`(newline)`		|`(newline)`		|
 | OK	|`echo "$1"`			|`(newline)`		|`(newline)`		|
 | OK	|`echo $"USER"`			|`USER`				|`USER`				|
@@ -109,7 +109,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | ERROR	|`echo $NULL test`		|`test`				|`█test`			|
 | OK	|`echo hello$USER`		|`hellousername`	|`hellousername`	|
 | OK	|`echo hello$USERtest`	|`hello`			|`hello`			|
-| ERROR	|`echo $USER.test`		|`username.test`	|`(newline)`		|
+| OK	|`echo $USER.test`		|`username.test`	|`username.test`	|
 
 ## Quote Handling Tests
 
@@ -154,12 +154,12 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | Ok	|`echo '  "abc" '`		|`██"abc"█`			|`██"abc"█`			|
 | OK	|`echo "'abc'"`			|`'abc'`			|`'abc'`			|
 | OK	|`echo " $ " \| cat -e`	|`█$ $`				|`█$ $`				|
-| ERROR	|`echo $:$= \| cat -e`	|`$:$=$`			|`$=$`				|
+| ERROR	|`echo $:$= \| cat -e`	|`$:$=$`			|`:$=$`				|
 | OK	|`export FOO=' " '`		|`env` shows `FOO`	|`env` shows `FOO` 	|
 | ERROR	|`echo "$FOO" \| cat -e`|`█" $`				|`██$`				|
 | OK	|`echo "\x"`			|`\x`				|`\x`				|
-| ERROR	|`echo "\\x"`			|`\x`				|`\\x`				|
-| ERROR	|`echo "\\\x"`			|`\\x`				|`\\\x`				|
+| ERROR?|`echo "\\x"`			|`\x`				|`\\x`				|
+| ERROR?|`echo "\\\x"`			|`\\x`				|`\\\x`				|
 
 ## Heredoc Tests
 | Status| Test								| Bash							| Minishell						|

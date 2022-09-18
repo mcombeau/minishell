@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 15:14:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:20:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ int	execute(t_data *data)
 		if (!cmd->pipe_output && !cmd->prev)
 			ret = execute_builtin(data, cmd);
 		if (ret != CMD_NOT_FOUND)
+		{
+			g_last_exit_code = ret;
 			return (ret);
+		}
 		pid = fork();
 		if (pid == -1)
 			errmsg_cmd("fork", NULL, strerror(errno), errno);
