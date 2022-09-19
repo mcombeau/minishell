@@ -202,17 +202,22 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 ## Signal Tests
 ## Other Syntax Error Tests
-| Status| Test					| Bash					| Minishell				| Exit Code |
-|-------|-----------------------|-----------------------|-----------------------|-----------|
-| OK	|`\|`					|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo test ; \|`		|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo test > > out`	|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo hello > $fakevar`|ambiguous redirect		|ambiguous redirect		| OK [1]	|
-| OK	|`echo hello > $realvar`|write to var file		|write to var file		| OK [0]	|
-| OK	|`echo hello >>> test`	|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo hello \| \|`		|syntax error			|syntax error			| OK [2]	|
-| ERROR |`echo hello \|;`		|syntax error			|command not found		|			|
-| ERROR	|`echo\ a`				|`echo a` cmd not found	|`echo\` cmd not found	|			|
+| Status| Test						| Bash					| Minishell				| Exit Code |
+|-------|---------------------------|-----------------------|-----------------------|-----------|
+| OK	|`\|`						|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo test ; \|`			|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo test > > out`		|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo hello > $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
+| OK	|`echo hello >> $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
+| OK	|`echo hello < $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
+| OK	|`cat < $fakevar`			|ambiguous redirect		|ambiguous redirect		| OK [1]	|
+| OK	|`echo hello > $realvar`	|write to var file		|write to var file		| OK [0]	|
+| OK	|`echo hello >> $realvar`	|append to var file		|append to var file		| OK [0]	|
+| OK	|`< $realvar cat`			|read from var file		|read from var file		| OK [0]	|
+| OK	|`echo hello >>> test`		|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo hello \| \|`			|syntax error			|syntax error			| OK [2]	|
+| ERROR |`echo hello \|;`			|syntax error			|command not found		|			|
+| ERROR	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	|			|
 
 ## Other Exit Status Tests
 | Status| Test					| Bash						| Minishell					| Exit Code |
