@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 15:46:03 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:09:40 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	exit_builtin(t_data *data, char **args)
 	exit_code = EXIT_SUCCESS;
 	if (data->cmd && (ft_strcmp(data->cmd->command, "exit") != 0))
 		return (exit_code);
+	else if (data->cmd && data->cmd->io_fds)
+		restore_io(data->cmd->io_fds);
 	printf("exit\n");
 	exit_code = get_exit_code(args);
 	if (args && args[2])

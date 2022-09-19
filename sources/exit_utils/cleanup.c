@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 19:06:10 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:04:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ void	close_fds(t_command *cmds, bool close_backups)
 		close(cmds->io_fds->fd_in);
 		close(cmds->io_fds->fd_out);
 		if (close_backups)
-		{
 			restore_io(cmds->io_fds);
-			close(cmds->io_fds->stdin_backup);
-			close(cmds->io_fds->stdout_backup);
-		}
 	}
 	close_pipe_fds(cmds, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 15:13:27 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:05:07 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,20 @@ bool	restore_io(t_io_fds *io)
 	if (!io)
 		return (ret);
 	if (io->stdin_backup != -1)
+	{
 		if (dup2(io->stdin_backup, STDIN_FILENO) == -1)
 			ret = errmsg_cmd("dup2", "restoring stdin", strerror(errno), false);
+		close(io->stdin_backup);
+		io->stdin_backup = -1;
+	}
 	if (io->stdout_backup != -1)
+	{
 		if (dup2(io->stdout_backup, STDOUT_FILENO) == -1)
 			ret = errmsg_cmd("dup2", "restoring stdout",
 					strerror(errno), false);
+		close(io->stdout_backup);
+		io->stdout_backup = -1;
+	}
 	return (ret);
 }
 

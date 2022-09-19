@@ -63,12 +63,22 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 ## EXIT
 
-| Status| Test										| Bash									| Minishell								| Exit Code |
-|-------|-------------------------------------------|---------------------------------------|---------------------------------------|-----------|
-| OK	|`ls \| exit`								|Does nothing (does not exit shell)		|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
-| OK	|`sleep 5 \| exit`							|Sleeps 5 seconds (does not exit shell)	|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
-| OK	|`ls -l \| exit \| wc -l`					|`0` (does not exit shell)				|`0` (does not exit shell)				| OK [0]	|
-| OK	|`exit \| ls`								|`ls` output (does not exit shell)		|`ls` output (does not exit shell)		| OK [0]	|
+| Status| Test						| Bash											| Minishell								| Exit Code |
+|-------|---------------------------|-----------------------------------------------|---------------------------------------|-----------|
+| OK	|`exit 10`					|exits shell									|exits shell							| OK [10]	|
+| OK	|`exit -10`					|exits shell									|exits shell							| OK [246]	|
+| OK	|`exit abc`					|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit --10`				|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit ++10`				|exits shell; error numeric arg requited		|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit < Makefile`			|exits shell									|exits shell							| OK [0]	|
+| OK	|`exit > test`				|exits shell; write exit to terminal, file empty|exits shell; write to term; file empty	| OK [0]	|
+| OK	|`ls \| exit`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
+| ERROR	|`ls > file \| exit`		|`ls` output in `file` (does not exit shell)	|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
+| OK	|`sleep 5 \| exit`			|Sleeps 5 seconds (does not exit shell)			|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
+| OK	|`ls -l \| exit \| wc -l`	|`0` (does not exit shell)						|`0` (does not exit shell)				| OK [0]	|
+| OK	|`exit \| ls`				|`ls` output (does not exit shell)				|`ls` output (does not exit shell)		| OK [0]	|
+
+
 
 ## Pipe tests
 
