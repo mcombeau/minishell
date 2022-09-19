@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:50:28 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/19 13:37:39 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:57:09 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	lstdelone_token(t_token *lst, void (*del)(void *))
 	if (del && lst && lst->str)
 	{	
 		(*del)(lst->str);
+		lst->str = NULL;
+	}
+	if (del && lst && lst->str_backup)
+	{	
+		(*del)(lst->str_backup);
 		lst->str = NULL;
 	}
 	free(lst);
