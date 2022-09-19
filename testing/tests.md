@@ -201,18 +201,17 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 ## Signal Tests
 ## Other Syntax Error Tests
-| Status| Test					| Bash					| Minishell				|
-|-------|-----------------------|-----------------------|-----------------------|
-| OK	|`\|`					|syntax error			|syntax error			|
-| OK	|`echo test ; \|`		|syntax error			|syntax error			|
-| OK	|`echo test > > out`	|syntax error			|syntax error			|
-| ERROR?|`echo hello > $fakevar`|ambiguous redirect		|no such file or dir	|
-| ERROR	|`echo hello > $realvar`|write to var file		|no such file or dir	|
-| OK	|`echo hello >>> test`	|syntax error			|syntax error			|
-| OK	|`echo hello \| \|`		|syntax error			|syntax error			|
-| ERROR |`echo hello \|;`		|syntax error			|command not found		|
-| ERROR	|`echo\ a`				|`echo a` cmd not found	|`echo\` cmd not found	|
-
+| Status| Test					| Bash					| Minishell				| Exit Code |
+|-------|-----------------------|-----------------------|-----------------------|-----------|
+| OK	|`\|`					|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo test ; \|`		|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo test > > out`	|syntax error			|syntax error			| OK [2]	|
+| ERROR?|`echo hello > $fakevar`|ambiguous redirect		|ambinugous redirect (get varname)	| OK [1]	|
+| OK	|`echo hello > $realvar`|write to var file		|write to var file		| OK [0]	|
+| OK	|`echo hello >>> test`	|syntax error			|syntax error			| OK [2]	|
+| OK	|`echo hello \| \|`		|syntax error			|syntax error			| OK [2]	|
+| ERROR |`echo hello \|;`		|syntax error			|command not found		|			|
+| ERROR	|`echo\ a`				|`echo a` cmd not found	|`echo\` cmd not found	|			|
 
 ## Other Exit Status Tests
 | Status| Test					| Bash						| Minishell					| Exit Code |
@@ -222,7 +221,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`./not_executable_file`|Permission denied			|Permission denied			| OK [126]	|
 | OK	|`cat clac 3`			|2 error msg				|2 error msg				| OK [1]	|
 | OK	|`cd $?`				|Number: no such file or dir|Number: no such file..		| OK [1]	|
-| OK	|`cat \|\|\|`				|syntax error				|syntax error				| OK [2]	|
+| OK	|`cat \|\|\|`			|syntax error				|syntax error				| OK [2]	|
 | OK	|`echo "hell`			|unexpected EOF + syntax	|unexpected EOF + syntax	| OK [2]	|
 
 ---

@@ -46,6 +46,11 @@ static void	open_infile(t_io_fds *io, char *file)
 		close(io->fd_in);
 	}
 	io->infile = ft_strdup(file);
+	if (io->infile && io->infile[0] == '\0')
+	{
+		errmsg_cmd("", io->infile, "ambiguous redirect", false);
+		return;
+	}
 	io->fd_in = open(io->infile, O_RDONLY);
 	if (io->fd_in == -1)
 		errmsg_cmd("", io->infile, strerror(errno), false);
