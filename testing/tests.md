@@ -168,6 +168,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`<< END cat`; `$USER$USER`; `END`	|`usernameusername`				|`usernameusername`				|
 | OK	|`<< END cat`; `$USER'$USER'`; `END`|`username'username'`			|`username'username'`			|
 | OK	|`<< END cat`; `$USER"$USER"`; `END`|`username"username"`			|`username"username"`			|
+| ERROR |`<< END cat`; `$USER $USER`; `END`	|`username username`			|`usernameusername`				|
 | OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
@@ -206,7 +207,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`\|`					|syntax error			|syntax error			| OK [2]	|
 | OK	|`echo test ; \|`		|syntax error			|syntax error			| OK [2]	|
 | OK	|`echo test > > out`	|syntax error			|syntax error			| OK [2]	|
-| ERROR?|`echo hello > $fakevar`|ambiguous redirect		|ambinugous redirect (get varname)	| OK [1]	|
+| OK	|`echo hello > $fakevar`|ambiguous redirect		|ambiguous redirect		| OK [1]	|
 | OK	|`echo hello > $realvar`|write to var file		|write to var file		| OK [0]	|
 | OK	|`echo hello >>> test`	|syntax error			|syntax error			| OK [2]	|
 | OK	|`echo hello \| \|`		|syntax error			|syntax error			| OK [2]	|

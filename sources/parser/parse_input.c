@@ -36,7 +36,7 @@ static void	display_error(t_command *cmd, char *infile)
 *		< forbidden <README.md cat > test
 *			Permission denied (no README cat)
 */
-static void	open_infile(t_io_fds *io, char *file)
+static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 {
 	if (io->infile)
 	{
@@ -48,8 +48,8 @@ static void	open_infile(t_io_fds *io, char *file)
 	io->infile = ft_strdup(file);
 	if (io->infile && io->infile[0] == '\0')
 	{
-		errmsg_cmd("", io->infile, "ambiguous redirect", false);
-		return;
+		errmsg_cmd("", original_filename, "ambiguous redirect", false);
+		return ;
 	}
 	io->fd_in = open(io->infile, O_RDONLY);
 	if (io->fd_in == -1)
@@ -59,19 +59,19 @@ static void	open_infile(t_io_fds *io, char *file)
 void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
-	t_command	*cmd;
+//	t_command	*cmd;
 	t_command	*first_cmd;
 
 	temp = *token_lst;
-	cmd = lst_last_cmd(*last_cmd);
+//	cmd = lst_last_cmd(*last_cmd);
 	first_cmd = *last_cmd;
-	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
-	{
-		*token_lst = temp->next->next;
-		return ;
-	}
+//	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
+//	{
+//		*token_lst = temp->next->next;
+//		return ;
+//	}
 	init_io(first_cmd);
-	open_infile(first_cmd->io_fds, temp->next->str);
+	open_infile(first_cmd->io_fds, temp->next->str, temp->next->str_backup);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else

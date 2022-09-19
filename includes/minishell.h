@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:30:20 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:11:19 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ extern int	g_last_exit_code;
 typedef struct s_token
 {	
 	char			*str;
+	char			*str_backup;
 	int				type;
 	int				status;
 	bool			join;
@@ -164,7 +165,7 @@ int			check_consecutives(t_token **token_lst);
 int			check_if_var(t_token **token_lst);
 
 // token_lst_utils.c
-t_token		*lst_new_token(char *str, int type, int status);
+t_token		*lst_new_token(char *str, char *str_backup, int type, int status);
 void		lst_add_back_token(t_token **alst, t_token *new_node);
 void		lstdelone_token(t_token *lst, void (*del)(void *));
 void		lstclear_token(t_token **lst, void (*del)(void *));

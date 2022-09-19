@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_lst_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:50:28 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/16 00:06:45 by alexa            ###   ########.fr       */
+/*   Updated: 2022/09/19 13:37:39 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*lst_new_token(char *str, int type, int status)
+t_token	*lst_new_token(char *str, char *str_backup, int type, int status)
 {
 	t_token	*new_node;
 
@@ -20,6 +20,7 @@ t_token	*lst_new_token(char *str, int type, int status)
 	if (!(new_node))
 		return (NULL);
 	new_node->str = str;
+	new_node->str_backup = str_backup;
 	new_node->type = type;
 	new_node->status = status;
 	new_node->join = false;

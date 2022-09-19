@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_tokenization.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:13:43 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/16 00:13:47 by alexa            ###   ########.fr       */
+/*   Updated: 2022/09/19 13:38:08 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*copy_word(char *str, int end, int start)
 	return (new_word);
 }
 
-static int	create_empty_str_in_new_node(t_token **token_lst)
+static int	create_empty_str_in_new_node(t_token **token_lst, char *str_backup)
 {
 	char	*str;
 
@@ -39,7 +39,7 @@ static int	create_empty_str_in_new_node(t_token **token_lst)
 	if (!str)
 		return (1);
 	str[0] = '\0';
-	lst_add_back_token(token_lst, lst_new_token(str, VAR, DEFAULT));
+	lst_add_back_token(token_lst, lst_new_token(str, str_backup, VAR, DEFAULT));
 	return (0);
 }
 
@@ -55,7 +55,7 @@ static void	set_new_lst_to_true(t_token **new_lst)
 	}
 }
 
-static t_token	*split_var(char *str, t_token *token_lst)
+static t_token	*split_var(char *str, char *str_backup, t_token *token_lst)
 {
 	int		i;
 	int		start;
@@ -63,7 +63,7 @@ static t_token	*split_var(char *str, t_token *token_lst)
 
 	i = 0;
 	if (!str[i])
-		create_empty_str_in_new_node(&token_lst);
+		create_empty_str_in_new_node(&token_lst, str_backup);
 	while (str[i])
 	{
 		if (str[i] == ' ')
@@ -79,7 +79,7 @@ static t_token	*split_var(char *str, t_token *token_lst)
 				i++;
 		}
 		new_word = copy_word(str, i, start);
-		lst_add_back_token(&token_lst, lst_new_token(new_word, VAR, DEFAULT));
+		lst_add_back_token(&token_lst, lst_new_token(new_word, str_backup, VAR, DEFAULT));
 	}
 	return (token_lst);
 }
@@ -97,7 +97,7 @@ int	var_tokenization(t_data *data)
 	{
 		if (temp->type == VAR)
 		{
-			new_lst = split_var(temp->str, token_lst);
+			new_lst = split_var(temp->str, temp->str_backup, token_lst);
 			if (temp->join == true)
 				set_new_lst_to_true(&new_lst);
 			temp = insert_lst_between(&data->token, temp, new_lst);

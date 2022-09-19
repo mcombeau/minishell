@@ -14,7 +14,7 @@ int	save_separator(t_token **token_lst, char *str, int index, int type)
 		while (i < 2)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_add_back_token(token_lst, lst_new_token(sep, type, DEFAULT));
+		lst_add_back_token(token_lst, lst_new_token(sep, NULL, type, DEFAULT));
 	}
 	else
 	{
@@ -24,7 +24,7 @@ int	save_separator(t_token **token_lst, char *str, int index, int type)
 		while (i < 1)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_add_back_token(token_lst, lst_new_token(sep, type, DEFAULT));
+		lst_add_back_token(token_lst, lst_new_token(sep, NULL, type, DEFAULT));
 	}
 	return (0);
 }
@@ -45,7 +45,7 @@ int	save_word(t_token **token_lst, char *str, int index, int start)
 		i++;
 	}
 	word[i] = '\0';
-	lst_add_back_token(token_lst, lst_new_token(word, WORD, DEFAULT));
+	lst_add_back_token(token_lst, lst_new_token(word, ft_strdup(word), WORD, DEFAULT));
 	return (0);
 }
 
