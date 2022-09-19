@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+//TODO: check if several heredocs can be opened at the same time.
+//		heredoc might also be able to be opened after a pipe. Check for that too.
 void	parse_heredoc(t_data *data, t_command **last_cmd, t_token **token_lst)
 {
 	t_token		*temp;

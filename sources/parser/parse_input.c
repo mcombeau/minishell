@@ -60,11 +60,9 @@ void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
 	t_command	*cmd;
-//	t_command	*first_cmd;
 
 	temp = *token_lst;
 	cmd = lst_last_cmd(*last_cmd);
-//	first_cmd = *last_cmd;
 //	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
 //	{
 //		*token_lst = temp->next->next;
