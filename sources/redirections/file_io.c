@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 18:23:40 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:48:02 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ bool	check_infile_outfile(t_data *data)
 	cmd = data->cmd;
 	while (cmd)
 	{
-		io = data->cmd->io_fds;
+		io = cmd->io_fds;
 		if (!io || (!io->infile && !io->outfile))
 		{
 			cmd = cmd->next;

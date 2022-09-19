@@ -73,7 +73,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`exit < Makefile`			|exits shell									|exits shell							| OK [0]	|
 | OK	|`exit > test`				|exits shell; write exit to terminal, file empty|exits shell; write to term; file empty	| OK [0]	|
 | OK	|`ls \| exit`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
-| ERROR	|`ls > file \| exit`		|`ls` output in `file` (does not exit shell)	|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
+| OK	|`ls > file \| exit`		|`ls` output in `file` (does not exit shell)	|`ls` output in `file` (no exit shell)	| OK [0]	|
 | OK	|`sleep 5 \| exit`			|Sleeps 5 seconds (does not exit shell)			|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
 | OK	|`ls -l \| exit \| wc -l`	|`0` (does not exit shell)						|`0` (does not exit shell)				| OK [0]	|
 | OK	|`exit \| ls`				|`ls` output (does not exit shell)				|`ls` output (does not exit shell)		| OK [0]	|
