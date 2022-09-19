@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 17:05:07 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:23:40 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ bool	restore_io(t_io_fds *io)
 *	to restore them after execution.
 *	Returns 1 for success, 0 in case of error.
 */
-static bool	redirect_io(t_io_fds *io)
+bool	redirect_io(t_io_fds *io)
 {
 	int	ret;
 
 	ret = true;
+	if (!io)
+		return (ret);
 	io->stdin_backup = dup(STDIN_FILENO);
 	if (io->stdin_backup == -1)
 		ret = errmsg_cmd("dup", "stdin backup", strerror(errno), false);
@@ -71,20 +73,34 @@ static bool	redirect_io(t_io_fds *io)
 	return (ret);
 }
 
-/* redirect_infile_outfile:
+/* check_infile_outfile:
 *	Checks if the infile and outfile are set correctly.
 *	If they are, redirects input and output accordingly.
 *	Returns 1 on success, 0 on failure.
 */
-bool	redirect_infile_outfile(t_data *data)
+bool	check_infile_outfile(t_data *data)
 {
+	t_command	*cmd;
 	t_io_fds	*io;
+	bool		ret;
 
-	io = data->cmd->io_fds;
-	if (!io || (!io->infile && !io->outfile))
-		return (true);
-	if ((io->infile && io->fd_in == -1)
-		|| (io->outfile && io->fd_out == -1))
-		return (false);
-	return (redirect_io(io));
+	ret = true;
+	cmd = data->cmd;
+	while (cmd)
+	{
+		io = data->cmd->io_fds;
+		if (!io || (!io->infile && !io->outfile))
+		{
+			cmd = cmd->next;
+			continue;
+		}
+		if ((io->infile && io->fd_in == -1)
+			|| (io->outfile && io->fd_out == -1))
+		{
+			ret = false;
+			break ;
+		}
+		cmd = cmd->next;
+	}
+	return (ret);
 }

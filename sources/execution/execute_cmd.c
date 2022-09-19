@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 18:44:35 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:20:27 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	execute_command(t_data *data, t_command *cmd)
 	int	ret;
 
 	set_pipe_fds(data->cmd, cmd);
+	redirect_io(cmd->io_fds);
 	close_fds(data->cmd, false);
 	if (!cmd->command)
 		exit(errmsg_cmd("child process", NULL,

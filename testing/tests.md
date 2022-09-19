@@ -192,6 +192,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`cat <t`				|t: no such file or directory							|t: no such file or directory					|
 | OK	|`> x`					|`x` file created empty									|`x` file created empty							|
 | OK	|`< Ma < Makefile cat`	|Ma: no such file or directory (no cat output)			|Ma: no such file or directory (no cat output)	|
+| ERROR	|`ls > p \| env > q`	|`p` contains `ls` output; `q` contains `env` output	|`p` empty; `q` contains `env` output			|
 | OK	|`echo "File A" > a`	|Create file `a` with contents `File A`					|Create file `a` with contents `File A`			|
 | OK	|`echo "File B" >> b`	|Create file `b` with contents `File B`					|Create file `b` with contents `File B`			|
 | OK	|`echo File C >c`		|Create file `c` with contents `File C`					|Create file `c` with contents `File C`			|
@@ -209,6 +210,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | CRASH	|`echo hello > k\ 1`	|Creates file "`k 1`"									|CRASH in parsing!!								|
 | CRASH	|`echo test >f test1`	|Creates file `f` with contents `test test1`			|CRASH in parsing!!								|
 | OK	|`fakecmd hello > z`	|Command not found, file `z` created					|Command not found, file `z` created			|
+
 
 ## Signal Tests
 ## Other Syntax Error Tests

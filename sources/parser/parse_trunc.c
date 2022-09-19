@@ -85,12 +85,12 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *original_filename
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
-	t_command	*first_cmd;
+	t_command	*cmd;
 
 	temp = *token_lst;
-	first_cmd = *last_cmd;
-	init_io(first_cmd);
-	open_outfile_trunc(first_cmd->io_fds, temp->next->str, temp->next->str_backup);
+	cmd = lst_last_cmd(*last_cmd);
+	init_io(cmd);
+	open_outfile_trunc(cmd->io_fds, temp->next->str, temp->next->str_backup);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else

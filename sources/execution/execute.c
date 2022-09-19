@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:38:04 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:22:42 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,27 @@ static bool	check_cmd_list(t_data *data)
 		return (false);
 	while (cmd)
 	{
-		if (!cmd->args)
+/*		if (!ft_strcmp(cmd->command, "exit") && (cmd->prev != NULL || cmd->next != NULL))
+		{
+			if (cmd->prev && cmd->next)
+			{
+				cmd->prev->next = cmd->next;
+				cmd->next->prev = cmd->prev;
+			}
+			else if (cmd->prev && !cmd->next)
+			{
+				cmd->prev->next = NULL;
+				if (cmd->prev->pipe_output == 1)
+					cmd->prev->pipe_output = 0;
+			}
+			else if (!cmd->prev && cmd->next)
+			{
+				data->cmd = cmd->next;
+				cmd->next->prev = NULL;
+			}
+			lst_delone_cmd(cmd, &free);
+		}
+		else*/ if (!cmd->args)
 		{
 			cmd->args = malloc(sizeof * cmd->args);
 			cmd->args[0] = ft_strdup(cmd->command);
@@ -59,7 +79,7 @@ static bool	check_cmd_list(t_data *data)
 		}
 		cmd = cmd->next;
 	}
-	print_cmd_list(data);
+	cmd = lst_last_cmd(data->cmd);
 	return (true);
 }
 
@@ -77,15 +97,20 @@ int	execute(t_data *data)
 
 	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-	if (!create_pipes(data) || !redirect_infile_outfile(data))
-		return (1);
 	if (!check_cmd_list(data))
 		return (ret);
+	if (!create_pipes(data) || !check_infile_outfile(data))
+		return (1);
+	print_cmd_list(data);
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
 		if (!cmd->pipe_output && !cmd->prev)
+		{
+			redirect_io(cmd->io_fds);
 			ret = execute_builtin(data, cmd);
+			restore_io(cmd->io_fds);
+		}
 		if (ret != CMD_NOT_FOUND)
 			return (ret);
 		pid = fork();

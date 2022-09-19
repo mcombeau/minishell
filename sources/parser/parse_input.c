@@ -59,19 +59,19 @@ static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
 	t_token	*temp;
-//	t_command	*cmd;
-	t_command	*first_cmd;
+	t_command	*cmd;
+//	t_command	*first_cmd;
 
 	temp = *token_lst;
-//	cmd = lst_last_cmd(*last_cmd);
-	first_cmd = *last_cmd;
+	cmd = lst_last_cmd(*last_cmd);
+//	first_cmd = *last_cmd;
 //	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
 //	{
 //		*token_lst = temp->next->next;
 //		return ;
 //	}
-	init_io(first_cmd);
-	open_infile(first_cmd->io_fds, temp->next->str, temp->next->str_backup);
+	init_io(cmd);
+	open_infile(cmd->io_fds, temp->next->str, temp->next->str_backup);
 	if (temp->next->next)
 		temp = temp->next->next;
 	else
