@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:55:54 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 18:55:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:41:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	env_builtin(t_data *data, char **args)
 {
 	int	i;
 
-	(void)args;
+	if (args && args[1])
+		return (errmsg_cmd("env", NULL, "too many arguments", 2));
 	i = 0;
 	if (!data->env)
 		return (EXIT_FAILURE);

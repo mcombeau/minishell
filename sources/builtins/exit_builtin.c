@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 19:09:33 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:46:03 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	exit_builtin(t_data *data, char **args)
 	exit_code = EXIT_SUCCESS;
 	if (data->cmd && (ft_strcmp(data->cmd->command, "exit") != 0))
 		return (exit_code);
+	printf("exit\n");
 	exit_code = get_exit_code(args);
 	if (args && args[2])
 	{
 		errmsg_cmd("exit", NULL, "too many arguments", 1);
 		return (EXIT_FAILURE);
 	}
-	printf("exit\n");
 	exit_shell(data, exit_code);
 	return (2);
 }
