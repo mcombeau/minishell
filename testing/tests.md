@@ -72,14 +72,14 @@ Status represents our Minishell project's execution results for each test:
 
 ## UNSET
 
-On some tests, ? because Bash used to write error messages for unset, but no longer does.
+On some tests, Bash used to write error messages for unset, but no longer does. Considering the DIFF as acceptable in this case.
 
 | Status| Test							| Bash							| Minishell						| Exit Code |
 |-------|-------------------------------|-------------------------------|-------------------------------|-----------|
 | OK	|`unset PATH`					|`echo $PATH` shows `(newline)`	|`echo $PATH` shows `(newline)`	| OK [0]	|
 | OK	|`ls` (after `unset PATH`)		|No such file or directory		|No such file or directory		| OK [127]	|
-| ?		|`unset "" test`				|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
-| ?		|`unset =`						|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| DIFF	|`unset "" test`				|Does nothing					|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| DIFF	|`unset =`						|Does nothing					|Not a valid identifier			| DIFF [bash:0][mini:1]|
 | OK	|`unset FAKEVAR`				|Does nothing					|Does nothing					| OK [0]	|
 | OK	|`export var1=test`				|`env \| grep var` shows var1	|`env \| grep var` shows var1	| OK [0]	|
 | OK	|`unset var` (following `var1`)	|Does not delete `var1`			|Does not delete `var1`			| OK [0]	|
@@ -136,9 +136,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo test$FAKE_VAR`	|`test`				|`test`				|
 | OK	|`echo "$USER>>"`		|`username>>`		|`username>>`		|
 | OK	|`echo "$USER11111ffjf"`|`(newline)`		|`(newline)`		|
-| ERROR |`echo $\"echo`			|`"echo`			|syntax error		|
+| DIFF	|`echo $\"echo`			|`"echo`			|syntax error		|
 | ERROR |`echo "test$<test"`	|`test$<test`		|`test<test`		|
-| ERROR |`echo test$<test`		|test: no such file	|`test$`			|
+| OK	|`echo test$<test`		|test: no such file	|test: no such file	|
 | DIFF	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
 | DIFF	|`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
 | DIFF	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
