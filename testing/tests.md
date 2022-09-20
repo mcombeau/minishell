@@ -209,7 +209,7 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`<< END cat`; `$USER$USER`; `END`	|`usernameusername`				|`usernameusername`				|
 | OK	|`<< END cat`; `$USER'$USER'`; `END`|`username'username'`			|`username'username'`			|
 | OK	|`<< END cat`; `$USER"$USER"`; `END`|`username"username"`			|`username"username"`			|
-| ERROR |`<< END cat`; `$USER $USER`; `END`	|`username username`			|`usernameusername`				|
+| OK 	|`<< END cat`; `$USER $USER`; `END`	|`username username`			|`username username`			|
 | OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
