@@ -28,7 +28,7 @@
 *		< forbidden_file cat >> test
 *	In these 3 cases, the test file should not be opened or created.
 */
-static void	open_outfile_append(t_io_fds *io, char *file, char *original_filename)
+static void	open_outfile_append(t_io_fds *io, char *file, char *var_filename)
 {
 	if (io->outfile)
 	{
@@ -38,10 +38,10 @@ static void	open_outfile_append(t_io_fds *io, char *file, char *original_filenam
 		close(io->fd_out);
 	}
 	io->outfile = ft_strdup(file);
-	if (io->outfile && io->outfile[0] == '\0')
+	if (io->outfile && io->outfile[0] == '\0' && var_filename)
 	{
-		errmsg_cmd("", original_filename, "ambiguous redirect", false);
-		return;
+		errmsg_cmd("", var_filename, "ambiguous redirect", false);
+		return ;
 	}
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
 	if (io->fd_out == -1)
@@ -61,7 +61,7 @@ static void	open_outfile_append(t_io_fds *io, char *file, char *original_filenam
  */
 void	parse_append(t_command **last_cmd, t_token **token_lst)
 {
-	t_token	*temp;
+	t_token		*temp;
 	t_command	*cmd;
 
 	temp = *token_lst;

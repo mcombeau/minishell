@@ -31,8 +31,8 @@
 
 char	*get_relative_path(char *file_to_open)
 {
-	char *path;
-	char *ret;
+	char	*path;
+	char	*ret;
 
 	if (file_to_open[0] == '/')
 		return (ft_strdup(file_to_open));
@@ -53,7 +53,7 @@ char	*get_relative_path(char *file_to_open)
 *		< forbidden_file cat > test
 *	In these 3 cases, the test file should not be opened or created.
 */
-static void	open_outfile_trunc(t_io_fds *io, char *file, char *original_filename)
+static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 {
 	if (io->outfile)
 	{
@@ -65,7 +65,7 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *original_filename
 	io->outfile = ft_strdup(file);
 	if (io->outfile && io->outfile[0] == '\0')
 	{
-		errmsg_cmd("", original_filename, "ambiguous redirect", false);
+		errmsg_cmd("", var_filename, "ambiguous redirect", false);
 		return ;
 	}
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
@@ -84,7 +84,7 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *original_filename
  */
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
-	t_token	*temp;
+	t_token		*temp;
 	t_command	*cmd;
 
 	temp = *token_lst;

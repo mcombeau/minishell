@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 17:29:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:00:29 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 
-# define TRUE 1
-# define FALSE 0
+//# define TRUE 1
+//# define FALSE 0
 
 # define SUCCESS 0
 # define FAILURE 1

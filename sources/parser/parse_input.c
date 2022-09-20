@@ -58,7 +58,7 @@ static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 
 void	parse_input(t_command **last_cmd, t_token **token_lst)
 {
-	t_token	*temp;
+	t_token		*temp;
 	t_command	*cmd;
 
 	temp = *token_lst;
