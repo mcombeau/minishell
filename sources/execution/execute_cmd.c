@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 18:20:27 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:55:57 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 */
 int	execute_builtin(t_data *data, t_command *cmd)
 {
+	printf("Exec builtin\n");
 	int	ret;
 
 	ret = CMD_NOT_FOUND;
@@ -48,7 +49,11 @@ int	execute_builtin(t_data *data, t_command *cmd)
 */
 static int	execute_sys_bin(t_data *data, t_command *cmd)
 {
+	printf("Exec sys bin\n");
+	if (!is_valid_cmd(cmd->command))
+		return (CMD_NOT_FOUND);
 	cmd->path = get_cmd_path(data, cmd->command);
+	printf("command [%s], path [%s]\n", cmd->command, cmd->path);
 	if (!cmd->path)
 		return (CMD_NOT_FOUND);
 	if (execve(cmd->path, cmd->args, data->env) == -1)
@@ -65,10 +70,19 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 */
 static int	execute_local_bin(t_data *data, t_command *cmd)
 {
+	printf("Exec local bin\n");
+	if (ft_strchr(cmd->command, '/') == NULL || !is_valid_cmd(cmd->command))
+		return (errmsg_cmd(cmd->command, NULL, "command not found", CMD_NOT_FOUND));
+	if (cmd_is_dir(cmd->command))
+		return (errmsg_cmd(cmd->command, NULL, "Is a directory", CMD_NOT_EXECUTABLE));
 	if (access(cmd->command, F_OK) != 0)
-		return (CMD_NOT_FOUND);
-	else if (access(cmd->command, F_OK | X_OK) != 0)
-		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND - 1));
+		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND));
+	else
+	{
+		if (access(cmd->command, F_OK | X_OK) != 0)
+			return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_EXECUTABLE));
+	}
+	printf("Cmd [%s] is OK, execve-ing\n", cmd->command);	
 	if (execve(cmd->command, cmd->args, data->env) == -1)
 		errmsg_cmd("execve", NULL, strerror(errno), errno);
 	return (EXIT_FAILURE);
@@ -106,9 +120,5 @@ int	execute_command(t_data *data, t_command *cmd)
 			exit(ret);
 	}
 	ret = execute_local_bin(data, cmd);
-	if (ret != CMD_NOT_FOUND)
-		exit(ret);
-	if (get_env_var_value(data->env, "PATH") == NULL)
-		exit(errmsg_cmd(cmd->command, NULL, "No such file or directory", CMD_NOT_FOUND));
-	exit(errmsg_cmd(cmd->command, NULL, "command not found", CMD_NOT_FOUND));
+	exit(ret);
 }

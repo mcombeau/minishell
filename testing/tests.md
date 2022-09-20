@@ -2,7 +2,36 @@
 
 This is a master table of tests for the 42 project Minishell. Minishell output should be compared to Bash behavior.
 
-Leading and trailling spaces in the output are denoted with the `█` character.
+Status represents our Minishell project's execution results for each test:
+* OK: the output is identical to Bash
+* ERROR: the output differs from Bash when it should not. Must be fixed.
+* DIFF: the output differs from Bash, but the result is acceptable (since Minishell does not implement all of the same functionality as Bash, for example, `\` and `;` do not exist in Minishell)
+* CRASH: Minishell crashes. Must absolutely be fixed.
+ 
+
+## Execution Tests
+
+| Status| Test						| Bash						| Minishell					| Exit Code |
+|-------|---------------------------|---------------------------|---------------------------|-----------|
+| OK	|`ls`						|`ls` output				|`ls` output				| OK [0]	|
+| OK	|`/usr/bin/ls`				|`ls` output				|`ls` output				| OK [0]	|
+| OK	|`usr/bin/ls`				|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./ls`						|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`hello`					|command not found			|command not found			| OK [127]	|
+| OK	|`/usr/bin/hello`			|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./hello`					|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`""`						|command not found			|command not found			| OK [127]	|
+| DIFF	|`.`						|filename arg required		|command not found			| OK [127]	|
+| OK	|`..`						|command not found			|command not found			| OK [127]	|
+| OK	|`./`						|is a directory				|is a directory				| OK [126]	|
+| OK	|`../`						|is a directory				|is a directory				| OK [126]	|
+| OK	|`../existing_dir`			|is a directory				|is a directory				| OK [126]	|
+| OK	|`../fake_dir`				|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./Makefile`				|permission denied			|permission denied			| OK [126]	|
+| OK	|`./does_not_exist`			|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./minishell`				|executes new minishell		|executes new minishell		| OK [0]	|
+| OK	|`minishell`				|command not found			|command not found			| OK [127]	|
+| OK	|`.minishell`				|command not found			|command not found			| OK [127]	|
 
 ## CD
 
@@ -91,6 +120,8 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`					|`1'2$C"$D5"$F"'7'8`					| OK [0]	|
 ## Variable Expansion Tests
 
+Leading and trailling spaces in the output are denoted with the `█` character.
+
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|
 | OK	|`echo $USER`			|`username`			|`username`			|
@@ -121,6 +152,8 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo $USER.test`		|`username.test`	|`username.test`	|
 
 ## Quote Handling Tests
+
+Leading and trailling spaces in the output are denoted with the `█` character.
 
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|

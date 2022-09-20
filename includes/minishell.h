@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 18:19:15 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:58:31 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 ******************************************************************************/
 # define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell $ \001\e[0m\002"
 # define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
 
 # define TRUE 1
 # define FALSE 0
@@ -276,6 +277,10 @@ int			execute(t_data *data);
 // execute_cmd.c
 int			execute_command(t_data *data, t_command *cmd);
 int			execute_builtin(t_data *data, t_command *cmd);
+
+// execute_utils.c
+bool		is_valid_cmd(char *cmd);
+bool		cmd_is_dir(char *cmd);
 
 // parse_path.c
 char		*get_cmd_path(t_data *data, char *cmd);

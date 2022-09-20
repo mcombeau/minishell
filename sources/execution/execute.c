@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 18:22:42 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 11:48:17 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,7 @@ static bool	check_cmd_list(t_data *data)
 		return (false);
 	while (cmd)
 	{
-/*		if (!ft_strcmp(cmd->command, "exit") && (cmd->prev != NULL || cmd->next != NULL))
-		{
-			if (cmd->prev && cmd->next)
-			{
-				cmd->prev->next = cmd->next;
-				cmd->next->prev = cmd->prev;
-			}
-			else if (cmd->prev && !cmd->next)
-			{
-				cmd->prev->next = NULL;
-				if (cmd->prev->pipe_output == 1)
-					cmd->prev->pipe_output = 0;
-			}
-			else if (!cmd->prev && cmd->next)
-			{
-				data->cmd = cmd->next;
-				cmd->next->prev = NULL;
-			}
-			lst_delone_cmd(cmd, &free);
-		}
-		else*/ if (!cmd->args)
+		if (!cmd->args)
 		{
 			cmd->args = malloc(sizeof * cmd->args);
 			cmd->args[0] = ft_strdup(cmd->command);
