@@ -257,22 +257,35 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`cat` + `enter` + `ctrl+d`	|quit cat; do not quit shell		|quit cat; do not quit shell		| OK [0]	|
 | OK	|`cat` + `enter` + `ctrl+\`	|quit cat; do not kill shell		|quit cat; do not quit shell		| OK [131]	|
 ## Other Syntax Error Tests
-| Status| Test						| Bash					| Minishell				| Exit Code |
-|-------|---------------------------|-----------------------|-----------------------|-----------|
-| OK	|`\|`						|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo test ; \|`			|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo test > > out`		|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo hello > $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
-| OK	|`echo hello >> $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
-| OK	|`echo hello < $fakevar`	|ambiguous redirect		|ambiguous redirect		| OK [1]	|
-| OK	|`cat < $fakevar`			|ambiguous redirect		|ambiguous redirect		| OK [1]	|
-| OK	|`echo hello > $realvar`	|write to var file		|write to var file		| OK [0]	|
-| OK	|`echo hello >> $realvar`	|append to var file		|append to var file		| OK [0]	|
-| OK	|`< $realvar cat`			|read from var file		|read from var file		| OK [0]	|
-| OK	|`echo hello >>> test`		|syntax error			|syntax error			| OK [2]	|
-| OK	|`echo hello \| \|`			|syntax error			|syntax error			| OK [2]	|
-| DIFF	|`echo hello \|;`			|syntax error			|command not found		| OK [127]	|
-| DIFF	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	| OK [127]	|
+| Status| Test						| Bash						| Minishell					| Exit Code |
+|-------|---------------------------|---------------------------|---------------------------|-----------|
+| OK	|`\|`						|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| DIFF	|`ls \|`					|syntax unexpected EOF		|syntax error near `\|`		| OK [2]	|
+| OK	|`ls < \|`					|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| OK	|`ls << \|`					|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| OK	|`ls > \|`					|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| OK	|`ls >> \|`					|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| OK	|`ls \| <`					|syntax error near `newline`|syntax error near `newline`| OK [2]	|
+| OK	|`ls \| <<`					|syntax error near `newline`|syntax error near `newline`| OK [2]	|
+| OK	|`ls \| >`					|syntax error near `newline`|syntax error near `newline`| OK [2]	|
+| OK	|`ls \| >>`					|syntax error near `newline`|syntax error near `newline`| OK [2]	|
+| OK	|`ls >> >`					|syntax error near `>`		|syntax error near `>`		| OK [2]	|
+| OK	|`ls > >>`					|syntax error near `>>`		|syntax error near `>>`		| OK [2]	|
+| OK	|`ls << <`					|syntax error near `<`		|syntax error near `<`		| OK [2]	|
+| OK	|`ls < <<`					|syntax error near `<<`		|syntax error near `<<`		| OK [2]	|
+| OK	|`echo test > > out`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
+| OK	|`echo test >> > out`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
+| OK	|`echo hello > $fakevar`	|ambiguous redirect			|ambiguous redirect			| OK [1]	|
+| OK	|`echo hello >> $fakevar`	|ambiguous redirect			|ambiguous redirect			| OK [1]	|
+| OK	|`echo hello < $fakevar`	|ambiguous redirect			|ambiguous redirect			| OK [1]	|
+| OK	|`cat < $fakevar`			|ambiguous redirect			|ambiguous redirect			| OK [1]	|
+| OK	|`echo hello > $realvar`	|write to var file			|write to var file			| OK [0]	|
+| OK	|`echo hello >> $realvar`	|append to var file			|append to var file			| OK [0]	|
+| OK	|`< $realvar cat`			|read from var file			|read from var file			| OK [0]	|
+| OK	|`echo hello >>> test`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
+| OK	|`echo hello \| \|`			|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
+| DIFF	|`echo hello \|;`			|syntax error near `;`		|command not found			| DIFF [127]|
+| DIFF	|`echo\ a`					|`echo a` cmd not found		|`echo\` cmd not found		| OK [127]	|
 
 ## Other Exit Status Tests
 | Status| Test					| Bash						| Minishell					| Exit Code |
