@@ -14,8 +14,9 @@ SRC		= 	main.c \
 			env/env.c \
 			env/env_set.c \
 			lexer/tokenization.c \
+			lexer/tokenization_utils.c \
 			lexer/check_if_var.c \
-			lexer/lexer_utils.c \
+			lexer/lexer_grammar.c \
 			lexer/token_lst_utils.c \
 			lexer/token_lst_utils_2.c \
 			lexer/var_tokenization.c \

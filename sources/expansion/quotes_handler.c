@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 14:39:40 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/20 14:39:43 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	count_len(char *str, int count, int i)
@@ -16,7 +28,7 @@ int	count_len(char *str, int count, int i)
 			i++;
 			continue ;
 		}
-		else if ((str[i] == '\'' && status == SQUOTE) 
+		else if ((str[i] == '\'' && status == SQUOTE)
 			|| (str[i] == '\"' && status == DQUOTE))
 		{
 			status = DEFAULT;
@@ -31,7 +43,7 @@ int	count_len(char *str, int count, int i)
 
 bool	quotes_in_string(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -45,7 +57,7 @@ bool	quotes_in_string(char *str)
 
 int	handle_quotes(t_data *data)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = data->token;
 	while (temp)

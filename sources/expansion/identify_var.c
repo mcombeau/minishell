@@ -1,12 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   identify_var.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 15:14:08 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/20 15:14:14 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// only alphanumeric characters and _ are allowed as env variable names.
-// ex. $USER.bot must turn into username.bot
 bool	is_var_compliant(char c)
 {
-//	if (c == ' ' || c == '$' || c == '\0' || c == '\'' || c == '\"' 
-//		|| (c >= '\t' && c <= '\r')
-//		|| c == '=' || c == '[' || c == ']' || c == '{' || c == '}')
 	if (ft_isalnum(c) == 0 && c != '_')
 		return (false);
 	else
@@ -27,7 +34,7 @@ int	var_length(char *str)
 		return (count + 1);
 	while (str[i])
 	{
-		if(is_var_compliant(str[i]) == false)
+		if (is_var_compliant(str[i]) == false)
 			break ;
 		count++;
 		i++;
@@ -39,7 +46,7 @@ char	*identify_var(char *str)
 {
 	char	*var;
 	int		start;
-	int 	len;
+	int		len;
 	int		i;
 
 	i = 0;
