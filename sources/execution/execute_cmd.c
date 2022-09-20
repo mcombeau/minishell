@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 13:55:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:29:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,13 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 static int	execute_local_bin(t_data *data, t_command *cmd)
 {
 	printf("Exec local bin\n");
-	if (ft_strchr(cmd->command, '/') == NULL || !is_valid_cmd(cmd->command))
+	if (ft_strchr(cmd->command, '/') == NULL)
+	{
+		if (get_env_var_index(data->env, "PATH") == -1)
+			return (errmsg_cmd(cmd->command, NULL, "No such file or directory", CMD_NOT_FOUND));
+		return (errmsg_cmd(cmd->command, NULL, "command not found", CMD_NOT_FOUND));
+	}
+	if (!is_valid_cmd(cmd->command))
 		return (errmsg_cmd(cmd->command, NULL, "command not found", CMD_NOT_FOUND));
 	if (cmd_is_dir(cmd->command))
 		return (errmsg_cmd(cmd->command, NULL, "Is a directory", CMD_NOT_EXECUTABLE));
