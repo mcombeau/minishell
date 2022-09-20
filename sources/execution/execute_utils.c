@@ -6,12 +6,17 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:28:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 17:29:04 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:57:35 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* is_valid_cmd:
+*	Checks if the given command is a valid command. An empty string, a [.] or a
+*	[..] are not valid commands.
+*	Returns true if the command is valid, false if not.
+*/
 bool	is_valid_cmd(char *cmd)
 {
 	if (!cmd || cmd[0] == '\0' || !ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
@@ -19,10 +24,14 @@ bool	is_valid_cmd(char *cmd)
 	return (true);
 }
 
-bool	cmd_is_dir(char *path)
+/* cmd_is_dir:
+*	Checks if the command is a directory rather than an executable.
+*	Returns true if the command is a directory, false if not.
+*/
+bool	cmd_is_dir(char *cmd)
 {
-	struct stat	path_stat;
+	struct stat	cmd_stat;
 
-	stat(path, &path_stat);
-	return (S_ISDIR(path_stat.st_mode));
+	stat(cmd, &cmd_stat);
+	return (S_ISDIR(cmd_stat.st_mode));
 }
