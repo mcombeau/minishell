@@ -127,8 +127,8 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo $USER`			|`username`			|`username`			|
 | OK	|`echo $`				|`$`				|`$`				|
 | OK	|`echo $""`				|`(newline)`		|`(newline)`		|
-| ERROR?|`echo $$$USER`			|`26153username`	|`$$username`		|
-| ERROR?|`echo $$USER`			|`26153USER`		|`$username`		|
+| DIFF	|`echo $$$USER`			|`26153username`	|`$$username`		|
+| DIFF	|`echo $$USER`			|`26153USER`		|`$username`		|
 | OK	|`echo $USER$USER`		|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER""$USER`	|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER" "$USER`	|`username username`|`username username`|
@@ -139,9 +139,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | ERROR |`echo $\"echo`			|`"echo`			|syntax error		|
 | ERROR |`echo "test$<test"`	|`test$<test`		|`test<test`		|
 | ERROR |`echo test$<test`		|test: no such file	|`test$`			|
-| ERROR	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
-| ERROR |`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
-| ERROR	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
+| DIFF	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
+| DIFF	|`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
+| DIFF	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
 | OK	|`echo $1`				|`(newline)`		|`(newline)`		|
 | OK	|`echo "$1"`			|`(newline)`		|`(newline)`		|
 | OK	|`echo $"USER"`			|`USER`				|`USER`				|
@@ -200,8 +200,8 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`export FOO=' " '`		|`env` shows `FOO`	|`env` shows `FOO` 	|
 | ERROR	|`echo "$FOO" \| cat -e`|`█" $`				|`██$`				|
 | OK	|`echo "\x"`			|`\x`				|`\x`				|
-| ERROR?|`echo "\\x"`			|`\x`				|`\\x`				|
-| ERROR?|`echo "\\\x"`			|`\\x`				|`\\\x`				|
+| DIFF	|`echo "\\x"`			|`\x`				|`\\x`				|
+| DIFF	|`echo "\\\x"`			|`\\x`				|`\\\x`				|
 
 ## Heredoc Tests
 | Status| Test								| Bash							| Minishell						|
@@ -244,6 +244,18 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 
 ## Signal Tests
+
+| Status| Test						| Bash								| Minishell							| Exit Code |
+|-------|---------------------------|-----------------------------------|-----------------------------------|-----------|
+| OK	|`ctrl+c`					|`^C` + new prompt on new line		|`^C` + new prompt on new line		| N/A		|
+| OK	|`abc` + `ctrl + c`			|`abc^C` + new prompt				|`abc^C` + new prompt				| N/A		|
+| OK	|`ctrl+d`					|print `exit` + exit shell			|print `exit` + exit shell			| OK [0]	|
+| OK	|`abc` + `ctrl+d`			|does nothing						|does nothing						| N/A		|
+| OK	|`ctrl+\`					|does nothing						|does nothing						| N/A		|
+| OK	|`abc` + `ctrl+\`			|does nothing						|does nothing						| N/A		|
+| OK	|`cat` + `enter` + `ctrl+c`	|interrupt cat; do not quit shell	|interrupt cat; do not quit shell	| OK [130]	|
+| OK	|`cat` + `enter` + `ctrl+d`	|quit cat; do not quit shell		|quit cat; do not quit shell		| OK [0]	|
+| OK	|`cat` + `enter` + `ctrl+\`	|quit cat; do not kill shell		|quit cat; do not quit shell		| OK [131]	|
 ## Other Syntax Error Tests
 | Status| Test						| Bash					| Minishell				| Exit Code |
 |-------|---------------------------|-----------------------|-----------------------|-----------|
@@ -259,8 +271,8 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`< $realvar cat`			|read from var file		|read from var file		| OK [0]	|
 | OK	|`echo hello >>> test`		|syntax error			|syntax error			| OK [2]	|
 | OK	|`echo hello \| \|`			|syntax error			|syntax error			| OK [2]	|
-| ERROR |`echo hello \|;`			|syntax error			|command not found		|			|
-| ERROR	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	|			|
+| DIFF	|`echo hello \|;`			|syntax error			|command not found		| OK [127]	|
+| DIFF	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	| OK [127]	|
 
 ## Other Exit Status Tests
 | Status| Test					| Bash						| Minishell					| Exit Code |
