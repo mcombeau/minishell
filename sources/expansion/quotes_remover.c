@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_remover.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 14:42:10 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/20 14:42:17 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 static void	change_status_to_quote(t_token **token_node, int *i)
 {
@@ -12,8 +23,8 @@ static void	change_status_to_quote(t_token **token_node, int *i)
 
 static bool	if_quotes_and_default(t_token **token_node, int i)
 {
-	if (((*token_node)->str[i] == '\'' || (*token_node)->str[i] == '\"') 
-			&& (*token_node)->status == DEFAULT)
+	if (((*token_node)->str[i] == '\'' || (*token_node)->str[i] == '\"')
+		&& (*token_node)->status == DEFAULT)
 		return (true);
 	else
 		return (false);
@@ -21,7 +32,7 @@ static bool	if_quotes_and_default(t_token **token_node, int i)
 
 static bool	change_back_to_default(t_token **token_node, int *i)
 {
-	if (((*token_node)->str[*i] == '\'' && (*token_node)->status == SQUOTE) 
+	if (((*token_node)->str[*i] == '\'' && (*token_node)->status == SQUOTE)
 		|| ((*token_node)->str[*i] == '\"' && (*token_node)->status == DQUOTE))
 	{
 		(*token_node)->status = DEFAULT;
@@ -55,7 +66,6 @@ int	remove_quotes(t_token **token_node)
 		new_line[j++] = (*token_node)->str[i++];
 	}
 	new_line[j] = '\0';
-	// printf("newline : %s\n", new_line);
 	free((*token_node)->str);
 	(*token_node)->str = new_line;
 	(*token_node)->join = true;

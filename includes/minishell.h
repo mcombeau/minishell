@@ -155,10 +155,17 @@ void		free_io(t_io_fds *io);
 void		free_data(t_data *data, bool clear_history);
 
 /* ------------------------ LEXER -----------------------------------------*/
-// tokenize.c
+// tokenization.c
 int			tokenization(t_data *data, char *str);
 
-// lexer_utils.c
+//tokenization_utils.c
+int			save_word_or_sep(int *i, char *str, int start, t_data *data);
+int			set_status(int status, char *str, int i);
+int			is_separator(char *str, int i);
+int			save_word(t_token **token_lst, char *str, int index, int start);
+int			save_separator(t_token **token_lst, char *str, int index, int type);
+
+// lexer_grammar.c
 int			check_consecutives(t_token **token_lst);
 
 // check_if_var.c

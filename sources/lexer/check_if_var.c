@@ -21,8 +21,6 @@ static void	variable_check(t_token **token_node)
 	{
 		if ((*token_node)->str[i] == '$')
 		{	
-//			if ((*token_node)->str[i + 1] && (*token_node)->str[i + 1] == '?')
-//				break ;
 			if ((*token_node)->prev && (*token_node)->prev->type == HEREDOC)
 				break ;
 			(*token_node)->type = VAR;
