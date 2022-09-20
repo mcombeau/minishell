@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 12:58:31 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:29:57 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include <unistd.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
 # include <errno.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -25,6 +23,10 @@
 # include <signal.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+
 # include "libft.h"
 
 /******************************************************************************
@@ -248,7 +250,8 @@ void		parse_input(t_command **last_cmd, t_token **token_lst);
 void		parse_append(t_command **last_cmd, t_token **token_lst);
 
 //parse_heredoc.c
-void		parse_heredoc(t_data *data, t_command **last_cmd, t_token **token_lst);
+void		parse_heredoc(t_data *data, t_command **last_cmd,
+				t_token **token_lst);
 
 //parse_pipec
 void		parse_pipe(t_command **cmd, t_token **token_lst);

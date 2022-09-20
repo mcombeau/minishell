@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 18:04:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:23:49 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	cd_builtin(t_data *data, char **args)
 		if (!path)
 			return (errmsg_cmd("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
 		printf("%s\n", get_env_var_value(data->env, "OLDPWD"));
-		return(!change_dir(data, get_env_var_value(data->env, "OLDPWD")));
+		return (!change_dir(data, get_env_var_value(data->env, "OLDPWD")));
 	}
 	return (!change_dir(data, args[1]));
 }
