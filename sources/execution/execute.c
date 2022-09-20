@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 11:48:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:48:48 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static int	get_children(t_data *data)
 	return (g_last_exit_code);
 }
 
-/* check_cmd_list:
+/* prep_cmd_list:
 *	Checks if the list of commands to execute is valid.
 *	Returns true if it is, false if it is not.
 */
-static bool	check_cmd_list(t_data *data)
+static bool	prep_cmd_list(t_data *data)
 {
 	t_command	*cmd;
 
@@ -60,16 +60,20 @@ static bool	check_cmd_list(t_data *data)
 		cmd = cmd->next;
 	}
 	cmd = lst_last_cmd(data->cmd);
+	if (!create_pipes(data) || !check_infile_outfile(data))
+		return (false);
 	return (true);
 }
 
-/* execute:
-*	Executes the given commands by creating children processes
-*	and waiting for them to terminate. If the command is a builtin
-*	and its output is not piped to another command, it is not forked.
-*	Returns the exit code of the last child to terminate.
+/* create_children:
+*	Creates a child process for each command to execute, except in the
+*	case of a builtin command that is not piped, which executes in the
+*	main process (no children created in this case).
+*	Returns true when a process was created for each command or when a
+*	builtin was executed alone.
+*	Returns false if there was a fork error.
 */
-int	execute(t_data *data)
+static bool	create_children(t_data *data)
 {
 	t_command	*cmd;
 	int			pid;
@@ -77,11 +81,6 @@ int	execute(t_data *data)
 
 	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-	if (!check_cmd_list(data))
-		return (ret);
-	if (!create_pipes(data) || !check_infile_outfile(data))
-		return (1);
-	print_cmd_list(data);
 	pid = -1;
 	while (pid != 0 && cmd)
 	{
@@ -92,13 +91,30 @@ int	execute(t_data *data)
 			restore_io(cmd->io_fds);
 		}
 		if (ret != CMD_NOT_FOUND)
-			return (ret);
+			return (true);
 		pid = fork();
 		if (pid == -1)
-			errmsg_cmd("fork", NULL, strerror(errno), errno);
+			return (errmsg_cmd("fork", NULL, strerror(errno), false));
 		else if (pid == 0)
 			execute_command(data, cmd);
 		cmd = cmd->next;
 	}
-	return (get_children(data));
+	return (true);
+}
+
+/* execute:
+*	Executes the given commands by creating children processes
+*	and waiting for them to terminate.
+*	Returns the exit code of the last child to terminate. Or
+*	exit code 1 in case of failure in the child creation process.
+*/
+int	execute(t_data *data)
+{
+	if (!prep_cmd_list(data))
+		return (EXIT_FAILURE);
+	print_cmd_list(data);
+	if (create_children(data) == true)
+		return (get_children(data));
+	else
+		return (EXIT_FAILURE);
 }
