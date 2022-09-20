@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:52:31 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 18:06:16 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:28:02 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ static char	*make_str_from_tab(char **tab)
 	char	*tmp;
 	int		i;
 
-	str = ft_strdup(tab[0]);
-	i = 1;
-	while (tab[i])
+	i = -1;
+	while (tab[++i])
 	{
 		tmp = str;
-		str = ft_strjoin(tmp, tab[i]);
-		free(tmp);
-		if (!str)
-			break ;
+		if (i == 0)
+			str = ft_strdup(tab[0]);
+		else
+		{
+			str = ft_strjoin(tmp, tab[i]);
+			free(tmp);
+		}
 		if (tab[i + 1])
 		{
 			tmp = str;
 			str = ft_strjoin(tmp, " ");
 			free(tmp);
 		}
-		i++;
 	}
 	free_tab(tab);
 	return (str);

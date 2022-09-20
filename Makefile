@@ -44,6 +44,7 @@ SRC		= 	main.c \
 			builtins/exit_builtin.c \
 			execution/execute.c \
 			execution/execute_cmd.c \
+			execution/execute_utils.c \
 			execution/parse_path.c \
 			redirections/pipe.c \
 			redirections/file_io.c \

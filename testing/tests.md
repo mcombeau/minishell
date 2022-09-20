@@ -2,7 +2,36 @@
 
 This is a master table of tests for the 42 project Minishell. Minishell output should be compared to Bash behavior.
 
-Leading and trailling spaces in the output are denoted with the `█` character.
+Status represents our Minishell project's execution results for each test:
+* OK: the output is identical to Bash
+* ERROR: the output differs from Bash when it should not. Must be fixed.
+* DIFF: the output differs from Bash, but the result is acceptable (since Minishell does not implement all of the same functionality as Bash, for example, `\` and `;` do not exist in Minishell)
+* CRASH: Minishell crashes. Must absolutely be fixed.
+ 
+
+## Execution Tests
+
+| Status| Test						| Bash						| Minishell					| Exit Code |
+|-------|---------------------------|---------------------------|---------------------------|-----------|
+| OK	|`ls`						|`ls` output				|`ls` output				| OK [0]	|
+| OK	|`/usr/bin/ls`				|`ls` output				|`ls` output				| OK [0]	|
+| OK	|`usr/bin/ls`				|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./ls`						|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`hello`					|command not found			|command not found			| OK [127]	|
+| OK	|`/usr/bin/hello`			|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./hello`					|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`""`						|command not found			|command not found			| OK [127]	|
+| DIFF	|`.`						|filename arg required		|command not found			| OK [127]	|
+| OK	|`..`						|command not found			|command not found			| OK [127]	|
+| OK	|`./`						|is a directory				|is a directory				| OK [126]	|
+| OK	|`../`						|is a directory				|is a directory				| OK [126]	|
+| OK	|`../existing_dir`			|is a directory				|is a directory				| OK [126]	|
+| OK	|`../fake_dir`				|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./Makefile`				|permission denied			|permission denied			| OK [126]	|
+| OK	|`./does_not_exist`			|no such file or dir		|no such file or dir		| OK [127]	|
+| OK	|`./minishell`				|executes new minishell		|executes new minishell		| OK [0]	|
+| OK	|`minishell`				|command not found			|command not found			| OK [127]	|
+| OK	|`.minishell`				|command not found			|command not found			| OK [127]	|
 
 ## CD
 
@@ -43,14 +72,14 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 
 ## UNSET
 
-On some tests, ? because Bash used to write error messages for unset, but no longer does.
+On some tests, Bash used to write error messages for unset, but no longer does. Considering the DIFF as acceptable in this case.
 
 | Status| Test							| Bash							| Minishell						| Exit Code |
 |-------|-------------------------------|-------------------------------|-------------------------------|-----------|
 | OK	|`unset PATH`					|`echo $PATH` shows `(newline)`	|`echo $PATH` shows `(newline)`	| OK [0]	|
 | OK	|`ls` (after `unset PATH`)		|No such file or directory		|No such file or directory		| OK [127]	|
-| ?		|`unset "" test`				|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
-| ?		|`unset =`						|?								|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| DIFF	|`unset "" test`				|Does nothing					|Not a valid identifier			| DIFF [bash:0][mini:1]|
+| DIFF	|`unset =`						|Does nothing					|Not a valid identifier			| DIFF [bash:0][mini:1]|
 | OK	|`unset FAKEVAR`				|Does nothing					|Does nothing					| OK [0]	|
 | OK	|`export var1=test`				|`env \| grep var` shows var1	|`env \| grep var` shows var1	| OK [0]	|
 | OK	|`unset var` (following `var1`)	|Does not delete `var1`			|Does not delete `var1`			| OK [0]	|
@@ -91,13 +120,15 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H"`		|`1'2$C"$D5"$F"'7'8`					|`1'2$C"$D5"$F"'7'8`					| OK [0]	|
 ## Variable Expansion Tests
 
+Leading and trailling spaces in the output are denoted with the `█` character.
+
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|
 | OK	|`echo $USER`			|`username`			|`username`			|
 | OK	|`echo $`				|`$`				|`$`				|
 | OK	|`echo $""`				|`(newline)`		|`(newline)`		|
-| ERROR?|`echo $$$USER`			|`26153username`	|`$$username`		|
-| ERROR?|`echo $$USER`			|`26153USER`		|`$username`		|
+| DIFF	|`echo $$$USER`			|`26153username`	|`$$username`		|
+| DIFF	|`echo $$USER`			|`26153USER`		|`$username`		|
 | OK	|`echo $USER$USER`		|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER""$USER`	|`usernameusername`	|`usernameusername`	|
 | OK	|`echo $USER" "$USER`	|`username username`|`username username`|
@@ -105,12 +136,12 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo test$FAKE_VAR`	|`test`				|`test`				|
 | OK	|`echo "$USER>>"`		|`username>>`		|`username>>`		|
 | OK	|`echo "$USER11111ffjf"`|`(newline)`		|`(newline)`		|
-| ERROR |`echo $\"echo`			|`"echo`			|syntax error		|
+| DIFF	|`echo $\"echo`			|`"echo`			|syntax error		|
 | ERROR |`echo "test$<test"`	|`test$<test`		|`test<test`		|
-| ERROR |`echo test$<test`		|test: no such file	|`test$`			|
-| ERROR	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
-| ERROR |`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
-| ERROR	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
+| OK	|`echo test$<test`		|test: no such file	|test: no such file	|
+| DIFF	|`echo "test$-r"`		|`testhimBHsr`		|`test-r`			|
+| DIFF	|`echo "test$-?"`		|`testhimBHs?`		|`test-?`			|
+| DIFF	|`echo $-1$USER`		|`himBHs1username`	|`-1username`		|
 | OK	|`echo $1`				|`(newline)`		|`(newline)`		|
 | OK	|`echo "$1"`			|`(newline)`		|`(newline)`		|
 | OK	|`echo $"USER"`			|`USER`				|`USER`				|
@@ -121,6 +152,8 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`echo $USER.test`		|`username.test`	|`username.test`	|
 
 ## Quote Handling Tests
+
+Leading and trailling spaces in the output are denoted with the `█` character.
 
 | Status| Test					| Bash				| Minishell			|
 |-------|-----------------------|-------------------|-------------------|
@@ -167,8 +200,8 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`export FOO=' " '`		|`env` shows `FOO`	|`env` shows `FOO` 	|
 | ERROR	|`echo "$FOO" \| cat -e`|`█" $`				|`██$`				|
 | OK	|`echo "\x"`			|`\x`				|`\x`				|
-| ERROR?|`echo "\\x"`			|`\x`				|`\\x`				|
-| ERROR?|`echo "\\\x"`			|`\\x`				|`\\\x`				|
+| DIFF	|`echo "\\x"`			|`\x`				|`\\x`				|
+| DIFF	|`echo "\\\x"`			|`\\x`				|`\\\x`				|
 
 ## Heredoc Tests
 | Status| Test								| Bash							| Minishell						|
@@ -176,7 +209,7 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`<< END cat`; `$USER$USER`; `END`	|`usernameusername`				|`usernameusername`				|
 | OK	|`<< END cat`; `$USER'$USER'`; `END`|`username'username'`			|`username'username'`			|
 | OK	|`<< END cat`; `$USER"$USER"`; `END`|`username"username"`			|`username"username"`			|
-| ERROR |`<< END cat`; `$USER $USER`; `END`	|`username username`			|`usernameusername`				|
+| OK 	|`<< END cat`; `$USER $USER`; `END`	|`username username`			|`username username`			|
 | OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
@@ -211,6 +244,18 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 
 
 ## Signal Tests
+
+| Status| Test						| Bash								| Minishell							| Exit Code |
+|-------|---------------------------|-----------------------------------|-----------------------------------|-----------|
+| OK	|`ctrl+c`					|`^C` + new prompt on new line		|`^C` + new prompt on new line		| N/A		|
+| OK	|`abc` + `ctrl + c`			|`abc^C` + new prompt				|`abc^C` + new prompt				| N/A		|
+| OK	|`ctrl+d`					|print `exit` + exit shell			|print `exit` + exit shell			| OK [0]	|
+| OK	|`abc` + `ctrl+d`			|does nothing						|does nothing						| N/A		|
+| OK	|`ctrl+\`					|does nothing						|does nothing						| N/A		|
+| OK	|`abc` + `ctrl+\`			|does nothing						|does nothing						| N/A		|
+| OK	|`cat` + `enter` + `ctrl+c`	|interrupt cat; do not quit shell	|interrupt cat; do not quit shell	| OK [130]	|
+| OK	|`cat` + `enter` + `ctrl+d`	|quit cat; do not quit shell		|quit cat; do not quit shell		| OK [0]	|
+| OK	|`cat` + `enter` + `ctrl+\`	|quit cat; do not kill shell		|quit cat; do not quit shell		| OK [131]	|
 ## Other Syntax Error Tests
 | Status| Test						| Bash					| Minishell				| Exit Code |
 |-------|---------------------------|-----------------------|-----------------------|-----------|
@@ -226,8 +271,8 @@ On some tests, ? because Bash used to write error messages for unset, but no lon
 | OK	|`< $realvar cat`			|read from var file		|read from var file		| OK [0]	|
 | OK	|`echo hello >>> test`		|syntax error			|syntax error			| OK [2]	|
 | OK	|`echo hello \| \|`			|syntax error			|syntax error			| OK [2]	|
-| ERROR |`echo hello \|;`			|syntax error			|command not found		|			|
-| ERROR	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	|			|
+| DIFF	|`echo hello \|;`			|syntax error			|command not found		| OK [127]	|
+| DIFF	|`echo\ a`					|`echo a` cmd not found	|`echo\` cmd not found	| OK [127]	|
 
 ## Other Exit Status Tests
 | Status| Test					| Bash						| Minishell					| Exit Code |

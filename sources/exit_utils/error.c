@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 19:06:33 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 11:57:33 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	bool	detail_quotes;
 
 	detail_quotes = false;
-	if (command != NULL && command[0] != '\0')
+	if (command != NULL)
 		msg = ft_strjoin("minishell: ", command);
 	else
 		msg = ft_strdup("minishell");
