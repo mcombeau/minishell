@@ -273,6 +273,8 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`ls > >>`					|syntax error near `>>`		|syntax error near `>>`		| OK [2]	|
 | OK	|`ls << <`					|syntax error near `<`		|syntax error near `<`		| OK [2]	|
 | OK	|`ls < <<`					|syntax error near `<<`		|syntax error near `<<`		| OK [2]	|
+| OK	|`ls > >> \|`				|syntax error near `>>`		|syntax error near `>>`		| OK [2]	|
+| OK	|`ls >>`					|syntax error near `newline`|syntax error near `newline`| OK [2]	|
 | OK	|`echo test > > out`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
 | OK	|`echo test >> > out`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
 | OK	|`echo hello > $fakevar`	|ambiguous redirect			|ambiguous redirect			| OK [1]	|
