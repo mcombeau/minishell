@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 14:29:21 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:34:18 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	execute_local_bin(t_data *data, t_command *cmd)
 	}
 	printf("Cmd [%s] is OK, execve-ing\n", cmd->command);	
 	if (execve(cmd->command, cmd->args, data->env) == -1)
-		errmsg_cmd("execve", NULL, strerror(errno), errno);
+		return (errmsg_cmd("execve", NULL, strerror(errno), errno));
 	return (EXIT_FAILURE);
 }
 
