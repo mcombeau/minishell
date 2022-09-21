@@ -22,7 +22,8 @@ Status represents our Minishell project's execution results for each test:
 | OK	|`./hello`					|no such file or dir		|no such file or dir		| OK [127]	|
 | OK	|`""`						|command not found			|command not found			| OK [127]	|
 | DIFF	|`.`						|filename arg required		|command not found			| OK [127]	|
-| OK	|`..`						|command not found			|command not found			| OK [127]	|
+| OK	|`..`						|`..`: command not found	|`..`:command not found			| OK [127]	|
+| OK	|`$`						|`$`: command not found		|`$`: command not found			| OK [127]	|
 | OK	|`./`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../existing_dir`			|is a directory				|is a directory				| OK [126]	|
@@ -69,6 +70,7 @@ Status represents our Minishell project's execution results for each test:
 | OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		| OK [0]	|
 | OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`| OK [0]	|
 | OK	|`echo $var $foo`			|`foo test`							|`foo test`							| OK [0]	|
+| OK	|`export t="abc def"`		|`env \| grep t` shows `t=abc def`	|`env \| grep t` shows `t=abc def`	| OK [0]	|
 
 ## UNSET
 
@@ -192,6 +194,7 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo test ""test`		|`test test`		|`test test`		|
 | OK	|`echo test "'"test`	|`test 'test`		|`test test`		|
 | OK	|`echo "\|" ls`			|`\| ls`			|`\| ls`			|
+| OK	|`echo "t \| es <>t"`	|`t \| es <>t`		|`t \| es <>t`		|
 | OK	|`echo '"abc"'`			|`"abc"`			|`"abc"`			|
 | Ok	|`echo '  "abc" '`		|`██"abc"█`			|`██"abc"█`			|
 | OK	|`echo "'abc'"`			|`'abc'`			|`'abc'`			|
@@ -284,6 +287,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo hello > $realvar`	|write to var file			|write to var file			| OK [0]	|
 | OK	|`echo hello >> $realvar`	|append to var file			|append to var file			| OK [0]	|
 | OK	|`< $realvar cat`			|read from var file			|read from var file			| OK [0]	|
+| OK	|`export t="abc def"`		|`env` shows `t=abc def`	|`env` shows `t=abc def`	| OK [0]	|
+| CRASH	|`echo test > $t"`			|ambiguous redirect			|CRASH						| ERROR		|
+| CRASH	|`echo test > "$t"`			|write to file `"abc def"`	|CRASH						| ERROR		|
 | OK	|`echo hello >>> test`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
 | OK	|`echo hello \| \|`			|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
 | DIFF	|`echo hello \|;`			|syntax error near `;`		|command not found			| DIFF [127]|
