@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/21 15:11:08 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:40:06 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,14 @@ static int	get_children(t_data *data)
 	while (wpid != -1 || errno != ECHILD)
 	{
 		wpid = waitpid(-1, &status, 0);
-		if (wpid == -1)
-			break ;
 		if (wpid == data->pid)
 			save_status = status;
 		continue ;
 	}
-	if (WIFEXITED(save_status))
-		status = WEXITSTATUS(save_status);
-	else if (WIFSIGNALED(save_status))
+	if (WIFSIGNALED(save_status))
 		status = 128 + WTERMSIG(save_status);
+	else if (WIFEXITED(save_status))
+		status = WEXITSTATUS(save_status);
 	else
 		status = save_status;
 	return (status);
@@ -90,21 +88,11 @@ static bool	prep_cmd_list(t_data *data)
 static int	create_children(t_data *data)
 {
 	t_command	*cmd;
-	int			ret;
 
-	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
 	data->pid = -1;
 	while (data->pid != 0 && cmd)
 	{
-		if (!cmd->pipe_output && !cmd->prev)
-		{
-			redirect_io(cmd->io_fds);
-			ret = execute_builtin(data, cmd);
-			restore_io(cmd->io_fds);
-		}
-		if (ret != CMD_NOT_FOUND)
-			return (ret);
 		data->pid = fork();
 		if (data->pid == -1)
 			return (errmsg_cmd("fork", NULL, strerror(errno), EXIT_FAILURE));
@@ -123,8 +111,19 @@ static int	create_children(t_data *data)
 */
 int	execute(t_data *data)
 {
+	int	ret;
+
+	ret = CMD_NOT_FOUND;
 	if (!prep_cmd_list(data))
 		return (EXIT_FAILURE);
 	print_cmd_list(data);
+	if (!data->cmd->pipe_output && !data->cmd->prev)
+		{
+			redirect_io(data->cmd->io_fds);
+			ret = execute_builtin(data, data->cmd);
+			restore_io(data->cmd->io_fds);
+		}
+		if (ret != CMD_NOT_FOUND)
+			return (ret);
 	return (create_children(data));
 }
