@@ -22,8 +22,8 @@ Status represents our Minishell project's execution results for each test:
 | OK	|`./hello`					|no such file or dir		|no such file or dir		| OK [127]	|
 | OK	|`""`						|command not found			|command not found			| OK [127]	|
 | DIFF	|`.`						|filename arg required		|command not found			| OK [127]	|
-| OK	|`..`						|`..`: command not found	|`..`:command not found			| OK [127]	|
-| OK	|`$`						|`$`: command not found		|`$`: command not found			| OK [127]	|
+| OK	|`..`						|`..`: command not found	|`..`:command not found		| OK [127]	|
+| OK	|`$`						|`$`: command not found		|`$`: command not found		| OK [127]	|
 | OK	|`./`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../existing_dir`			|is a directory				|is a directory				| OK [126]	|
@@ -100,8 +100,8 @@ On some tests, Bash used to write error messages for unset, but no longer does. 
 | OK	|`exit -10`						|exits shell											|exits shell							| OK [246]	|
 | OK	|`exit abc`						|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
 | OK	|`exit --10`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit ++10`					|exits shell; error numeric arg requited				|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit abc 5`					|exits shell; error numeric arg requited				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit ++10`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit abc 5`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
 | OK	|`exit 5 abc`					|does not exit shell; too many args						|does not exit shell; too many args		| OK [1]	|
 | OK	|`exit 5 < Makefile`			|exits shell											|exits shell							| OK [5]	|
 | OK	|`exit 8 > test`				|exits shell; write exit to terminal, file empty		|exits shell; write to term; file empty	| OK [8]	|
@@ -124,9 +124,9 @@ On some tests, Bash used to write error messages for unset, but no longer does. 
 
 | Status| Test										| Bash									| Minishell								| Exit Code |
 |-------|-------------------------------------------|---------------------------------------|---------------------------------------|-----------|
-| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							| ERR [bash:0][mini:141]	|
-| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				| ERR [bash:0][mini:141]	|
-| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						| ERR [bash:0][mini:141]	|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							| OK [0]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				| OK [1]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						| OK [127]	|
 | OK	|`echo test \|cat`							|`test`									|`test`									| OK [0]	|
 | OK	|`echo test \|\|\| cat`						|syntax error							|syntax error							| OK [2]	|
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars						|`env` shows vars						| OK [0]	|
