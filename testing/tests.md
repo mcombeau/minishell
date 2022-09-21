@@ -227,7 +227,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
-| ERROR |`< Makefile cat \| << END cat`		|Heredoc + cat execute			|syntax error					|
+| OK	|`< Makefile cat \| << END cat`		|Heredoc + cat execute			|Heredoc + cat execute			|
+| OK	|`export $VAR=test`					|`env` shows `VAR=test`			|`env` shows `VAR=test`			|
+| OK	|`<< $VAR cat`; `$USER`; `$VAR`		|Heredoc ends with `$VAR` input	|Heredoc ends with `$VAR` input	|
 
 ## Redirection Tests
 
