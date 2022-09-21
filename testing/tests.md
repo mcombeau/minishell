@@ -94,22 +94,31 @@ On some tests, Bash used to write error messages for unset, but no longer does. 
 
 ## EXIT
 
-| Status| Test							| Bash											| Minishell								| Exit Code |
-|-------|-------------------------------|-----------------------------------------------|---------------------------------------|-----------|
-| OK	|`exit 10`						|exits shell									|exits shell							| OK [10]	|
-| OK	|`exit -10`						|exits shell									|exits shell							| OK [246]	|
-| OK	|`exit abc`						|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit --10`					|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit ++10`					|exits shell; error numeric arg requited		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit < Makefile`				|exits shell									|exits shell							| OK [0]	|
-| OK	|`exit > test`					|exits shell; write exit to terminal, file empty|exits shell; write to term; file empty	| OK [0]	|
-| OK	|`ls \| exit`					|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
-| OK	|`ls > file \| exit`			|`ls` output in `file` (does not exit shell)	|`ls` output in `file` (no exit shell)	| OK [0]	|
-| OK	|`sleep 5 \| exit`				|Sleeps 5 seconds (does not exit shell)			|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
-| OK	|`ls -l > x \| exit \| wc -l`	|Output `0`; file `x` contains `ls` (no exit)	|Output `0`; file `x` has `ls` (no exit)| OK [0]	|
-| OK	|`exit \| ls`					|`ls` output (does not exit shell)				|`ls` output (does not exit shell)		| OK [0]	|
-| OK	|`exit 1 \| exit 0`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| OK [0]	|
-| OK	|`exit 0 \| exit 1`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| OK [1]	|
+| Status| Test							| Bash													| Minishell								| Exit Code |
+|-------|-------------------------------|-------------------------------------------------------|---------------------------------------|-----------|
+| OK	|`exit 10`						|exits shell											|exits shell							| OK [10]	|
+| OK	|`exit -10`						|exits shell											|exits shell							| OK [246]	|
+| OK	|`exit abc`						|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit --10`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit ++10`					|exits shell; error numeric arg requited				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit abc 5`					|exits shell; error numeric arg requited				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit 5 abc`					|does not exit shell; too many args						|does not exit shell; too many args		| OK [1]	|
+| OK	|`exit 5 < Makefile`			|exits shell											|exits shell							| OK [5]	|
+| OK	|`exit 8 > test`				|exits shell; write exit to terminal, file empty		|exits shell; write to term; file empty	| OK [8]	|
+| OK	|`ls \| exit`					|does not exit shell; no output							|does not exit shell; no output			| OK [0]	|
+| OK	|`ls \| exit 42`				|does not exit shell; no output							|does not exit shell; no output			| OK [42]	|
+| OK	|`ls \| exit 12 abc`			|does not exit shell; exit too many args				|does not exit shell; exit too many args| OK [1]	|
+| OK	|`ls \| exit abc 12`			|does not exit shell; exit numeric arg error			|does not exit shell; exit numeric arg	| OK [2]	|
+| OK	|`exit \| ls`					|does not exit shell; `ls` output						|does not exit shell; `ls` output		| OK [0]	|
+| OK	|`exit 42 \| ls`				|does not exit shell; `ls` output						|does not exit shell; `ls` output		| OK [0]	|
+| OK	|`exit 12 abc \| ls`			|does not exit shell; exit too many args + `ls` output	|does not exit shell; exit too many args + `ls` output| OK [0]	|
+| OK	|`exit abc 12 \| ls`			|does not exit shell; exit numeric arg error + `ls` out	|does not exit shell; exit numeric arg + `ls` out| OK [0]	|
+| OK	|`ls > file \| exit`			|`ls` output in `file` (does not exit shell)			|`ls` output in `file` (no exit shell)	| OK [0]	|
+| OK	|`sleep 5 \| exit`				|Sleeps 5 seconds (does not exit shell)					|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
+| OK	|`ls -l > x \| exit \| wc -l`	|Output `0`; file `x` contains `ls` (no exit)			|Output `0`; file `x` has `ls` (no exit)| OK [0]	|
+| OK	|`exit \| ls`					|`ls` output (does not exit shell)						|`ls` output (does not exit shell)		| OK [0]	|
+| OK	|`exit 1 \| exit 0`				|Does nothing (does not exit shell)						|Does nothing (does not exit shell)		| OK [0]	|
+| OK	|`exit 0 \| exit 1`				|Does nothing (does not exit shell)						|Does nothing (does not exit shell)		| OK [1]	|
 
 ## Pipe tests
 
