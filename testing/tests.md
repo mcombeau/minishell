@@ -108,6 +108,8 @@ On some tests, Bash used to write error messages for unset, but no longer does. 
 | OK	|`sleep 5 \| exit`				|Sleeps 5 seconds (does not exit shell)			|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
 | OK	|`ls -l > x \| exit \| wc -l`	|Output `0`; file `x` contains `ls` (no exit)	|Output `0`; file `x` has `ls` (no exit)| OK [0]	|
 | OK	|`exit \| ls`					|`ls` output (does not exit shell)				|`ls` output (does not exit shell)		| OK [0]	|
+| OK	|`exit 1 \| exit 0`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| OK [0]	|
+| OK	|`exit 0 \| exit 1`				|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| OK [1]	|
 
 ## Pipe tests
 
