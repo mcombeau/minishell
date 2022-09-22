@@ -22,7 +22,8 @@ Status represents our Minishell project's execution results for each test:
 | OK	|`./hello`					|no such file or dir		|no such file or dir		| OK [127]	|
 | OK	|`""`						|command not found			|command not found			| OK [127]	|
 | DIFF	|`.`						|filename arg required		|command not found			| OK [127]	|
-| OK	|`..`						|command not found			|command not found			| OK [127]	|
+| OK	|`..`						|`..`: command not found	|`..`:command not found		| OK [127]	|
+| OK	|`$`						|`$`: command not found		|`$`: command not found		| OK [127]	|
 | OK	|`./`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../`						|is a directory				|is a directory				| OK [126]	|
 | OK	|`../existing_dir`			|is a directory				|is a directory				| OK [126]	|
@@ -69,6 +70,7 @@ Status represents our Minishell project's execution results for each test:
 | OK	|`export var=foo`			|`env \| grep var=` shows var		|`env \| grep var=` shows var		| OK [0]	|
 | OK	|`export $var=test`			|`env \| grep foo=` shows `foo=test`|`env \| grep foo=` shows `foo=test`| OK [0]	|
 | OK	|`echo $var $foo`			|`foo test`							|`foo test`							| OK [0]	|
+| OK	|`export t="abc def"`		|`env \| grep t` shows `t=abc def`	|`env \| grep t` shows `t=abc def`	| OK [0]	|
 
 ## UNSET
 
@@ -92,28 +94,39 @@ On some tests, Bash used to write error messages for unset, but no longer does. 
 
 ## EXIT
 
-| Status| Test							| Bash											| Minishell								| Exit Code |
-|-------|-------------------------------|-----------------------------------------------|---------------------------------------|-----------|
-| OK	|`exit 10`						|exits shell									|exits shell							| OK [10]	|
-| OK	|`exit -10`						|exits shell									|exits shell							| OK [246]	|
-| OK	|`exit abc`						|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit --10`					|exits shell; error numeric arg required		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit ++10`					|exits shell; error numeric arg requited		|exits shell; numeric arg required		| OK [2]	|
-| OK	|`exit < Makefile`				|exits shell									|exits shell							| OK [0]	|
-| OK	|`exit > test`					|exits shell; write exit to terminal, file empty|exits shell; write to term; file empty	| OK [0]	|
-| OK	|`ls \| exit`					|Does nothing (does not exit shell)				|Does nothing (does not exit shell)		| ERR [bash:0][mini:141]	|
-| OK	|`ls > file \| exit`			|`ls` output in `file` (does not exit shell)	|`ls` output in `file` (no exit shell)	| OK [0]	|
-| OK	|`sleep 5 \| exit`				|Sleeps 5 seconds (does not exit shell)			|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
-| OK	|`ls -l > x \| exit \| wc -l`	|Output `0`; file `x` contains `ls` (no exit)	|Output `0`; file `x` has `ls` (no exit)| OK [0]	|
-| OK	|`exit \| ls`					|`ls` output (does not exit shell)				|`ls` output (does not exit shell)		| OK [0]	|
+| Status| Test							| Bash													| Minishell								| Exit Code |
+|-------|-------------------------------|-------------------------------------------------------|---------------------------------------|-----------|
+| OK	|`exit 10`						|exits shell											|exits shell							| OK [10]	|
+| OK	|`exit -10`						|exits shell											|exits shell							| OK [246]	|
+| OK	|`exit abc`						|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit --10`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit ++10`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit abc 5`					|exits shell; error numeric arg required				|exits shell; numeric arg required		| OK [2]	|
+| OK	|`exit 5 abc`					|does not exit shell; too many args						|does not exit shell; too many args		| OK [1]	|
+| OK	|`exit 5 < Makefile`			|exits shell											|exits shell							| OK [5]	|
+| OK	|`exit 8 > test`				|exits shell; write exit to terminal, file empty		|exits shell; write to term; file empty	| OK [8]	|
+| OK	|`ls \| exit`					|does not exit shell; no output							|does not exit shell; no output			| OK [0]	|
+| OK	|`ls \| exit 42`				|does not exit shell; no output							|does not exit shell; no output			| OK [42]	|
+| OK	|`ls \| exit 12 abc`			|does not exit shell; exit too many args				|does not exit shell; exit too many args| OK [1]	|
+| OK	|`ls \| exit abc 12`			|does not exit shell; exit numeric arg error			|does not exit shell; exit numeric arg	| OK [2]	|
+| OK	|`exit \| ls`					|does not exit shell; `ls` output						|does not exit shell; `ls` output		| OK [0]	|
+| OK	|`exit 42 \| ls`				|does not exit shell; `ls` output						|does not exit shell; `ls` output		| OK [0]	|
+| OK	|`exit 12 abc \| ls`			|does not exit shell; exit too many args + `ls` output	|does not exit shell; exit too many args + `ls` output| OK [0]	|
+| OK	|`exit abc 12 \| ls`			|does not exit shell; exit numeric arg error + `ls` out	|does not exit shell; exit numeric arg + `ls` out| OK [0]	|
+| OK	|`ls > file \| exit`			|`ls` output in `file` (does not exit shell)			|`ls` output in `file` (no exit shell)	| OK [0]	|
+| OK	|`sleep 5 \| exit`				|Sleeps 5 seconds (does not exit shell)					|Sleeps 5 seconds (does not exit shell)	| OK [0]	|
+| OK	|`ls -l > x \| exit \| wc -l`	|Output `0`; file `x` contains `ls` (no exit)			|Output `0`; file `x` has `ls` (no exit)| OK [0]	|
+| OK	|`exit \| ls`					|`ls` output (does not exit shell)						|`ls` output (does not exit shell)		| OK [0]	|
+| OK	|`exit 1 \| exit 0`				|Does nothing (does not exit shell)						|Does nothing (does not exit shell)		| OK [0]	|
+| OK	|`exit 0 \| exit 1`				|Does nothing (does not exit shell)						|Does nothing (does not exit shell)		| OK [1]	|
 
 ## Pipe tests
 
 | Status| Test										| Bash									| Minishell								| Exit Code |
 |-------|-------------------------------------------|---------------------------------------|---------------------------------------|-----------|
-| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							| ERR [bash:0][mini:141]	|
-| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				| ERR [bash:0][mini:141]	|
-| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						| ERR [bash:0][mini:141]	|
+| OK	|`cat \| cat \| cat \| ls`					|`ls` output then hangs, `enter` 3 times|Same as bash							| OK [0]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| cd x`	|No such file or directory				|No such file or directory				| OK [1]	|
+| OK	|`cat Makefile \| grep a \| wc -l \| x`		|command not found						|command not found						| OK [127]	|
 | OK	|`echo test \|cat`							|`test`									|`test`									| OK [0]	|
 | OK	|`echo test \|\|\| cat`						|syntax error							|syntax error							| OK [2]	|
 | OK	|`export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8`	|`env` shows vars						|`env` shows vars						| OK [0]	|
@@ -192,6 +205,7 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo test ""test`		|`test test`		|`test test`		|
 | OK	|`echo test "'"test`	|`test 'test`		|`test test`		|
 | OK	|`echo "\|" ls`			|`\| ls`			|`\| ls`			|
+| OK	|`echo "t \| es <>t"`	|`t \| es <>t`		|`t \| es <>t`		|
 | OK	|`echo '"abc"'`			|`"abc"`			|`"abc"`			|
 | Ok	|`echo '  "abc" '`		|`██"abc"█`			|`██"abc"█`			|
 | OK	|`echo "'abc'"`			|`'abc'`			|`'abc'`			|
@@ -213,7 +227,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`<< END cat`; `helloEND`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `ENDhello`			|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
 | OK	|`<< END cat`; `helloENDhello`		|Heredoc keeps waiting for input|Heredoc keeps waiting for input|
-| ERROR |`< Makefile cat \| << END cat`		|Heredoc + cat execute			|syntax error					|
+| OK	|`< Makefile cat \| << END cat`		|Heredoc + cat execute			|Heredoc + cat execute			|
+| OK	|`export $VAR=test`					|`env` shows `VAR=test`			|`env` shows `VAR=test`			|
+| OK	|`<< $VAR cat`; `$USER`; `$VAR`		|Heredoc ends with `$VAR` input	|Heredoc ends with `$VAR` input	|
 
 ## Redirection Tests
 
@@ -284,6 +300,9 @@ Leading and trailling spaces in the output are denoted with the `█` character.
 | OK	|`echo hello > $realvar`	|write to var file			|write to var file			| OK [0]	|
 | OK	|`echo hello >> $realvar`	|append to var file			|append to var file			| OK [0]	|
 | OK	|`< $realvar cat`			|read from var file			|read from var file			| OK [0]	|
+| OK	|`export t="abc def"`		|`env` shows `t=abc def`	|`env` shows `t=abc def`	| OK [0]	|
+| CRASH	|`echo test > $t"`			|ambiguous redirect			|CRASH						| ERROR		|
+| CRASH	|`echo test > "$t"`			|write to file `"abc def"`	|CRASH						| ERROR		|
 | OK	|`echo hello >>> test`		|syntax error near `>`		|syntax error near `>`		| OK [2]	|
 | OK	|`echo hello \| \|`			|syntax error near `\|`		|syntax error near `\|`		| OK [2]	|
 | DIFF	|`echo hello \|;`			|syntax error near `;`		|command not found			| DIFF [127]|

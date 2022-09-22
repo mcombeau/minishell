@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 17:48:48 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:40:06 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,33 @@ int	g_last_exit_code;
 *		"The return status (see Exit Status) of a simple command is its
 *		exit status as provided by the POSIX 1003.1 waitpid function, or
 *		128+n if the command was terminated by signal n."
+*	If there are multiple commands in a pipeline:
+*		"The exit status of a pipeline is the exit status of the last command
+*		in the pipeline"
 */
 static int	get_children(t_data *data)
 {
-	int			status;
+	pid_t	wpid;
+	int		status;
+	int		save_status;
 
 	close_fds(data->cmd, false);
-	while (waitpid(-1, &status, 0) != -1 || errno != ECHILD)
+	save_status = 0;
+	wpid = 0;
+	while (wpid != -1 || errno != ECHILD)
+	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid == data->pid)
+			save_status = status;
 		continue ;
-	if (WIFEXITED(status))
-		g_last_exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		g_last_exit_code = 128 + WTERMSIG(status);
+	}
+	if (WIFSIGNALED(save_status))
+		status = 128 + WTERMSIG(save_status);
+	else if (WIFEXITED(save_status))
+		status = WEXITSTATUS(save_status);
 	else
-		g_last_exit_code = status;
-	return (g_last_exit_code);
+		status = save_status;
+	return (status);
 }
 
 /* prep_cmd_list:
@@ -73,33 +85,22 @@ static bool	prep_cmd_list(t_data *data)
 *	builtin was executed alone.
 *	Returns false if there was a fork error.
 */
-static bool	create_children(t_data *data)
+static int	create_children(t_data *data)
 {
 	t_command	*cmd;
-	int			pid;
-	int			ret;
 
-	ret = CMD_NOT_FOUND;
 	cmd = data->cmd;
-	pid = -1;
-	while (pid != 0 && cmd)
+	data->pid = -1;
+	while (data->pid != 0 && cmd)
 	{
-		if (!cmd->pipe_output && !cmd->prev)
-		{
-			redirect_io(cmd->io_fds);
-			ret = execute_builtin(data, cmd);
-			restore_io(cmd->io_fds);
-		}
-		if (ret != CMD_NOT_FOUND)
-			return (true);
-		pid = fork();
-		if (pid == -1)
-			return (errmsg_cmd("fork", NULL, strerror(errno), false));
-		else if (pid == 0)
+		data->pid = fork();
+		if (data->pid == -1)
+			return (errmsg_cmd("fork", NULL, strerror(errno), EXIT_FAILURE));
+		else if (data->pid == 0)
 			execute_command(data, cmd);
 		cmd = cmd->next;
 	}
-	return (true);
+	return (get_children(data));
 }
 
 /* execute:
@@ -110,11 +111,19 @@ static bool	create_children(t_data *data)
 */
 int	execute(t_data *data)
 {
+	int	ret;
+
+	ret = CMD_NOT_FOUND;
 	if (!prep_cmd_list(data))
 		return (EXIT_FAILURE);
 	print_cmd_list(data);
-	if (create_children(data) == true)
-		return (get_children(data));
-	else
-		return (EXIT_FAILURE);
+	if (!data->cmd->pipe_output && !data->cmd->prev)
+		{
+			redirect_io(data->cmd->io_fds);
+			ret = execute_builtin(data, data->cmd);
+			restore_io(data->cmd->io_fds);
+		}
+		if (ret != CMD_NOT_FOUND)
+			return (ret);
+	return (create_children(data));
 }
