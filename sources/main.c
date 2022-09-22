@@ -6,12 +6,14 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/21 14:39:47 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:57:25 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TODO: Add ability to use -c option to give line to parse without readline
+// for automated testing.
 static bool	start_check(int ac, char **av)
 {
 	if (ac != 1 || !av)
@@ -68,6 +70,6 @@ int	main(int ac, char **av, char **env)
 			g_last_exit_code = 2;
 		free_data(&data, false);
 	}
-	exit_shell(&data, EXIT_SUCCESS);
+	exit_shell(&data, g_last_exit_code);
 	return (0);
 }

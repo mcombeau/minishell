@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:50:51 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:51:11 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:53:17 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	env_var_count(char **env)
 	int	i;
 
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 		i++;
 	return (i);
 }

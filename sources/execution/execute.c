@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/21 17:40:06 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:57:24 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ static int	create_children(t_data *data)
 	t_command	*cmd;
 
 	cmd = data->cmd;
-	data->pid = -1;
 	while (data->pid != 0 && cmd)
 	{
 		data->pid = fork();

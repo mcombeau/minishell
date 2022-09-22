@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/18 17:14:36 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:53:48 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ bool	init_data(t_data *data, char **env)
 		return (false);
 	}
 	data->token = NULL;
+	data->user_input = NULL;
+	data->cmd_tab = NULL;
+	data->cmd = NULL;
+	data->pid = -1;
 	g_last_exit_code = 0;
 	return (true);
 }
