@@ -206,7 +206,6 @@ int			erase_var(t_token **token_node, char *str, int index);
 char		*var_expander_heredoc(t_data *data, char *str);
 char		*replace_str_heredoc(char *str, char *var_value, int index);
 
-/* ------------------------ PARSER ---------------------------------------*/
 //quotes_handler.c
 int			handle_quotes(t_data *data);
 bool		quotes_in_string(char *str);
@@ -214,6 +213,8 @@ int			count_len(char *str, int count, int i);
 
 //quotes_remover.c
 int			remove_quotes(t_token **token_node);
+
+/* ------------------------ PARSER ---------------------------------------*/
 
 //create_command.c
 void		create_commands(t_data *data, t_token *token);

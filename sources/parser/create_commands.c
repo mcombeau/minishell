@@ -9,8 +9,6 @@ void	create_commands(t_data *data, t_token *token)
 		return;
 	while (temp->next != NULL)
 	{
-		printf("temp actuel : TYPE : %d - STR : |%s|\n", temp->type, temp->str);
-		// si c'est le début de la chaine de token, créer automatiquement un t_command
 		if (temp == token)
 			lst_add_back_cmd(&data->cmd, lst_new_cmd(false));
 		if (temp->type == WORD || temp->type == VAR)
@@ -31,15 +29,6 @@ void	create_commands(t_data *data, t_token *token)
 		{
 			printf("\tTOKEN NOT PARSABLE YET: %s\n", temp->str);
 			break;
-		}
-	}
-	if (data->cmd->args)
-	{
-		int i = 0;
-		while (data->cmd->args[i])
-		{
-			printf("BEFORE EXIT - Print args :\ni : %d - str : |%s|\n", i, data->cmd->args[i]);
-			i++;
 		}
 	}
 }

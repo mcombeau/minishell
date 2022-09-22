@@ -17,7 +17,7 @@ int	erase_var(t_token **token_node, char *str, int index)
 	{
 		if (str[i] == '$' && i == index)
 		{
-			i = i + var_length(str + index) + 1; 
+			i = i + var_length(str + index) + 1;
 			if (str[i] == '\0')
 				break ;
 		}
@@ -26,7 +26,6 @@ int	erase_var(t_token **token_node, char *str, int index)
 	new_str[j] = '\0';
 	free((*token_node)->str);
 	(*token_node)->str = new_str;
-	// printf("str dans le node : %s\n", (*token_node)->str);
 	return (0);
 }
 
@@ -47,16 +46,17 @@ void	copy_var_value(char *new_str, char *var_value, int *j)
 // to work for heredoc variable expansion. Heredoc has no tokens so token_node
 // becomes optional.
 // Heredoc variant replace_str_heredoc calls this function with token_node == NULL!
-char	*erase_and_replace(t_token **token_node, char *str, char *var_value, int index)
+
+char	*erase_and_replace(t_token **token_node, char *str, \
+	char *var_value, int index)
 {
-	int i;
-	int j;
-	char *new_str;
+	int		i;
+	int		j;
+	char	*new_str;
 
 	i = 0;
 	j = 0;
-	new_str = (char *)malloc(sizeof(char) *
-		(ft_strlen(str) - var_length(str + index) + ft_strlen(var_value)));
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - var_length(str + index) + ft_strlen(var_value)));
 	if (!new_str)
 		return (NULL);
 	while (str[i])
@@ -66,7 +66,7 @@ char	*erase_and_replace(t_token **token_node, char *str, char *var_value, int in
 			copy_var_value(new_str, var_value, &j);
 			i = i + var_length(str + index) + 1;
 			if (str[i] == '\0')
-				break ;	
+				break ;
 		}
 		new_str[j++] = str[i++];
 	}
@@ -75,13 +75,13 @@ char	*erase_and_replace(t_token **token_node, char *str, char *var_value, int in
 	{
 		free((*token_node)->str);
 		(*token_node)->str = new_str;
-		// printf("str dans le nod : %s\n", (*token_node)->str);
 	}
 	return (new_str);
 }
 
 //TODO: add a step here, in case token_node->str is not entirely composed
 // of $var (ex. $USER.bot sould print username.bot)
+
 int	replace_var(t_token **token_node, char *var_value, int index)
 {
 	if (var_value == NULL)
@@ -94,7 +94,8 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	}
 	else
 	{
-		if (erase_and_replace(token_node, (*token_node)->str, var_value, index) == NULL)
+		if (erase_and_replace(token_node, (*token_node)->str, \
+		var_value, index) == NULL)
 		{
 			free(var_value);
 			return (1);
@@ -109,9 +110,10 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 *	by its value. Ex. $USER -> username.
 *	Returns the replaced string.
 */
-char *replace_str_heredoc(char *str, char *var_value, int index)
+
+char	*replace_str_heredoc(char *str, char *var_value, int index)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = NULL;
 	if (var_value == NULL)

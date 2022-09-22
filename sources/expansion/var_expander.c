@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_expander.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/22 02:35:14 by alexa             #+#    #+#             */
+/*   Updated: 2022/09/22 02:35:18 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -33,7 +45,7 @@ static bool	var_between_quotes(char *str, int i)
 		if (str[i - 1] == '\"' && str[i + 1] == '\"')
 			return (true);
 		else
-			return (false); 
+			return (false);
 	}
 	return (false);
 }
@@ -41,28 +53,27 @@ static bool	var_between_quotes(char *str, int i)
 int	var_expander(t_data *data, t_token **token_lst)
 {
 	t_token	*temp;
-	int	i;
+	int		i;
 
 	temp = *token_lst;
 	while (temp)
 	{
 		if (temp->type == VAR)
 		{
-				i = 0;
-				while (temp->str[i])
-				{
-					update_status(&temp, temp->str[i]);
-					if (temp->str[i] == '$'
-						&& is_next_char_a_sep(temp->str[i + 1]) == false
-						&& var_between_quotes(temp->str, i) == false
-						&& (temp->status == DEFAULT || temp->status == DQUOTE)
-						)
-						replace_var(&temp, recover_val(temp->str + i, data), i);
-					else
-						i++;
-				}
+			i = 0;
+			while (temp->str[i])
+			{
+				update_status(&temp, temp->str[i]);
+				if (temp->str[i] == '$'
+					&& is_next_char_a_sep(temp->str[i + 1]) == false
+					&& var_between_quotes(temp->str, i) == false
+					&& (temp->status == DEFAULT || temp->status == DQUOTE))
+					replace_var(&temp, recover_val(temp->str + i, data), i);
+				else
+					i++;
+			}
 		}
-		temp = temp->next;
+	temp = temp->next;
 	}
 	return (0);
 }

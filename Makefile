@@ -28,7 +28,8 @@ SRC		= 	main.c \
 			expansion/replace_var.c \
 			parser/create_commands.c \
 			parser/parse_word.c \
-			parser/fill_arguments.c \
+			parser/fill_args_echo.c \
+			parser/fill_args_default.c \
 			parser/parse_input.c \
 			parser/parse_trunc.c \
 			parser/parse_append.c \
