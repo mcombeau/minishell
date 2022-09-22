@@ -1,8 +1,10 @@
 */*.o
 /objects/
 .vscode
+.vscode/
 /libft/libft.a
 minishell
 /testing/o_tests
 /testing/old_exec_tests
 /testing/todo_tests.md
+.idea/
