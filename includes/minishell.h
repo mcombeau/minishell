@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 14:48:52 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:55:40 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 *								MACROS										  *
 ******************************************************************************/
 # define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
+
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 
@@ -100,6 +101,7 @@ typedef struct s_command
 
 typedef struct s_data
 {
+	bool		interactive;
 	t_token		*token;
 	char		*user_input;
 	char		**cmd_tab;
@@ -147,6 +149,7 @@ void		exit_shell(t_data *data, int exno);
 int			errmsg_cmd(char *command, char *detail, char *error_message,
 				int error_nb);
 void		errmsg(char *errmsg, char *detail, int quotes);
+bool		usage_message(bool return_val);
 void		free_str_array(char **strs);
 
 // cleanup.c
@@ -275,7 +278,7 @@ int			echo_builtin(t_data *data, char **args);
 int			export_builtin(t_data *data, char **args);
 int			unset_builtin(t_data *data, char **args);
 int			cd_builtin(t_data *data, char **args);
-int			exit_builtin(t_data *data, char **args);
+int			exit_builtin(t_data *data, char **args, bool direct_call);
 
 // signal.c
 void		ignore_sigquit(void);

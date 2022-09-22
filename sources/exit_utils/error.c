@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 14:56:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:43:44 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 		msg = ft_strjoin(msg, "`");
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free(msg);
+}
+
+bool	usage_message(bool return_val)
+{
+	ft_putendl_fd("Usage: ./minishell", 2);
+	ft_putendl_fd("Usage: ./minishell -c \"input line\"", 2);
+	return (return_val);
 }

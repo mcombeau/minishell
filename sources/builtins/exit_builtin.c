@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/21 15:19:25 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:26:03 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int	get_exit_code(char **args)
 {
 	int	i;
 
-	if (!args || !args[0] || !args[1])
+	if (!args)
+		return (g_last_exit_code);
+	else if (!args[0] || !args[1])
 		return (EXIT_SUCCESS);
 	i = 0;
 	if (args[1][i] == '-' || args[1][i] == '+')
@@ -54,11 +56,11 @@ static int	get_exit_code(char **args)
 *	ctrl+D input, in which case it should execute as if user had input "exit" alone.
 *	Returns true if exit is OK to execute, false if not.
 */
-static bool	exit_should_execute(t_data *data)
+static bool	exit_should_execute(t_data *data, char **args)
 {
 	t_command	*cmd;
 
-	if (!data->cmd)
+	if (!args || !data->cmd)
 		return (true);
 	cmd = data->cmd;
 	while (cmd && ft_strcmp(cmd->command, "exit") != 0) 
@@ -76,15 +78,20 @@ static bool	exit_should_execute(t_data *data)
 *	In case of failure due to invalid arguments, does not exit the shell
 *	and returns an error exit code (1 or 2) instead.
 */
-int	exit_builtin(t_data *data, char **args)
+int	exit_builtin(t_data *data, char **args, bool direct_call)
 {
 	int	exit_code;
 
-	exit_code = get_exit_code(args);
-	if (data->cmd && data->cmd->io_fds)
-		restore_io(data->cmd->io_fds);
-	if (!exit_should_execute(data) || exit_code == EXIT_FAILURE)
-		return (exit_code);
+	if (direct_call)
+		exit_code = g_last_exit_code;
+	else
+	{
+		exit_code = get_exit_code(args);
+		if (data->cmd && data->cmd->io_fds)
+			restore_io(data->cmd->io_fds);
+		if (!exit_should_execute(data, args) || exit_code == EXIT_FAILURE)
+			return (exit_code);
+	}
 	printf("exit\n");
 	exit_shell(data, exit_code);
 	return (2);
