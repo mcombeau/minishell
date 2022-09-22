@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 11:57:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:52:37 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int	execute(t_data *data)
 	ret = CMD_NOT_FOUND;
 	if (!prep_cmd_list(data))
 		return (EXIT_FAILURE);
-	print_cmd_list(data);
 	if (!data->cmd->pipe_output && !data->cmd->prev)
 		{
 			redirect_io(data->cmd->io_fds);

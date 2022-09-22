@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 11:57:25 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:51:57 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static bool	parse_user_input(t_data *data)
 		exit_builtin(data, NULL);
 	else if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
-	printf("\n\e[92m------- MAIN: Parse user input.\n");
 	add_history(data->user_input);
 	if (tokenization(data, data->user_input) == FAILURE)
 		return (false);
@@ -41,7 +40,6 @@ static bool	parse_user_input(t_data *data)
 	var_expander(data, &data->token);
 	handle_quotes(data);
 	var_tokenization(data);
-	printf("\n\e[32m------- MAIN: Create commands.\n");
 	create_commands(data, data->token);
 	print_cmd_list(data);
 	return (true);
@@ -61,11 +59,7 @@ int	main(int ac, char **av, char **env)
 		data.user_input = readline(PROMPT);
 		set_noninteractive_signal_trap();
 		if (parse_user_input(&data) == true)
-		{
-			printf("\n\e[36m------- MAIN: Launch exec.\e[0m\n");
 			g_last_exit_code = execute(&data);
-			printf("\e[36m------- Exec done.\e[0m\n");
-		}
 		else
 			g_last_exit_code = 2;
 		free_data(&data, false);

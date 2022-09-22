@@ -65,12 +65,12 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 	io->outfile = ft_strdup(file);
 	if (io->outfile && io->outfile[0] == '\0')
 	{
-		errmsg_cmd("", var_filename, "ambiguous redirect", false);
+		errmsg_cmd(var_filename, NULL, "ambiguous redirect", false);
 		return ;
 	}
 	io->fd_out = open(io->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (io->fd_out == -1)
-		errmsg_cmd("", io->outfile, strerror(errno), false);
+		errmsg_cmd(io->outfile, NULL, strerror(errno), false);
 }
 
 /**
