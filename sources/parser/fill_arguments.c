@@ -30,7 +30,8 @@ char	*join_vars(t_token **token_node)
 /*
 **  This function counts the number of arguments in the list of tokens
 **  To consider a token or multiple tokens as an argument they must be either
-**  a WORD or a VAR and if they are a VAR that has to be joined, we have 
+**  a WORD or a VAR and if they	temp = *token_node;
+ are a VAR that has to be joined, we have
 **  to loop through all the tokens that check these conditions 
 **  (type == VAR and join == true) before counting them as one argument
 */
@@ -118,6 +119,7 @@ static char	**copy_in_new_tab(
 		if (tmp->join == true)
 			new_tab[i] = join_vars(&tmp);
 		else
+
 			new_tab[i] = ft_strdup(tmp->str);
 		i++;
 		tmp = tmp->next;
@@ -134,7 +136,7 @@ int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	char **new_tab;
 	t_token	*temp;
 
-	printf("je suis dans add args\n");
+	printf("je suis dans add args echo mode\n");
 //	i = 0;
 	temp = *token_node;
 	nb_args = count_args(temp);
@@ -147,6 +149,7 @@ int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	new_tab = copy_in_new_tab(len, new_tab, last_cmd, temp);
 	free(last_cmd->args);
 	last_cmd->args = new_tab;
+    temp = temp->next;
 	*token_node = temp;
 	return (SUCCESS);
 }
@@ -188,6 +191,7 @@ int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
     last_cmd->args[i] = NULL;
 	*token_node = temp;
 	return (SUCCESS);
+
 }
 
 static char	**copy_default_in_new_tab(
@@ -211,6 +215,7 @@ static char	**copy_default_in_new_tab(
 	}
 	new_tab[i] = NULL;
 	return (new_tab);
+
 }
 
 int	add_args_default_mode(t_token **token_node, t_command *last_cmd)

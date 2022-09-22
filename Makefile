@@ -2,8 +2,8 @@
 NAME	= minishell
 
 # Compiler and compilation flags
-CC		= clang
-CFLAGS	= -Werror -Wextra -Wall
+CC		= clang -g
+CFLAGS	= -Werror -Wextra -Wall -g
 
 # Build files and directories
 SRC_PATH = ./sources/
