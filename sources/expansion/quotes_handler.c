@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:39:40 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/20 14:39:43 by alexa            ###   ########.fr       */
+/*   Updated: 2022/09/23 12:20:44 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	handle_quotes(t_data *data)
 		if (quotes_in_string(temp->str) == true)
 		{
 			remove_quotes(&temp);
-			printf("temp str: %s\n", temp->str);
+//			printf("temp str: %s\n", temp->str);
 		}
 		temp = temp->next;
 	}

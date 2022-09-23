@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:45:35 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/20 17:23:41 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:20:47 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	check_consecutives(t_token **token_lst)
 		if (consecutive_ops(temp) == true)
 		{
 			if (temp->type == END && temp->prev && temp->prev->type > PIPE)
-				errmsg("Syntax error near unexpected token ", "newline", true);
+				errmsg("syntax error near unexpected token", "newline", true);
 			else if (temp->type == END && temp->prev)
-				errmsg("Syntax error near unexpected token ",
+				errmsg("syntax error near unexpected token",
 					temp->prev->str, true);
 			else
-				errmsg("Syntax error near unexpected token ", temp->str, true);
+				errmsg("syntax error near unexpected token", temp->str, true);
 			return (FAILURE);
 		}
 		temp = temp->next;

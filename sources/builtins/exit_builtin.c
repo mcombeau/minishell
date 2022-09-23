@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 16:26:03 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:33:50 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	exit_builtin(t_data *data, char **args, bool direct_call)
 		if (!exit_should_execute(data, args) || exit_code == EXIT_FAILURE)
 			return (exit_code);
 	}
-	printf("exit\n");
+	if (data->interactive)
+		printf("exit\n");
 	exit_shell(data, exit_code);
 	return (2);
 }

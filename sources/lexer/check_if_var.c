@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:40:24 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/18 16:17:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:20:27 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_if_var(t_token **token_lst)
 	temp = *token_lst;
 	if (temp->type == PIPE)
 	{
-		errmsg("Syntax error near unexpected token", temp->str, true);
+		errmsg("syntax error near unexpected token", temp->str, true);
 		return (FAILURE);
 	}
 	while (temp)
