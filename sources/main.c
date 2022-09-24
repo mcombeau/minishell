@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 19:41:13 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:18:44 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ static bool	start_check(t_data *data, int ac, char **av)
 	return (true);
 }
 
-static char *get_user_input(int ac, char **av)
-{
-	char	*input;
-
-	input = NULL;
-	if (ac == 1)
-		return (readline(PROMPT));
-	else if (av[2])
-		input = ft_strdup(av[2]);
-	return (input);
-}
-
 static bool	parse_user_input(t_data *data)
 {
 	if (data->user_input == NULL)
@@ -60,8 +48,46 @@ static bool	parse_user_input(t_data *data)
 	handle_quotes(data);
 	var_tokenization(data);
 	create_commands(data, data->token);
-//	print_cmd_list(data);
+	print_cmd_list(data);
 	return (true);
+}
+
+void	minishell_interactive(t_data *data)
+{
+	while (1)
+	{
+		ignore_sigquit();
+		set_interactive_signal_trap();
+		data->user_input = readline(PROMPT);
+		set_noninteractive_signal_trap();
+		if (parse_user_input(data) == true)
+			g_last_exit_code = execute(data);
+		else
+			g_last_exit_code = 2;
+		free_data(data, false);
+	}
+}
+
+void	minishell_noninteractive(t_data *data, char *arg)
+{
+	char	**user_inputs;
+	int		i;
+
+	user_inputs = ft_split(arg, ';');
+	if (!user_inputs)
+		exit_shell(data, EXIT_FAILURE);
+	i = 0;
+	while (user_inputs[i])
+	{
+		data->user_input = ft_strdup(user_inputs[i]);
+		if (parse_user_input(data) == true)
+			g_last_exit_code = execute(data);
+		else
+			g_last_exit_code = 2;
+		i++;
+		free_data(data, false);
+	}
+	free_tab(user_inputs);
 }
 
 int	main(int ac, char **av, char **env)
@@ -71,20 +97,10 @@ int	main(int ac, char **av, char **env)
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!start_check(&data, ac, av) || !init_data(&data, env))
 		exit_shell(NULL, EXIT_FAILURE);
-	while (1)
-	{
-		ignore_sigquit();
-		set_interactive_signal_trap();
-		data.user_input = get_user_input(ac, av);
-		set_noninteractive_signal_trap();
-		if (parse_user_input(&data) == true)
-			g_last_exit_code = execute(&data);
-		else
-			g_last_exit_code = 2;
-		if (!data.interactive)
-			break ;
-		free_data(&data, false);
-	}
+	if (data.interactive)
+		minishell_interactive(&data);
+	else
+		minishell_noninteractive(&data, av[2]);
 	exit_shell(&data, g_last_exit_code);
 	return (0);
 }

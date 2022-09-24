@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 14:52:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:21:54 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ int	execute(t_data *data)
 	if (!prep_cmd_list(data))
 		return (EXIT_FAILURE);
 	if (!data->cmd->pipe_output && !data->cmd->prev)
-		{
-			redirect_io(data->cmd->io_fds);
-			ret = execute_builtin(data, data->cmd);
-			restore_io(data->cmd->io_fds);
-		}
-		if (ret != CMD_NOT_FOUND)
-			return (ret);
+	{
+		redirect_io(data->cmd->io_fds);
+		ret = execute_builtin(data, data->cmd);
+		restore_io(data->cmd->io_fds);
+	}
+	if (ret != CMD_NOT_FOUND)
+		return (ret);
 	return (create_children(data));
 }
