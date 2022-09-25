@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:55:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 19:03:02 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:21:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	echo_print_args(char **args, bool n_flag, int i)
 {
 	if (!args[i])
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		if (!n_flag)
+			ft_putchar_fd('\n', STDOUT_FILENO);
 		return ;
 	}
 	while (args[i])

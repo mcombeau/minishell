@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/24 15:18:44 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 10:55:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool	parse_user_input(t_data *data)
 	handle_quotes(data);
 	var_tokenization(data);
 	create_commands(data, data->token);
-	print_cmd_list(data);
+//	print_cmd_list(data);
 	return (true);
 }
 
