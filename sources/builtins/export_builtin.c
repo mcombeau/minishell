@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:30:41 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 18:32:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 16:28:55 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,31 @@ static char	**get_key_value_pair(char *arg)
 {
 	char	**tmp;
 	int		i;
+	int		j;
 
-	tmp = ft_split(arg, '=');
-	if (!tmp)
-		return (NULL);
-	if (!tmp[1])
-		return (tmp);
-	i = 2;
-	while (tmp[i])
+	tmp = malloc(sizeof * tmp * (2 + 1));
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	tmp[0] = ft_calloc(i, sizeof * tmp);
+	i = 0;
+	while (arg[i] && arg[i] != '=')
 	{
-		tmp[1] = ft_strjoin(tmp[1], "=");
-		tmp[1] = ft_strjoin(tmp[1], tmp[i]);
-		free(tmp[i]);
+		tmp[0][i] = arg[i];
 		i++;
 	}
+	i++;
+	j = 0;
+	while (arg[i + j])
+		j++;
+	tmp[1] = ft_calloc(j, sizeof * tmp);
+	j = 0;
+	while (arg[i + j])
+	{
+		tmp[1][j] = arg[i + j]; 
+		j++;
+	}
+	tmp[2] = NULL;
 	return (tmp);
 }
 
