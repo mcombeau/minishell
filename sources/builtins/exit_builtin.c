@@ -6,11 +6,47 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/23 13:33:50 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:27:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool check_out_of_range(int neg, unsigned long long num, bool *error)
+{
+	if ((neg == 1 && num > LONG_MAX)
+		|| (neg == -1 && num > -(unsigned long)LONG_MIN))
+		*error = true;
+	return (*error);
+}
+
+static int	ft_atoi_long(const char *str, bool *error)
+{
+	unsigned long long	num;
+	int					neg;
+	int					i;
+
+	num = 0;
+	neg = 1;
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+	{
+		neg *= -1;
+		i++;
+	}
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		num = (num * 10) + (str[i] - '0');
+		if (check_out_of_range(neg, num, error))
+			break ;
+		i++;
+	}
+	return (num * neg);
+}
 
 /* get_exit_code:
 *	Gets the exit code from the arguments given to the exit builtin.
@@ -18,30 +54,27 @@
 *	Returns 2 in case argument is not digits.
 *	Returns the numeric exit code on success.
 */
-static int	get_exit_code(char **args)
+static int	get_exit_code(char *arg, bool *error)
 {
-	int	i;
+	unsigned long long	i;
 
-	if (!args)
+	if (!arg)
 		return (g_last_exit_code);
-	else if (!args[0] || !args[1])
-		return (EXIT_SUCCESS);
 	i = 0;
-	if (args[1][i] == '-' || args[1][i] == '+')
+	while (ft_isspace(arg[i]))
 		i++;
-	while (args[1][i])
+	if (arg[i] == '\0')
+		*error = true;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
+	while (arg[i])
 	{
-		if (!isdigit(args[1][i]))
-			return (errmsg_cmd("exit", args[1],
-					"numeric argument required", 2));
+		if (!isdigit(arg[i]) && !ft_isspace(arg[i]))
+			*error = true;
 		i++;
 	}
-	if (args[2])
-	{
-		errmsg_cmd("exit", NULL, "too many arguments", 1);
-		return (EXIT_FAILURE);
-	}
-	return (ft_atoi(args[1]));
+	i = ft_atoi_long(arg, error);
+	return (i % 256);
 }
 
 /* exit_should_execute:
@@ -80,13 +113,20 @@ static bool	exit_should_execute(t_data *data, char **args)
 */
 int	exit_builtin(t_data *data, char **args, bool direct_call)
 {
-	int	exit_code;
+	int		exit_code;
+	bool	error;
 
-	if (direct_call)
+	error = false;
+	if (!args || direct_call)
 		exit_code = g_last_exit_code;
 	else
 	{
-		exit_code = get_exit_code(args);
+		exit_code = get_exit_code(args[1], &error);
+		if (error)
+			return (errmsg_cmd("exit", args[1],
+					"numeric argument required", 2));
+		else if (args[2])
+			return (errmsg_cmd("exit", NULL, "too many arguments", 1));
 		if (data->cmd && data->cmd->io_fds)
 			restore_io(data->cmd->io_fds);
 		if (!exit_should_execute(data, args) || exit_code == EXIT_FAILURE)
