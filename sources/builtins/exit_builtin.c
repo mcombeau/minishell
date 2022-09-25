@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/25 15:32:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:41:30 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,7 @@ int	exit_builtin(t_data *data, char **args, bool direct_call)
 	{
 		exit_code = get_exit_code(args[1], &error);
 		if (error)
-			return (errmsg_cmd("exit", args[1],
-					"numeric argument required", 2));
+			exit_code = errmsg_cmd("exit", args[1], "numeric argument required", 2);
 		else if (args[2])
 			return (errmsg_cmd("exit", NULL, "too many arguments", 1));
 		if (data->cmd && data->cmd->io_fds)
