@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/25 15:27:11 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:32:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int	get_exit_code(char *arg, bool *error)
 		*error = true;
 	if (arg[i] == '-' || arg[i] == '+')
 		i++;
+	if (!ft_isdigit(arg[i]))
+		*error = true;
 	while (arg[i])
 	{
 		if (!isdigit(arg[i]) && !ft_isspace(arg[i]))
