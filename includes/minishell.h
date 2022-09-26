@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 16:55:40 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:23:51 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ bool		set_pipe_fds(t_command *cmds, t_command *curr_cmd);
 void		close_pipe_fds(t_command *cmds, t_command *skip_cmd);
 
 // file_io.c
-bool		check_infile_outfile(t_data *data);
+bool		check_infile_outfile(t_io_fds *io);
 bool		redirect_io(t_io_fds *io);
 bool		restore_io(t_io_fds *io);
 

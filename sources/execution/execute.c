@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/26 19:15:27 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:54:05 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static bool	prep_for_exec(t_data *data)
 		cmd = cmd->next;
 	}
 	cmd = lst_last_cmd(data->cmd);
-	if (!create_pipes(data) || !check_infile_outfile(data))
+//	if (!create_pipes(data) || !check_infile_outfile(data))
+	if (!create_pipes(data))
 		return (false);
 	return (true);
 }
@@ -139,7 +140,8 @@ int	execute(t_data *data)
 		return (ret);
 	if (!prep_for_exec(data))
 		return (EXIT_FAILURE);
-	if (!data->cmd->pipe_output && !data->cmd->prev)
+	if (!data->cmd->pipe_output && !data->cmd->prev
+		&& check_infile_outfile(data->cmd->io_fds))
 	{
 		redirect_io(data->cmd->io_fds);
 		ret = execute_builtin(data, data->cmd);

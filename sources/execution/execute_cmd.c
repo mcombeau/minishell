@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 16:04:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:54:00 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,14 @@ int	execute_command(t_data *data, t_command *cmd)
 {
 	int	ret;
 
+	if (!cmd || !cmd->command)
+		exit(errmsg_cmd("child", NULL,
+				"parsing error: no command to execute!", EXIT_FAILURE));
+	if (!check_infile_outfile(cmd->io_fds))
+		exit(EXIT_FAILURE);
 	set_pipe_fds(data->cmd, cmd);
 	redirect_io(cmd->io_fds);
 	close_fds(data->cmd, false);
-	if (!cmd->command)
-		exit(errmsg_cmd("child", NULL,
-				"parsing error: no command to execute!", EXIT_FAILURE));
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
 		ret = execute_builtin(data, cmd);

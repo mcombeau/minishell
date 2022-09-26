@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/20 17:49:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:53:56 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,29 +78,12 @@ bool	redirect_io(t_io_fds *io)
 *	If they are, redirects input and output accordingly.
 *	Returns 1 on success, 0 on failure.
 */
-bool	check_infile_outfile(t_data *data)
+bool check_infile_outfile(t_io_fds *io)
 {
-	t_command	*cmd;
-	t_io_fds	*io;
-	bool		ret;
-
-	ret = true;
-	cmd = data->cmd;
-	while (cmd)
-	{
-		io = cmd->io_fds;
-		if (!io || (!io->infile && !io->outfile))
-		{
-			cmd = cmd->next;
-			continue ;
-		}
-		if ((io->infile && io->fd_in == -1)
-			|| (io->outfile && io->fd_out == -1))
-		{
-			ret = false;
-			break ;
-		}
-		cmd = cmd->next;
-	}
-	return (ret);
+	if (!io || (!io->infile && !io->outfile))
+		return (true);
+	if ((io->infile && io->fd_in == -1)
+		|| (io->outfile && io->fd_out == -1))
+		return (false);
+	return (true);
 }
