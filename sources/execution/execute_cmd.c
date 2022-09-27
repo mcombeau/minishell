@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/26 19:54:00 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:16:44 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,33 +58,6 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 	return (EXIT_FAILURE);
 }
 
-static int	check_command_local(t_data *data, t_command *cmd)
-{
-	if (ft_strchr(cmd->command, '/') == NULL)
-	{
-		if (get_env_var_index(data->env, "PATH") == -1)
-			return (errmsg_cmd(cmd->command, NULL,
-					"No such file or directory", CMD_NOT_FOUND));
-		return (errmsg_cmd(cmd->command, NULL,
-				"command not found", CMD_NOT_FOUND));
-	}
-	if (!is_valid_cmd(cmd->command))
-		return (errmsg_cmd(cmd->command, NULL,
-				"command not found", CMD_NOT_FOUND));
-	if (cmd_is_dir(cmd->command))
-		return (errmsg_cmd(cmd->command, NULL,
-				"Is a directory", CMD_NOT_EXECUTABLE));
-	if (access(cmd->command, F_OK) != 0)
-		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND));
-	else
-	{
-		if (access(cmd->command, F_OK | X_OK) != 0)
-			return (errmsg_cmd(cmd->command, NULL,
-					strerror(errno), CMD_NOT_EXECUTABLE));
-	}
-	return (EXIT_SUCCESS);
-}
-
 /* execute_local_bin:
 *	Attempts to execute the given command as is, in case
 *	it is a local directory file or already contains the
@@ -96,7 +69,7 @@ static int	execute_local_bin(t_data *data, t_command *cmd)
 {
 	int	ret;
 
-	ret = check_command_local(data, cmd);
+	ret = check_command_not_found(data, cmd);
 	if (ret != 0)
 		return (ret);
 	if (execve(cmd->command, cmd->args, data->env) == -1)
