@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/26 19:23:51 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:59:18 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,6 +295,7 @@ int			execute_builtin(t_data *data, t_command *cmd);
 // execute_utils.c
 bool		is_valid_cmd(char *cmd);
 bool		cmd_is_dir(char *cmd);
+int			check_command_not_found(t_data *data, t_command *cmd);
 
 // parse_path.c
 char		*get_cmd_path(t_data *data, char *cmd);
