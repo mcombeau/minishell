@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:28:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 14:18:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:21:09 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	cmd_is_dir(char *cmd)
 *	returns EXIT_SUCCESS if the command is valid and should be executed
 *	as a local executable.
 */
-static int	check_command_not_found(t_data *data, t_command *cmd)
+int	check_command_not_found(t_data *data, t_command *cmd)
 {
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
