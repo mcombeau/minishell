@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 18:28:50 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:42:18 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	set_interactive_signal_trap(void)
 {
 	struct sigaction	act;
 
-	ft_bzero(&act, sizeof(act));
+	ft_memset(&act, 0, sizeof(sigaction));
 	act.sa_handler = &signal_reset_prompt;
 	sigaction(SIGINT, &act, NULL);
 }
@@ -59,7 +59,7 @@ void	set_noninteractive_signal_trap(void)
 {
 	struct sigaction	act;
 
-	ft_bzero(&act, sizeof(act));
+	ft_memset(&act, 0, sizeof(sigaction));
 	act.sa_handler = &signal_print_newline;
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);

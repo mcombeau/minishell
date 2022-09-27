@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:28:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 14:21:09 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:43:51 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	cmd_is_dir(char *cmd)
 {
 	struct stat	cmd_stat;
 
+	ft_memset(&cmd_stat, 0, sizeof(stat));
 	stat(cmd, &cmd_stat);
 	return (S_ISDIR(cmd_stat.st_mode));
 }
@@ -44,6 +45,9 @@ bool	cmd_is_dir(char *cmd)
 */
 int	check_command_not_found(t_data *data, t_command *cmd)
 {
+	if (cmd_is_dir(cmd->command))
+		return (errmsg_cmd(cmd->command, NULL,
+				"Is a directory", CMD_NOT_EXECUTABLE));
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
 		if (get_env_var_index(data->env, "PATH") == -1)
@@ -55,9 +59,6 @@ int	check_command_not_found(t_data *data, t_command *cmd)
 	if (!is_valid_cmd(cmd->command))
 		return (errmsg_cmd(cmd->command, NULL,
 				"command not found", CMD_NOT_FOUND));
-	if (cmd_is_dir(cmd->command))
-		return (errmsg_cmd(cmd->command, NULL,
-				"Is a directory", CMD_NOT_EXECUTABLE));
 	if (access(cmd->command, F_OK) != 0)
 		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND));
 	else

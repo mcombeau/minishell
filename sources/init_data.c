@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/22 11:53:48 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:35:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ static bool	init_env(t_data *data, char **env)
 
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
 	if (!env || !env[0])
-	{
-		errmsg_cmd("Warning", NULL,
-			"No environment. Please provide paths for commands.", 1);
 		set_env_var(data, "PWD", getcwd(buff, BUFSIZ));
-	}
 	i = 0;
 	while (env[i])
 	{
