@@ -6,11 +6,32 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 14:24:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:59:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	update_wds(t_data *data, char *wd)
+{
+//	printf("UPDATE WORKING DIRECTORIES\n");
+//	printf("\twd = %s\n", wd);
+//	printf("\toldwd = %s\n", oldwd);
+	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));
+	set_env_var(data, "PWD", wd);
+	if (data->old_working_dir)
+	{
+		free(data->old_working_dir);
+		data->old_working_dir = ft_strdup(data->working_dir);
+	}
+	if (data->working_dir)
+	{
+		free(data->working_dir);
+		data->working_dir = ft_strdup(wd);
+	}
+//	printf("Updated OLDWD = %s\n", data->old_working_dir);
+//	printf("Updated PWD = %s\n", data->working_dir);
+}
 
 /* change_dir:
 *	Changes the current working directory and updates the
@@ -19,20 +40,35 @@
 */
 static bool	change_dir(t_data *data, char *path)
 {
-	char	*cwd;
-	char	buff[PATH_MAX];
+//	printf("CHANGE DIR\n");
+	char	*ret;
+	char	cwd[PATH_MAX];
+	char	new_cwd[PATH_MAX];
 
-	cwd = getcwd(buff, PATH_MAX);
-	if (chdir(path) == EXIT_SUCCESS)
+	ret = NULL;
+	ret = getcwd(cwd, PATH_MAX);
+//	printf("\tgetcwd returned [%s]\n", cwd);
+	if (!ret)
 	{
-		set_env_var(data, "OLDPWD", cwd);
-		set_env_var(data, "PWD", getcwd(buff, PATH_MAX));
+		errmsg_cmd("cd: error retrieving current directory",
+					"getcwd: cannot access parent directories",
+					strerror(errno), errno);
+		if (chdir(path) != 0)
+		{
+//			printf("Chdir failed. Attempting to restore old pwd\n");
+			path = data->old_working_dir;
+//			printf ("new path = %s\n", path);
+		}
 	}
-	else
+	if (chdir(path) != 0)
 	{
 		errmsg_cmd("cd", path, strerror(errno), errno);
 		return (false);
 	}
+	ret = getcwd(new_cwd, PATH_MAX);
+	if (!ret)
+		return (false);
+	update_wds(data, new_cwd);
 	return (true);
 }
 
@@ -59,7 +95,7 @@ int	cd_builtin(t_data *data, char **args)
 		path = get_env_var_value(data->env, "OLDPWD");
 		if (!path)
 			return (errmsg_cmd("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
-		printf("%s\n", get_env_var_value(data->env, "OLDPWD"));
+//		printf("%s\n", get_env_var_value(data->env, "OLDPWD"));
 		return (!change_dir(data, get_env_var_value(data->env, "OLDPWD")));
 	}
 	return (!change_dir(data, args[1]));

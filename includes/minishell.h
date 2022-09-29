@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 14:24:11 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:14:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_data
 	char		*user_input;
 	char		**cmd_tab;
 	char		**env;
+	char		*working_dir;
+	char		*old_working_dir;
 	t_command	*cmd;
 	pid_t		pid;
 }	t_data;

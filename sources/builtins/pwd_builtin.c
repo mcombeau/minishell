@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:30:28 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 14:25:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:05:34 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ int	pwd_builtin(t_data *data, char **args)
 	char	*cwd;
 
 	(void)args;
-	(void)data;
-	cwd = getcwd(buf, PATH_MAX);
-	if (!cwd)
+	if (data->working_dir)
 	{
-		errmsg_cmd("pwd", NULL, strerror(errno), errno);
-		return (EXIT_FAILURE);
+		ft_putendl_fd(data->working_dir, STDOUT_FILENO);
+		return (EXIT_SUCCESS);
 	}
-	ft_putendl_fd(cwd, STDOUT_FILENO);
-	return (EXIT_SUCCESS);
+	cwd = getcwd(buf, PATH_MAX);
+	if (cwd)
+	{
+		ft_putendl_fd(cwd, STDOUT_FILENO);
+		return (EXIT_SUCCESS);
+	}
+	errmsg_cmd("pwd", NULL, strerror(errno), errno);
+	return (EXIT_FAILURE);
 }

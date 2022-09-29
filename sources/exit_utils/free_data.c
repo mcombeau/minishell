@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:07:03 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/24 15:09:08 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:59:26 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	free_data(t_data *data, bool clear_history)
 		lst_clear_cmd(&data->cmd, &free);
 	if (clear_history == true)
 	{
+		if (data && data->working_dir)
+			free(data->working_dir);
+		if (data && data->old_working_dir)
+			free(data->old_working_dir);
 		if (data && data->env)
 			free_tab(data->env);
 		rl_clear_history();

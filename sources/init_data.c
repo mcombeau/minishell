@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 14:24:41 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:59:46 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,20 @@
 static bool	init_env(t_data *data, char **env)
 {
 	int		i;
-	char	buff[PATH_MAX];
+//	char	buff[PATH_MAX];
+//	char	*wd;
 
+//	wd = getcwd(buff, PATH_MAX);
+//	printf("getcwd returned: %s\n", wd);
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
-	if (!env || !env[0])
-		set_env_var(data, "PWD", getcwd(buff, PATH_MAX));
+	if (!data->env)
+		return (false);
+//	if (!env || !env[0])
+//	{
+//		printf("No env, setting env vars for PWD and OLDPWD\n");
+//		set_env_var(data, "PWD", wd);
+//		set_env_var(data, "OLDPWD", wd);
+//	}
 	i = 0;
 	while (env[i])
 	{
@@ -36,11 +45,40 @@ static bool	init_env(t_data *data, char **env)
 	return (true);
 }
 
+static bool init_wds(t_data *data)
+{
+	char	buff[PATH_MAX];
+	char	*wd;
+
+	wd = getcwd(buff, PATH_MAX);
+	data->working_dir = ft_strdup(wd);
+	if (!data->working_dir)
+		return (false);
+	if (get_env_var_index(data->env, "OLDPWD") != -1)
+	{
+		data->old_working_dir = ft_strdup(get_env_var_value(data->env, "OLDPWD"));
+		if (!data->old_working_dir)
+			return (false);
+	}
+	else
+	{
+		data->old_working_dir = ft_strdup(wd);
+		if (!data->old_working_dir)
+			return (false);
+	}
+	return (true);
+}
+
 bool	init_data(t_data *data, char **env)
 {
 	if (!init_env(data, env))
 	{
 		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
+		return (false);
+	}
+	if (!init_wds(data))
+	{
+		errmsg_cmd("Fatal", NULL, "Could not initialize working directories", 1);
 		return (false);
 	}
 	data->token = NULL;
