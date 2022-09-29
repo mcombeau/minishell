@@ -12,13 +12,34 @@ Work in progress.
 
 ## Usage
 
-Clone the repository, then `cd` into it. To compile, use `make`, to run the program:
+Clone the repository:
+```
+git clone git@github.com:mcombeau/minishell.git
+```
+
+Or clone the repository with the minitester submodule:
+```
+git clone --recurse-submodules git@github.com:mcombeau/minishell.git
+```
+
+To compile:
+
+```shell
+cd minishell && make
+```
+
+To run the program:
 
 ```shell
 ./minishell
 ```
 
 A prompt will appear. You may enter your commands to be executed.
+
+To run the included tester, [minitester](https://github.com/mcombeau/minitester-minishell-tester):
+```shell
+cd minitester/ && bash minitester.sh
+```
 
 ## Supported features
 
