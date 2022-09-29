@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/25 18:48:02 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:24:57 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 static bool	change_dir(t_data *data, char *path)
 {
 	char	*cwd;
-	char	buff[BUFSIZ];
+	char	buff[PATH_MAX];
 
-	cwd = getcwd(buff, BUFSIZ);
+	cwd = getcwd(buff, PATH_MAX);
 	if (chdir(path) == EXIT_SUCCESS)
 	{
 		set_env_var(data, "OLDPWD", cwd);
-		set_env_var(data, "PWD", getcwd(buff, BUFSIZ));
+		set_env_var(data, "PWD", getcwd(buff, PATH_MAX));
 	}
 	else
 	{

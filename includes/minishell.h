@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 16:44:23 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:24:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 //# define TRUE 1
 //# define FALSE 0

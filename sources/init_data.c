@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 14:35:21 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:24:41 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 static bool	init_env(t_data *data, char **env)
 {
 	int		i;
-	char	buff[BUFSIZ];
+	char	buff[PATH_MAX];
 
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
 	if (!env || !env[0])
-		set_env_var(data, "PWD", getcwd(buff, BUFSIZ));
+		set_env_var(data, "PWD", getcwd(buff, PATH_MAX));
 	i = 0;
 	while (env[i])
 	{
