@@ -1,0 +1,3 @@
+[submodule "minitester"]
+	path = minitester
+	url = https://github.com/mcombeau/minitester-minishell-tester.git
