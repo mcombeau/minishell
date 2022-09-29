@@ -12,12 +12,7 @@ Work in progress.
 
 ## Usage
 
-Clone the repository:
-```
-git clone git@github.com:mcombeau/minishell.git
-```
-
-Or clone the repository with the minitester submodule:
+Clone the repository with the [minitester](https://github.com/mcombeau/minitester-minishell-tester) submodule:
 ```
 git clone --recurse-submodules git@github.com:mcombeau/minishell.git
 ```
@@ -36,7 +31,7 @@ To run the program:
 
 A prompt will appear. You may enter your commands to be executed.
 
-To run the included tester, [minitester](https://github.com/mcombeau/minitester-minishell-tester):
+To run the included tester:
 ```shell
 cd minitester/ && bash minitester.sh
 ```
