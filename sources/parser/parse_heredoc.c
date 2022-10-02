@@ -82,12 +82,14 @@ static bool	delim_between_quotes(char *delim)
 bool	fill_heredoc(t_data *data, char *delimiter, int fd)
 {
 	char	*line;
+	char	*quoteless_delim;
 
+	quoteless_delim = ft_strtrim(delimiter, "\'\"");
 	line = NULL;
 	while (1)
 	{
 		line = readline(">");
-		if (line == NULL || ft_strcmp(line, delimiter) == 0)
+		if (line == NULL || ft_strcmp(line, quoteless_delim) == 0)
 			return (true);
 		if (!delim_between_quotes(delimiter) && ft_strchr(line, '$'))
 		{
@@ -101,6 +103,7 @@ bool	fill_heredoc(t_data *data, char *delimiter, int fd)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	free(quoteless_delim);
 	return (false);
 }
 
