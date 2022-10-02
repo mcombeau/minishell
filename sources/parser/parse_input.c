@@ -42,6 +42,12 @@ static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 	{
 		if (io->fd_in == -1)
 			return ;
+		if (io->heredoc_delimiter != NULL)
+		{
+			free(io->heredoc_delimiter);
+			io->heredoc_delimiter = NULL;
+			unlink(io->infile);
+		}
 		free(io->infile);
 		close(io->fd_in);
 	}

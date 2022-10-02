@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 16:14:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:27:41 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 *								MACROS										  *
 ******************************************************************************/
 # define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
+# define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
