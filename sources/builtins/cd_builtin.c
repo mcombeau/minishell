@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 16:59:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:03:55 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static void	update_wds(t_data *data, char *wd)
 {
-//	printf("UPDATE WORKING DIRECTORIES\n");
-//	printf("\twd = %s\n", wd);
-//	printf("\toldwd = %s\n", oldwd);
 	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));
 	set_env_var(data, "PWD", wd);
 	if (data->old_working_dir)
@@ -29,8 +26,6 @@ static void	update_wds(t_data *data, char *wd)
 		free(data->working_dir);
 		data->working_dir = ft_strdup(wd);
 	}
-//	printf("Updated OLDWD = %s\n", data->old_working_dir);
-//	printf("Updated PWD = %s\n", data->working_dir);
 }
 
 /* change_dir:
@@ -40,26 +35,16 @@ static void	update_wds(t_data *data, char *wd)
 */
 static bool	change_dir(t_data *data, char *path)
 {
-//	printf("CHANGE DIR\n");
 	char	*ret;
 	char	cwd[PATH_MAX];
 	char	new_cwd[PATH_MAX];
 
 	ret = NULL;
 	ret = getcwd(cwd, PATH_MAX);
-//	printf("\tgetcwd returned [%s]\n", cwd);
 	if (!ret)
-	{
 		errmsg_cmd("cd: error retrieving current directory",
 					"getcwd: cannot access parent directories",
 					strerror(errno), errno);
-		if (chdir(path) != 0)
-		{
-//			printf("Chdir failed. Attempting to restore old pwd\n");
-			path = data->old_working_dir;
-//			printf ("new path = %s\n", path);
-		}
-	}
 	if (chdir(path) != 0)
 	{
 		errmsg_cmd("cd", path, strerror(errno), errno);
@@ -67,8 +52,11 @@ static bool	change_dir(t_data *data, char *path)
 	}
 	ret = getcwd(new_cwd, PATH_MAX);
 	if (!ret)
-		return (false);
-	update_wds(data, new_cwd);
+	{
+		ret = ft_strjoin(data->working_dir, "/");
+		ret = ft_strjoin(ret, path);
+	}
+	update_wds(data, ret);
 	return (true);
 }
 
