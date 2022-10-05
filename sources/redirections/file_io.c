@@ -6,13 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/26 19:53:56 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:00:10 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO : heredoc functions.
 
 /* restore_io:
 *	Restores the original standard input and standard output

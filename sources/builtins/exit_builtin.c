@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 17:58:35 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:59:03 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int	exit_builtin(t_data *data, char **args)
 
 	quiet = is_quiet_mode(data);
 	error = false;
+	if (!quiet && data->interactive)
+		ft_putendl_fd("exit", 2);
 	if (!args || !args[1] || args[1][0] == '\0')
 		exit_code = g_last_exit_code;
 	else
@@ -130,11 +132,7 @@ int	exit_builtin(t_data *data, char **args)
 			exit_code = errmsg_cmd("exit", args[1], "numeric argument required", 2);
 		else if (args[2])
 			return (errmsg_cmd("exit", NULL, "too many arguments", 1));
-		if (data->cmd && data->cmd->io_fds)
-			restore_io(data->cmd->io_fds);
 	}
-	if (!quiet && data->interactive)
-		printf("exit\n");
 	exit_shell(data, exit_code);
 	return (2);
 }
