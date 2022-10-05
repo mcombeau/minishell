@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/25 10:55:11 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:46:02 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	start_check(t_data *data, int ac, char **av)
 static bool	parse_user_input(t_data *data)
 {
 	if (data->user_input == NULL)
-		exit_builtin(data, NULL, true);
+		exit_builtin(data, NULL);
 	else if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	add_history(data->user_input);

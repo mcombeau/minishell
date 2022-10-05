@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 17:26:21 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:46:15 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_builtin(t_data *data, t_command *cmd)
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
 		ret = unset_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
-		ret = exit_builtin(data, cmd->args, false);
+		ret = exit_builtin(data, cmd->args);
 	return (ret);
 }
 

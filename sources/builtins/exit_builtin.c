@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 14:16:54 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:58:35 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,30 +88,21 @@ static int	get_exit_code(char *arg, bool *error)
 	return (i % 256);
 }
 
-/* exit_should_execute:
-*	Checks if the exit builtin should execute or not. Exit should only execute if
-*	if is the first and only command in the command list. Example:
-*		exit | ls
-*		ls | exit
-*		exit 0 | exit 1
-*		ls | exit | wc -l
-*	None of these examples should execute the exit builtin.
-*	If there is no command list, this means exit builtin was called because of
-*	ctrl+D input, in which case it should execute as if user had input "exit" alone.
-*	Returns true if exit is OK to execute, false if not.
+/* is_quiet_mode:
+*	If exit is not called alone, it should not print "exit".
+*	Returns true if exit should not be printed. False if exit was called
+*	alone and the "exit" message should be printed.
 */
-static bool	exit_should_execute(t_data *data, char **args)
+static bool	is_quiet_mode(t_data *data)
 {
 	t_command	*cmd;
 
-	if (!args || !data->cmd)
-		return (true);
 	cmd = data->cmd;
-	while (cmd && ft_strcmp(cmd->command, "exit") != 0) 
-		cmd = cmd->next;
-	if (cmd->prev != NULL || cmd->next != NULL)
+	if (!cmd)
 		return (false);
-	return (true);
+	if (cmd->next != NULL || cmd->prev != NULL)
+		return (true);
+	return (false);
 }
 
 /* exit_builtin:
@@ -122,13 +113,15 @@ static bool	exit_should_execute(t_data *data, char **args)
 *	In case of failure due to invalid arguments, does not exit the shell
 *	and returns an error exit code (1 or 2) instead.
 */
-int	exit_builtin(t_data *data, char **args, bool direct_call)
+int	exit_builtin(t_data *data, char **args)
 {
 	int		exit_code;
 	bool	error;
+	bool	quiet;
 
+	quiet = is_quiet_mode(data);
 	error = false;
-	if (!args || direct_call)
+	if (!args || !args[1] || args[1][0] == '\0')
 		exit_code = g_last_exit_code;
 	else
 	{
@@ -139,10 +132,8 @@ int	exit_builtin(t_data *data, char **args, bool direct_call)
 			return (errmsg_cmd("exit", NULL, "too many arguments", 1));
 		if (data->cmd && data->cmd->io_fds)
 			restore_io(data->cmd->io_fds);
-		if (!exit_should_execute(data, args) || exit_code == EXIT_FAILURE)
-			return (exit_code);
 	}
-	if (data->interactive)
+	if (!quiet && data->interactive)
 		printf("exit\n");
 	exit_shell(data, exit_code);
 	return (2);

@@ -6,12 +6,17 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 17:23:10 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:00:03 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* update_wds:
+*	Updates the PWD and OLDPWD in the environment after a directory change.
+*	A copy of the paths are stored internally for use in case the environment
+*	variables are unset.
+*/
 static void	update_wds(t_data *data, char *wd)
 {
 	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));

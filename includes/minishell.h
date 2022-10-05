@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/02 16:27:41 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:45:44 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ int			echo_builtin(t_data *data, char **args);
 int			export_builtin(t_data *data, char **args);
 int			unset_builtin(t_data *data, char **args);
 int			cd_builtin(t_data *data, char **args);
-int			exit_builtin(t_data *data, char **args, bool direct_call);
+int			exit_builtin(t_data *data, char **args);
 
 // signal.c
 void		ignore_sigquit(void);
