@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 17:03:55 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:23:10 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,19 @@ static bool	change_dir(t_data *data, char *path)
 {
 	char	*ret;
 	char	cwd[PATH_MAX];
-	char	new_cwd[PATH_MAX];
 
 	ret = NULL;
-	ret = getcwd(cwd, PATH_MAX);
-	if (!ret)
-		errmsg_cmd("cd: error retrieving current directory",
-					"getcwd: cannot access parent directories",
-					strerror(errno), errno);
 	if (chdir(path) != 0)
 	{
 		errmsg_cmd("cd", path, strerror(errno), errno);
 		return (false);
 	}
-	ret = getcwd(new_cwd, PATH_MAX);
+	ret = getcwd(cwd, PATH_MAX);
 	if (!ret)
 	{
+		errmsg_cmd("cd: error retrieving current directory",
+					"getcwd: cannot access parent directories",
+					strerror(errno), errno);
 		ret = ft_strjoin(data->working_dir, "/");
 		ret = ft_strjoin(ret, path);
 	}
@@ -83,8 +80,7 @@ int	cd_builtin(t_data *data, char **args)
 		path = get_env_var_value(data->env, "OLDPWD");
 		if (!path)
 			return (errmsg_cmd("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
-//		printf("%s\n", get_env_var_value(data->env, "OLDPWD"));
-		return (!change_dir(data, get_env_var_value(data->env, "OLDPWD")));
+		return (!change_dir(data, path));
 	}
 	return (!change_dir(data, args[1]));
 }
