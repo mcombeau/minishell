@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:28:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/27 17:26:16 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:14:02 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	cmd_is_dir(char *cmd)
 {
 	struct stat	cmd_stat;
 
-	ft_memset(&cmd_stat, 0, sizeof(stat));
+	ft_memset(&cmd_stat, 0, sizeof(cmd_stat));
 	stat(cmd, &cmd_stat);
 	return (S_ISDIR(cmd_stat.st_mode));
 }
