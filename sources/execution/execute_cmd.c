@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:12:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 19:00:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:08:46 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,12 @@ int	execute_command(t_data *data, t_command *cmd)
 	{
 		ret = execute_builtin(data, cmd);
 		if (ret != CMD_NOT_FOUND)
-			exit(ret);
+			exit_shell(data, ret);
 		ret = execute_sys_bin(data, cmd);
 		if (ret != CMD_NOT_FOUND)
-			exit(ret);
+			exit_shell(data, ret);
 	}
 	ret = execute_local_bin(data, cmd);
-	exit(ret);
+	exit_shell(data, ret);
+	return (ret);
 }
