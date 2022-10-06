@@ -6,14 +6,18 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:51:01 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:15:18 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: Add ability to use -c option to give line to parse without readline
-// for automated testing.
+/* start_check:
+*	Checks the arguments at program start up. Minishell can start either:
+*		* when no arguments are supplied.
+*		* when the -c option is supplied followed by one argument.
+*	Returns true if minishell can begin, false with a usage message if not.
+*/
 static bool	start_check(t_data *data, int ac, char **av)
 {
 	if (ac != 1 && ac != 3)
@@ -31,6 +35,10 @@ static bool	start_check(t_data *data, int ac, char **av)
 	return (true);
 }
 
+/* parse_user_input:
+*	Tokenizes and parses user input into a structure for execution.
+*	Returns true if successful, false in case of error.
+*/
 static bool	parse_user_input(t_data *data)
 {
 	if (data->user_input == NULL)
@@ -52,6 +60,10 @@ static bool	parse_user_input(t_data *data)
 	return (true);
 }
 
+/* minishell_interactive:
+*	Runs parsing and execution in interactive mode, i.e. when minishell
+*	is started without arguments and provides a prompt for user input.
+*/
 void	minishell_interactive(t_data *data)
 {
 	while (1)
@@ -68,6 +80,17 @@ void	minishell_interactive(t_data *data)
 	}
 }
 
+/* minishell_noninteractive:
+*	Runs parsing and execution in noninteractive mode, i.e. when
+*	minishell is started with the -c option followed by an argument
+*	containing the commands to be executed:
+*		./minishell -c "echo hello | wc -c"
+*	Commands in this mode can be separated by a semicolon, ';' to
+*	indicate sequential execution:
+*		./minishell -c "echo hello; ls"
+*	-> echo hello is the first command run
+*	-> ls is the second
+*/
 void	minishell_noninteractive(t_data *data, char *arg)
 {
 	char	**user_inputs;
@@ -90,6 +113,11 @@ void	minishell_noninteractive(t_data *data, char *arg)
 	free_str_tab(user_inputs);
 }
 
+/* main:
+*	Begins minishell. Checks input and determines if
+*	minishell should be run interactively or not.
+*	Exits the shell with the exit status or the last command.
+*/
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;

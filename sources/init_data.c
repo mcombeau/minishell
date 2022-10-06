@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/29 16:59:46 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:06:39 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,10 @@
 static bool	init_env(t_data *data, char **env)
 {
 	int		i;
-//	char	buff[PATH_MAX];
-//	char	*wd;
 
-//	wd = getcwd(buff, PATH_MAX);
-//	printf("getcwd returned: %s\n", wd);
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
 	if (!data->env)
 		return (false);
-//	if (!env || !env[0])
-//	{
-//		printf("No env, setting env vars for PWD and OLDPWD\n");
-//		set_env_var(data, "PWD", wd);
-//		set_env_var(data, "OLDPWD", wd);
-//	}
 	i = 0;
 	while (env[i])
 	{
@@ -45,6 +35,12 @@ static bool	init_env(t_data *data, char **env)
 	return (true);
 }
 
+/* init_wds:
+*	Initializes working directory variables as a safeguard against
+*	environment PWD and OLDPWD being unset or otherwise not present
+*	in the environment. Used for cd builtin.
+*	Returns true if successful, false in case of error.
+*/
 static bool init_wds(t_data *data)
 {
 	char	buff[PATH_MAX];
@@ -69,6 +65,10 @@ static bool init_wds(t_data *data)
 	return (true);
 }
 
+/* init_data:
+*	Initializes the data structure used in parsing and executing user input.
+*	Returns true if successful, false in case of error.
+*/
 bool	init_data(t_data *data, char **env)
 {
 	if (!init_env(data, env))
@@ -90,6 +90,10 @@ bool	init_data(t_data *data, char **env)
 	return (true);
 }
 
+/* init_io:
+*	Initializes a structure with default values to contain
+*	infile and outfile information for a command.
+*/
 void	init_io(t_command *cmd)
 {
 	if (!cmd->io_fds)

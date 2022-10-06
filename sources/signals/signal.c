@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 12:50:46 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:01:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ignore_sigquit(void)
 	struct sigaction	act;
 
 	ft_memset(&act, 0, sizeof(act));
-//	ft_bzero(&act, sizeof(act));
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &act, NULL);
 }
