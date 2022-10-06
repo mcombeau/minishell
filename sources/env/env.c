@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:50:51 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:25:04 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	get_env_var_index(char **env, char *var)
 	{
 		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
-			free_str(tmp);
+			free_ptr(tmp);
 			return (i);
 		}
 		i++;
 	}
-	free_str(tmp);
+	free_ptr(tmp);
 	return (-1);
 }
 
@@ -77,12 +77,12 @@ char	*get_env_var_value(char **env, char *var)
 	{
 		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
-			free_str(tmp);
+			free_ptr(tmp);
 			return (ft_strchr(env[i], '=') + 1);
 		}
 		i++;
 	}
-	free_str(tmp);
+	free_ptr(tmp);
 	return (NULL);
 }
 

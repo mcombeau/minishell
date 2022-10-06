@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:30:05 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:44:04 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	free_io(t_io_fds *io)
 	if (io->heredoc_delimiter)
 	{
 		unlink(io->infile);
-		free_str(io->heredoc_delimiter);
+		free_ptr(io->heredoc_delimiter);
 	}
 	if (io->infile)
-		free_str(io->infile);
+		free_ptr(io->infile);
 	if (io->outfile)
-		free_str(io->outfile);
+		free_ptr(io->outfile);
 	if (io)
-		free(io);
+		free_ptr(io);
 }

@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void	free_str(char *str)
+void	free_ptr(void *ptr)
 {
-	if (str != NULL)
+	if (ptr != NULL)
 	{
-		free(str);
-		str = NULL;
+		free(ptr);
+		ptr = NULL;
 	}
 }

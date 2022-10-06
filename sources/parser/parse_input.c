@@ -44,11 +44,11 @@ static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 			return ;
 		if (io->heredoc_delimiter != NULL)
 		{
-			free_str(io->heredoc_delimiter);
+			free_ptr(io->heredoc_delimiter);
 			io->heredoc_delimiter = NULL;
 			unlink(io->infile);
 		}
-		free_str(io->infile);
+		free_ptr(io->infile);
 		close(io->fd_in);
 	}
 	io->infile = ft_strdup(file);

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:42:10 by alexa             #+#    #+#             */
-/*   Updated: 2022/10/06 14:24:54 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	remove_quotes(t_token **token_node)
 		new_line[j++] = (*token_node)->str[i++];
 	}
 	new_line[j] = '\0';
-	free_str((*token_node)->str);
+	free_ptr((*token_node)->str);
 	(*token_node)->str = new_line;
 	(*token_node)->join = true;
 	return (0);

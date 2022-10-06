@@ -34,7 +34,7 @@ static void	open_outfile_append(t_io_fds *io, char *file, char *var_filename)
 	{
 		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
 			return ;
-		free_str(io->outfile);
+		free_ptr(io->outfile);
 		close(io->fd_out);
 	}
 	io->outfile = ft_strdup(file);

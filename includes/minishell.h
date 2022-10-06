@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:29:54 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:45:37 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void		free_io(t_io_fds *io);
 void		free_data(t_data *data, bool clear_history);
 
 //utils.c
-void		free_str(char *str);
+void		free_ptr(void *ptr);
 
 /* ------------------------ LEXER -----------------------------------------*/
 // tokenization.c

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:46:45 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:29:45 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*find_valid_cmd_path(char *cmd, char **paths)
 		}
 		if (access(cmd_path, F_OK | X_OK) == 0)
 			return (cmd_path);
-		free_str(cmd_path);
+		free_ptr(cmd_path);
 		i++;
 	}
 	return (NULL);
@@ -68,7 +68,7 @@ char	*get_cmd_path(t_data *data, char *name)
 	cmd_path = find_valid_cmd_path(cmd, env_paths);
 	if (!cmd_path)
 	{
-		free_str(cmd);
+		free_ptr(cmd);
 		free_tab(env_paths);
 		return (NULL);
 	}

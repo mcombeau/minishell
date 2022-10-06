@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:37:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *join_strs(char *str, char *add)
 		return (ft_strdup(add));
 	tmp = str;
 	str = ft_strjoin(tmp, add);
-	free_str(tmp);
+	free_ptr(tmp);
 	return (str);
 }
 
@@ -57,7 +57,7 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	}
 	msg = join_strs(msg, error_message);
 	ft_putendl_fd(msg, STDERR_FILENO);
-	free_str(msg);
+	free_ptr(msg);
 	return (error_nb);
 }
 
@@ -74,7 +74,7 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 	if (quotes)
 		msg = ft_strjoin(msg, "'");
 	ft_putendl_fd(msg, STDERR_FILENO);
-	free_str(msg);
+	free_ptr(msg);
 }
 
 bool	usage_message(bool return_val)

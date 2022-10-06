@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:25:10 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static void	update_wds(t_data *data, char *wd)
 	set_env_var(data, "PWD", wd);
 	if (data->old_working_dir)
 	{
-		free_str(data->old_working_dir);
+		free_ptr(data->old_working_dir);
 		data->old_working_dir = ft_strdup(data->working_dir);
 	}
 	if (data->working_dir)
 	{
-		free_str(data->working_dir);
+		free_ptr(data->working_dir);
 		data->working_dir = ft_strdup(wd);
 	}
 }
