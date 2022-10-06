@@ -2,8 +2,8 @@
 NAME	= minishell
 
 # Compiler and compilation flags
-CC		= clang -g
-CFLAGS	= -Werror -Wextra -Wall -g
+CC		= clang
+CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g
 
 # Build files and directories
 SRC_PATH = ./sources/
@@ -88,7 +88,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 # Project file rule
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -l readline
 
 # Libft rule
 $(LIBFT):

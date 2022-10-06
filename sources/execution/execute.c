@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/26 19:54:05 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:52:27 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static bool	prep_for_exec(t_data *data)
 	{
 		if (!cmd->args)
 		{
-			cmd->args = malloc(sizeof * cmd->args);
+			cmd->args = malloc(sizeof * cmd->args * 2);
 			cmd->args[0] = ft_strdup(cmd->command);
 			cmd->args[1] = NULL;
 		}
