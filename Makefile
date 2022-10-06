@@ -53,6 +53,7 @@ SRC		= 	main.c \
 			exit_utils/error.c \
 			exit_utils/cleanup.c \
 			exit_utils/free_data.c \
+			exit_utils/utils.c \
 			signals/signal.c \
 			debug/debug.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))

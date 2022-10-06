@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:06 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/17 17:51:08 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:26:45 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	**realloc_env_vars(t_data *data, int size)
 	while (data->env[i] && i < size)
 	{
 		new_env[i] = ft_strdup(data->env[i]);
-		free(data->env[i]);
+		free_str(data->env[i]);
 		i++;
 	}
 	free(data->env);
@@ -59,7 +59,7 @@ bool	set_env_var(t_data *data, char *key, char *value)
 		return (false);
 	if (idx != -1 && data->env[idx])
 	{
-		free(data->env[idx]);
+		free_str(data->env[idx]);
 		data->env[idx] = ft_strjoin(key, tmp);
 	}
 	else
@@ -70,7 +70,7 @@ bool	set_env_var(t_data *data, char *key, char *value)
 			return (false);
 		data->env[idx] = ft_strjoin(key, tmp);
 	}
-	free(tmp);
+	free_str(tmp);
 	return (true);
 }
 
@@ -88,13 +88,13 @@ bool	remove_env_var(t_data *data, int idx)
 
 	if (idx > env_var_count(data->env))
 		return (false);
-	free(data->env[idx]);
+	free_str(data->env[idx]);
 	i = idx;
 	count = idx;
 	while (data->env[i + 1])
 	{
 		data->env[i] = ft_strdup(data->env[i + 1]);
-		free(data->env[i + 1]);
+		free_str(data->env[i + 1]);
 		count++;
 		i++;
 	}

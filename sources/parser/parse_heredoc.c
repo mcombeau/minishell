@@ -20,13 +20,13 @@ static char	*make_str_from_tab(char **tab)
 		else
 		{
 			str = ft_strjoin(tmp, tab[i]);
-			free(tmp);
+			free_str(tmp);
 		}
 		if (tab[i + 1])
 		{
 			tmp = str;
 			str = ft_strjoin(tmp, " ");
-			free(tmp);
+			free_str(tmp);
 		}
 	}
 	free_tab(tab);
@@ -96,14 +96,14 @@ bool	fill_heredoc(t_data *data, char *delimiter, int fd)
 			line = get_expanded_var_line(data, line);
 			if (!line)
 			{
-				free(line);
+				free_str(line);
 				return (false);
 			}
 		}
 		ft_putendl_fd(line, fd);
-		free(line);
+		free_str(line);
 	}
-	free(quoteless_delim);
+	free_str(quoteless_delim);
 	return (false);
 }
 
@@ -151,11 +151,11 @@ void	parse_heredoc(t_data *data, t_command **last_cmd, t_token **token_lst)
 			return ;
 		if (io->heredoc_delimiter != NULL)
 		{
-			free(io->heredoc_delimiter);
+			free_str(io->heredoc_delimiter);
 			io->heredoc_delimiter = NULL;
 			unlink(io->infile);
 		}
-		free(io->infile);
+		free_str(io->infile);
 		close(io->fd_in);
 	}
 	io->infile = get_heredoc_name();

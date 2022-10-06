@@ -24,7 +24,7 @@ int	erase_var(t_token **token_node, char *str, int index)
 		new_str[j++] = str[i++];
 	}
 	new_str[j] = '\0';
-	free((*token_node)->str);
+	free_str((*token_node)->str);
 	(*token_node)->str = new_str;
 	return (0);
 }
@@ -73,7 +73,7 @@ char	*erase_and_replace(t_token **token_node, char *str, \
 	new_str[j] = '\0';
 	if (token_node && *token_node)
 	{
-		free((*token_node)->str);
+		free_str((*token_node)->str);
 		(*token_node)->str = new_str;
 	}
 	return (new_str);
@@ -88,7 +88,7 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	{
 		if (erase_var(token_node, (*token_node)->str, index) == 1)
 		{
-			free(var_value);
+			free_str(var_value);
 			return (1);
 		}
 	}
@@ -97,11 +97,11 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 		if (erase_and_replace(token_node, (*token_node)->str, \
 		var_value, index) == NULL)
 		{
-			free(var_value);
+			free_str(var_value);
 			return (1);
 		}
 	}
-	free(var_value);
+	free_str(var_value);
 	return (0);
 }
 
@@ -122,8 +122,8 @@ char	*replace_str_heredoc(char *str, char *var_value, int index)
 	{
 		tmp = str;
 		str = erase_and_replace(NULL, str, var_value, index);
-		free(tmp);
+		free_str(tmp);
 	}
-	free(var_value);
+	free_str(var_value);
 	return (str);
 }

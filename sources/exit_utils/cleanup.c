@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/19 17:04:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:30:05 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,14 @@ void	close_fds(t_command *cmds, bool close_backups)
 {
 	if (cmds->io_fds)
 	{
-		close(cmds->io_fds->fd_in);
-		close(cmds->io_fds->fd_out);
+		if (cmds->io_fds->fd_in != -1)
+			close(cmds->io_fds->fd_in);
+		if (cmds->io_fds->fd_out != -1)
+			close(cmds->io_fds->fd_out);
 		if (close_backups)
 			restore_io(cmds->io_fds);
 	}
 	close_pipe_fds(cmds, NULL);
-}
-
-/* free_strs_array:
-*	Frees an array of strings.
-*/
-void	free_str_array(char **strs)
-{
-	int	i;
-
-	if (!strs)
-		return ;
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-	return ;
 }
 
 /* free_io:
@@ -59,12 +42,12 @@ void	free_io(t_io_fds *io)
 	if (io->heredoc_delimiter)
 	{
 		unlink(io->infile);
-		free(io->heredoc_delimiter);
+		free_str(io->heredoc_delimiter);
 	}
 	if (io->infile)
-		free(io->infile);
+		free_str(io->infile);
 	if (io->outfile)
-		free(io->outfile);
+		free_str(io->outfile);
 	if (io)
 		free(io);
 }

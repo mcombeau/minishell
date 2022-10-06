@@ -6,11 +6,25 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/23 15:19:46 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:37:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char *join_strs(char *str, char *add)
+{
+	char	*tmp;
+
+	if (!add)
+		return (str);
+	if (!str)
+		return (ft_strdup(add));
+	tmp = str;
+	str = ft_strjoin(tmp, add);
+	free_str(tmp);
+	return (str);
+}
 
 /* errmsg_cmd:
 *	Prints an error message to the standard error, prefixed with the
@@ -23,26 +37,27 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	bool	detail_quotes;
 
 	detail_quotes = false;
-	if (command == NULL)
-		msg = ft_strdup("minishell");
-	else
-		msg = ft_strjoin("minishell: ", command);
-	msg = ft_strjoin(msg, ": ");
+	msg = ft_strdup("minishell: ");
+	if (command != NULL)
+	{
+		msg = join_strs(msg, command);
+		msg = join_strs(msg, ": ");
+	}
 	if (detail != NULL)
 	{
 		if (ft_strncmp(command, "export", 7) == 0
 			|| ft_strncmp(command, "unset", 6) == 0)
 			detail_quotes = true;
 		if (detail_quotes)
-			msg = ft_strjoin(msg, "`");
-		msg = ft_strjoin(msg, detail);
+			msg = join_strs(msg, "`");
+		msg = join_strs(msg, detail);
 		if (detail_quotes)
-			msg = ft_strjoin(msg, "'");
-		msg = ft_strjoin(msg, ": ");
+			msg = join_strs(msg, "'");
+		msg = join_strs(msg, ": ");
 	}
-	msg = ft_strjoin(msg, error_message);
+	msg = join_strs(msg, error_message);
 	ft_putendl_fd(msg, STDERR_FILENO);
-	free(msg);
+	free_str(msg);
 	return (error_nb);
 }
 
@@ -59,7 +74,7 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 	if (quotes)
 		msg = ft_strjoin(msg, "'");
 	ft_putendl_fd(msg, STDERR_FILENO);
-	free(msg);
+	free_str(msg);
 }
 
 bool	usage_message(bool return_val)

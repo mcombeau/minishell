@@ -59,7 +59,7 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 	{
 		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
 			return ;
-		free(io->outfile);
+		free_str(io->outfile);
 		close(io->fd_out);
 	}
 	io->outfile = ft_strdup(file);

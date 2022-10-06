@@ -55,7 +55,7 @@ void	free_tab(char **tab)
 		{
 			if (tab[i])
 			{
-				free(tab[i]);
+				free_str(tab[i]);
 				tab[i] = NULL;
 			}
 			i++;
@@ -70,6 +70,8 @@ void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 	(void)(*del);
 	if (lst->args)
 		free_tab(lst->args);
+	if (lst->pipe_fd)
+		free(lst->pipe_fd);
 	if (lst->io_fds)
 		free_io(lst->io_fds);
 	free(lst);

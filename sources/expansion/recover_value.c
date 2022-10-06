@@ -46,6 +46,6 @@ char	*recover_val(char *str, t_data *data)
 		value = ft_itoa(g_last_exit_code);
 	else
 		value = NULL;
-	free(var);
+	free_str(var);
 	return (value);
 }

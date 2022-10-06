@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 17:45:44 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:29:54 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,15 +157,16 @@ int			errmsg_cmd(char *command, char *detail, char *error_message,
 				int error_nb);
 void		errmsg(char *errmsg, char *detail, int quotes);
 bool		usage_message(bool return_val);
-void		free_str_array(char **strs);
 
 // cleanup.c
 void		close_fds(t_command *cmds, bool close_backups);
-void		free_str_array(char **strs);
 void		free_io(t_io_fds *io);
 
 //free_data.c
 void		free_data(t_data *data, bool clear_history);
+
+//utils.c
+void		free_str(char *str);
 
 /* ------------------------ LEXER -----------------------------------------*/
 // tokenization.c
