@@ -29,7 +29,7 @@ static char	*make_str_from_tab(char **tab)
 			free_ptr(tmp);
 		}
 	}
-	free_tab(tab);
+	free_str_tab(tab);
 	return (str);
 }
 

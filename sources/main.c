@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 17:46:02 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:51:01 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	minishell_noninteractive(t_data *data, char *arg)
 		i++;
 		free_data(data, false);
 	}
-	free_tab(user_inputs);
+	free_str_tab(user_inputs);
 }
 
 int	main(int ac, char **av, char **env)

@@ -44,32 +44,11 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node)
 	}
 }
 
-void	free_tab(char **tab)
-{
-	int i;
-
-	i = 0;
-	if (tab)
-	{
-		while (tab[i])
-		{
-			if (tab[i])
-			{
-				free_ptr(tab[i]);
-				tab[i] = NULL;
-			}
-			i++;
-		}
-		free(tab);
-		tab = NULL;
-	}
-}
-
 void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 {
 	(void)(*del);
 	if (lst->args)
-		free_tab(lst->args);
+		free_str_tab(lst->args);
 	if (lst->pipe_fd)
 		free_ptr(lst->pipe_fd);
 	if (lst->io_fds)

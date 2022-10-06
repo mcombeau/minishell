@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:45:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:52:09 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,11 @@ void		errmsg(char *errmsg, char *detail, int quotes);
 bool		usage_message(bool return_val);
 
 // cleanup.c
+void		free_data(t_data *data, bool clear_history);
 void		close_fds(t_command *cmds, bool close_backups);
 void		free_io(t_io_fds *io);
-
-//free_data.c
-void		free_data(t_data *data, bool clear_history);
-
-//utils.c
 void		free_ptr(void *ptr);
+void		free_str_tab(char **tab);
 
 /* ------------------------ LEXER -----------------------------------------*/
 // tokenization.c
@@ -249,7 +246,6 @@ void		lst_delone_cmd(t_command *lst, void (*del)(void *));
 void		lst_clear_cmd(t_command **lst, void (*del)(void *));
 t_command	*lst_last_cmd(t_command *cmd);
 t_command	*lst_first_cmd(t_command *cmd);
-void		free_tab(char **tab);
 
 //parse_trunc.c
 void		parse_trunc(t_command **last_cmd, t_token **token_lst);

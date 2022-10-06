@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:30:41 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:28:34 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:51:01 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	export_builtin(t_data *data, char **args)
 		{
 			tmp = get_key_value_pair(args[i]);
 			set_env_var(data, tmp[0], tmp[1]);
-			free_tab(tmp);
+			free_str_tab(tmp);
 		}
 		i++;
 	}

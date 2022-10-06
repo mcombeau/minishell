@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:46:45 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:51:01 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ char	*get_cmd_path(t_data *data, char *name)
 	cmd = ft_strjoin("/", name);
 	if (!cmd)
 	{
-		free_tab(env_paths);
+		free_str_tab(env_paths);
 		return (NULL);
 	}
 	cmd_path = find_valid_cmd_path(cmd, env_paths);
 	if (!cmd_path)
 	{
 		free_ptr(cmd);
-		free_tab(env_paths);
+		free_str_tab(env_paths);
 		return (NULL);
 	}
 	return (cmd_path);
