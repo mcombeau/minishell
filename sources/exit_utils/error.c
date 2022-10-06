@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:55:49 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,15 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 {
 	char	*msg;
 
-	msg = ft_strjoin("minishell: ", errmsg);
+	msg = ft_strdup("minishell: ");
+	msg = join_strs(msg, errmsg);
 	if (quotes)
-		msg = ft_strjoin(msg, " `");
+		msg = join_strs(msg, " `");
 	else
-		msg = ft_strjoin(msg, ": ");
-	msg = ft_strjoin(msg, detail);
+		msg = join_strs(msg, ": ");
+	msg = join_strs(msg, detail);
 	if (quotes)
-		msg = ft_strjoin(msg, "'");
+		msg = join_strs(msg, "'");
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);
 }
