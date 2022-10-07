@@ -18,11 +18,17 @@ void	print_cmd_list(t_data *data)
 		if (cmd->io_fds)
 		{
 			if (cmd->io_fds->infile)
+			{
 				printf("\tInfile: %s\n", cmd->io_fds->infile);
+				printf("\t\tfd_in: %d\n", cmd->io_fds->fd_in);
+			}
 			if (cmd->io_fds->heredoc_delimiter)
 				printf("\tHeredoc delimiter: %s\n", cmd->io_fds->heredoc_delimiter);
 			if (cmd->io_fds->outfile)
+			{
 				printf("\tOutfile: %s\n", cmd->io_fds->outfile);
+				printf("\t\tfd_in: %d\n", cmd->io_fds->fd_out);
+			}
 		}
 		if (cmd->prev == NULL)
 			printf("\tprev = NULL\n");

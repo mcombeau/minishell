@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 12:52:27 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:46:01 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,6 @@ static int	get_children(t_data *data)
 	else
 		status = save_status;
 	return (status);
-}
-
-/* check_cmd_list:
-*	Checks if the list of commands to execute is valid.
-*	Returns EXIT_FAILURE or EXIT_SUCCESS if it is not,
-*	or CMD_NOT_FOUND if it is valid.
-*/
-static int check_cmd_list(t_data *data)
-{
-	t_io_fds *io;
-
-	if (!data || !data->cmd)
-		return (EXIT_FAILURE);
-	if (data->cmd->command == NULL)
-	{
-		io = data->cmd->io_fds;
-		if (io && ((io->infile && io->fd_in == -1)
-			|| (io->outfile && io->fd_out == -1)))
-			return (EXIT_FAILURE);
-		return (EXIT_SUCCESS);
-	}
-	return (CMD_NOT_FOUND);
 }
 
 /* prep_for_exec:
@@ -134,10 +112,7 @@ static int	create_children(t_data *data)
 int	execute(t_data *data)
 {
 	int	ret;
-
-	ret = check_cmd_list(data);
-	if (ret == EXIT_SUCCESS || ret == EXIT_FAILURE)
-		return (ret);
+	ret = CMD_NOT_FOUND;
 	if (!prep_for_exec(data))
 		return (EXIT_FAILURE);
 	if (!data->cmd->pipe_output && !data->cmd->prev
