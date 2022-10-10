@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/09 15:56:04 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/10 12:06:17 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,18 @@ void	signal_reset_prompt(int signo)
 	rl_redisplay();
 }
 
-/* set_interactive_signal_trap:
-*	Sets a signal trap to intercept SIGINT (ctrl-c). SIGINT resets
-*	the user input prompt to a new blank line.
+/* set_signals_interactive:
+*	Sets the behavior in response to SIGINT (ctrl-c) and SIGQUIT (ctrl-\).
+*	SIGINT resets the user input prompt to a new blank line.
+*	SIGQUIT is ignored.
 *	Used when minishell is in interactive mode, meaning it is awaiting
 *	user input.
 */
-void	set_interactive_signal_trap(void)
+void	set_signals_interactive(void)
 {
 	struct sigaction	act;
 
+	ignore_sigquit();
 	ft_memset(&act, 0, sizeof(act));
 	act.sa_handler = &signal_reset_prompt;
 	sigaction(SIGINT, &act, NULL);
@@ -49,14 +51,14 @@ void	signal_print_newline(int signal)
 //	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-/* set_noninteractive_signal_trap:
-*	Sets a signal trap to intercept SIGINT (ctrl -c) and SIGQUIT (ctrl -D).
+/* set_signals_noninteractive:
+*	Sets the behavior in response to SIGINT (ctrl -c) and SIGQUIT (ctrl -\).
 *	Used when minishell is in noninteractive mode, meaning it is not awaiting
 *	user input. For example, when a command is running (i.e. cat), minishell
 *	should not react to SIGINT and SIGQUIT because only the running process (cat)
 *	needs to react to those signals.
 */
-void	set_noninteractive_signal_trap(void)
+void	set_signals_noninteractive(void)
 {
 	struct sigaction	act;
 

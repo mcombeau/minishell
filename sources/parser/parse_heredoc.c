@@ -88,10 +88,9 @@ bool	fill_heredoc(t_data *data, char *delimiter, int fd)
 	line = NULL;
 	while (1)
 	{
-		ignore_sigquit();
-		set_interactive_signal_trap();
+		set_signals_interactive();
 		line = readline(">");
-		set_noninteractive_signal_trap();
+		set_signals_noninteractive();
 		if (line == NULL || ft_strcmp(line, quoteless_delim) == 0)
 			return (errmsg_cmd("warning", "here-document delimited by end-of-file: wanted", quoteless_delim, true));
 		if (!delim_between_quotes(delimiter) && ft_strchr(line, '$'))

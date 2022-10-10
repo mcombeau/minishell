@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/09 15:58:13 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/10 12:04:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,9 @@ void	minishell_interactive(t_data *data)
 {
 	while (1)
 	{
-		ignore_sigquit();
-		set_interactive_signal_trap();
+		set_signals_interactive();
 		data->user_input = readline(PROMPT);
-		set_noninteractive_signal_trap();
+		set_signals_noninteractive();
 		if (parse_user_input(data) == true)
 			g_last_exit_code = execute(data);
 		else

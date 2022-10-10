@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/07 15:38:26 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/10/10 12:04:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,8 +286,8 @@ int			exit_builtin(t_data *data, char **args);
 
 // signal.c
 void		ignore_sigquit(void);
-void		set_interactive_signal_trap(void);
-void		set_noninteractive_signal_trap(void);
+void		set_signals_interactive(void);
+void		set_signals_noninteractive(void);
 
 // execute.c
 int			execute(t_data *data);
