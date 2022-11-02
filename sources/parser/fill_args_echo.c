@@ -140,7 +140,8 @@ int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	new_tab = copy_in_new_tab(len, new_tab, last_cmd, temp);
 	free(last_cmd->args);
 	last_cmd->args = new_tab;
-	temp = temp->next;
+	while (temp->type == WORD || temp->type == VAR)
+		temp = temp->next;
 	*token_node = temp;
 	return (SUCCESS);
 }
