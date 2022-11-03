@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:39:40 by alexa             #+#    #+#             */
-/*   Updated: 2022/10/02 17:00:25 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:19:25 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	handle_quotes(t_data *data)
 	while (temp)
 	{
 		if (quotes_in_string(temp->str) == true 
-			&& (temp->prev && temp->prev->type != HEREDOC))
+			&& (!temp->prev || (temp->prev && temp->prev->type != HEREDOC)))
 		{
 			remove_quotes(&temp);
 //			printf("temp str: %s\n", temp->str);
