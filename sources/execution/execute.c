@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 10:52:26 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:04:17 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,7 @@ static int	prep_for_exec(t_data *data)
 	{
 		if (data->cmd->io_fds
 			&& !check_infile_outfile(data->cmd->io_fds))
-		{
-//			printf("Invalid in/outfile. Exit failure\n");
 			return (EXIT_FAILURE);
-		}
-//		printf("No command. Exit success.\n");
 		return (EXIT_SUCCESS);
 	}
 	cmd = data->cmd;
@@ -110,7 +106,6 @@ static int	prep_for_exec(t_data *data)
 		cmd = cmd->next;
 	}
 	cmd = lst_last_cmd(data->cmd);
-//	if (!create_pipes(data) || !check_infile_outfile(data))
 	if (!create_pipes(data))
 		return (EXIT_FAILURE);
 	return (CMD_NOT_FOUND);

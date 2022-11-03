@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/05 18:59:03 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:04:26 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	exit_builtin(t_data *data, char **args)
 	error = false;
 	if (!quiet && data->interactive)
 		ft_putendl_fd("exit", 2);
-	if (!args || !args[1] || args[1][0] == '\0')
+	if (!args || !args[1])
 		exit_code = g_last_exit_code;
 	else
 	{
