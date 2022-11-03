@@ -6,11 +6,16 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:13:43 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/20 12:47:08 by alexa            ###   ########.fr       */
+/*   Updated: 2022/11/03 15:49:58 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+	TODO : Remove VAR_TOKENIZATION. Causes double frees and does not seem
+			necessary.
+*/
 
 static char	*copy_word(char *str, int end, int start)
 {
