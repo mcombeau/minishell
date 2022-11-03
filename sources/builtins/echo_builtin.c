@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:55:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/09/25 13:21:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:06:38 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	echo_print_args(char **args, bool n_flag, int i)
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
+		if (args[i + 1] && !ft_isspace(args[i + 1][0]) && !ft_isspace(args[i][0]))
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		else if (!args[i + 1] && !n_flag)
 			ft_putchar_fd('\n', STDOUT_FILENO);
