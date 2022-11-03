@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/07 15:46:01 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/03 10:52:26 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,34 +50,6 @@ static int	get_children(t_data *data)
 	return (status);
 }
 
-/* prep_for_exec:
-*	Prepares the command list for execution, creates pipes
-*	and checks the input and output files.
-*	Returns false in case of error, true if all is ready to
-*	execute.
-*/
-static bool	prep_for_exec(t_data *data)
-{
-	t_command	*cmd;
-
-	cmd = data->cmd;
-	while (cmd)
-	{
-		if (!cmd->args)
-		{
-			cmd->args = malloc(sizeof * cmd->args * 2);
-			cmd->args[0] = ft_strdup(cmd->command);
-			cmd->args[1] = NULL;
-		}
-		cmd = cmd->next;
-	}
-	cmd = lst_last_cmd(data->cmd);
-//	if (!create_pipes(data) || !check_infile_outfile(data))
-	if (!create_pipes(data))
-		return (false);
-	return (true);
-}
-
 /* create_children:
 *	Creates a child process for each command to execute, except in the
 *	case of a builtin command that is not piped, which executes in the
@@ -103,6 +75,47 @@ static int	create_children(t_data *data)
 	return (get_children(data));
 }
 
+/* prep_for_exec:
+*	Prepares the command list for execution, creates pipes
+*	and checks the input and output files.
+*	Returns false in case of error, true if all is ready to
+*	execute.
+*/
+static int	prep_for_exec(t_data *data)
+{
+	t_command	*cmd;
+
+	if (!data || !data->cmd)
+		return (EXIT_FAILURE);
+	if (!data->cmd->command)
+	{
+		if (data->cmd->io_fds
+			&& !check_infile_outfile(data->cmd->io_fds))
+		{
+//			printf("Invalid in/outfile. Exit failure\n");
+			return (EXIT_FAILURE);
+		}
+//		printf("No command. Exit success.\n");
+		return (EXIT_SUCCESS);
+	}
+	cmd = data->cmd;
+	while (cmd)
+	{
+		if (!cmd->args)
+		{
+			cmd->args = malloc(sizeof * cmd->args * 2);
+			cmd->args[0] = ft_strdup(cmd->command);
+			cmd->args[1] = NULL;
+		}
+		cmd = cmd->next;
+	}
+	cmd = lst_last_cmd(data->cmd);
+//	if (!create_pipes(data) || !check_infile_outfile(data))
+	if (!create_pipes(data))
+		return (EXIT_FAILURE);
+	return (CMD_NOT_FOUND);
+}
+
 /* execute:
 *	Executes the given commands by creating children processes
 *	and waiting for them to terminate.
@@ -112,9 +125,11 @@ static int	create_children(t_data *data)
 int	execute(t_data *data)
 {
 	int	ret;
-	ret = CMD_NOT_FOUND;
-	if (!prep_for_exec(data))
-		return (EXIT_FAILURE);
+
+//	print_cmd_list(data);
+	ret = prep_for_exec(data);
+	if (ret != CMD_NOT_FOUND)
+		return (ret);
 	if (!data->cmd->pipe_output && !data->cmd->prev
 		&& check_infile_outfile(data->cmd->io_fds))
 	{
