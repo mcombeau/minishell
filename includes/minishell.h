@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/10 12:04:11 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:37:38 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_io_fds
 	char	*infile;
 	char	*outfile;
 	char	*heredoc_delimiter;
+	bool	heredoc_quotes;
 	int		fd_in;
 	int		fd_out;
 	int		stdin_backup;
@@ -252,6 +253,7 @@ void		parse_trunc(t_command **last_cmd, t_token **token_lst);
 char		*get_relative_path(char *file_to_open);
 
 //parse_input.c
+void		remove_old_file_ref(t_io_fds *io, bool infile);
 void		parse_input(t_command **last_cmd, t_token **token_lst);
 
 //parse_append.c
@@ -260,6 +262,9 @@ void		parse_append(t_command **last_cmd, t_token **token_lst);
 //parse_heredoc.c
 void		parse_heredoc(t_data *data, t_command **last_cmd,
 				t_token **token_lst);
+
+//parse_heredoc_utils.c
+bool		fill_heredoc(t_data *data, t_io_fds *io, int fd);
 
 //parse_pipec
 void		parse_pipe(t_command **cmd, t_token **token_lst);
