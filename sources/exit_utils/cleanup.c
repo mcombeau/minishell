@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 15:18:12 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 11:16:07 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	free_data(t_data *data, bool clear_history)
 		data->user_input = NULL;
 	}
 	if (data && data->token)
-		lstclear_token(&data->token, &free);
+		lstclear_token(&data->token, &free_ptr);
 	if (data && data->cmd)
-		lst_clear_cmd(&data->cmd, &free);
+		lst_clear_cmd(&data->cmd, &free_ptr);
 	if (clear_history == true)
 	{
 		if (data && data->working_dir)

@@ -46,14 +46,15 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node)
 
 void	lst_delone_cmd(t_command *lst, void (*del)(void *))
 {
-	(void)(*del);
+	if (lst->command)
+		(*del)(lst->command);
 	if (lst->args)
 		free_str_tab(lst->args);
 	if (lst->pipe_fd)
-		free_ptr(lst->pipe_fd);
+		(*del)(lst->pipe_fd);
 	if (lst->io_fds)
 		free_io(lst->io_fds);
-	free_ptr(lst);
+	(*del)(lst);
 }
 
 void	lst_clear_cmd(t_command **lst, void (*del)(void *))
