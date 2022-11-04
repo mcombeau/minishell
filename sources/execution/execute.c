@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 11:04:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:59:24 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ static int	create_children(t_data *data)
 */
 static int	prep_for_exec(t_data *data)
 {
-	t_command	*cmd;
-
 	if (!data || !data->cmd)
 		return (EXIT_FAILURE);
 	if (!data->cmd->command)
@@ -94,18 +92,6 @@ static int	prep_for_exec(t_data *data)
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
-	cmd = data->cmd;
-	while (cmd)
-	{
-		if (!cmd->args)
-		{
-			cmd->args = malloc(sizeof * cmd->args * 2);
-			cmd->args[0] = ft_strdup(cmd->command);
-			cmd->args[1] = NULL;
-		}
-		cmd = cmd->next;
-	}
-	cmd = lst_last_cmd(data->cmd);
 	if (!create_pipes(data))
 		return (EXIT_FAILURE);
 	return (CMD_NOT_FOUND);
@@ -121,7 +107,6 @@ int	execute(t_data *data)
 {
 	int	ret;
 
-//	print_cmd_list(data);
 	ret = prep_for_exec(data);
 	if (ret != CMD_NOT_FOUND)
 		return (ret);

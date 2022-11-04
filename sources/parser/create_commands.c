@@ -1,12 +1,32 @@
 #include "minishell.h"
 
+static void	prep_no_arg_commands(t_data *data)
+{
+	t_command	*cmd;
+
+	if (!data || !data->cmd)
+		return ;
+	cmd = data->cmd;
+	while (cmd && cmd->command)
+	{
+		if (!cmd->args)
+		{
+			cmd->args = malloc(sizeof * cmd->args * 2);
+			cmd->args[0] = ft_strdup(cmd->command);
+			cmd->args[1] = NULL;
+		}
+		cmd = cmd->next;
+	}
+	cmd = lst_last_cmd(data->cmd);
+}
+
 void	create_commands(t_data *data, t_token *token)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = token;
 	if (temp->type == END)
-		return;
+		return ;
 	while (temp->next != NULL)
 	{
 		if (temp == token)
@@ -18,17 +38,13 @@ void	create_commands(t_data *data, t_token *token)
 		else if (temp->type == TRUNC)
 			parse_trunc(&data->cmd, &temp);
 		else if (temp->type == HEREDOC)
-		 	parse_heredoc(data, &data->cmd, &temp);
+			parse_heredoc(data, &data->cmd, &temp);
 		else if (temp->type == APPEND)
-		 	parse_append(&data->cmd, &temp);
+			parse_append(&data->cmd, &temp);
 		else if (temp->type == PIPE)
 			parse_pipe(&data->cmd, &temp);
 		else if (temp->type == END)
-			break;
-		else
-		{
-			printf("\tTOKEN NOT PARSABLE YET: %s\n", temp->str);
-			break;
-		}
+			break ;
 	}
+	prep_no_arg_commands(data);
 }
