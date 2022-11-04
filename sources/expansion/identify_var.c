@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identify_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 15:14:08 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/20 15:14:14 by alexa            ###   ########.fr       */
+/*   Updated: 2022/11/04 12:32:48 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	var_length(char *str)
 char	*identify_var(char *str)
 {
 	char	*var;
+	char	*tmp;
 	int		start;
 	int		len;
 	int		i;
@@ -64,6 +65,8 @@ char	*identify_var(char *str)
 	var = ft_substr(str, start, len);
 	if (!var)
 		return (NULL);
-	var = ft_strjoin(var, "=");
+	tmp = ft_strjoin(var, "=");
+	free_ptr(var);
+	var = tmp;
 	return (var);
 }
