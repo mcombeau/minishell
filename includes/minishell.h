@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 16:37:38 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:15:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void		parse_trunc(t_command **last_cmd, t_token **token_lst);
 char		*get_relative_path(char *file_to_open);
 
 //parse_input.c
-void		remove_old_file_ref(t_io_fds *io, bool infile);
+bool		remove_old_file_ref(t_io_fds *io, bool infile);
 void		parse_input(t_command **last_cmd, t_token **token_lst);
 
 //parse_append.c

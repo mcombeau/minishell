@@ -30,7 +30,8 @@
 */
 static void	open_outfile_append(t_io_fds *io, char *file, char *var_filename)
 {
-	remove_old_file_ref(io, false);
+	if (!remove_old_file_ref(io, false))
+		return ;
 	io->outfile = ft_strdup(file);
 	if (io->outfile && io->outfile[0] == '\0' && var_filename)
 	{

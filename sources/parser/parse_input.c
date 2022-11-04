@@ -16,12 +16,12 @@
 https://unix.stackexchange.com/questions/63658/redirecting-the-content-of-a-file-to-the-command-echo)
 */
 
-void	remove_old_file_ref(t_io_fds *io, bool infile)
+bool	remove_old_file_ref(t_io_fds *io, bool infile)
 {
 	if (infile == true && io->infile)
 	{
-		if (io->fd_in == -1)
-			return ;
+		if (io->fd_in == -1 || (io->outfile && io->fd_out == -1))
+			return (false);
 		if (io->heredoc_delimiter != NULL)
 		{
 			free_ptr(io->heredoc_delimiter);
@@ -34,10 +34,11 @@ void	remove_old_file_ref(t_io_fds *io, bool infile)
 	else if (infile == false && io->outfile)
 	{
 		if (io->fd_out == -1 || (io->infile && io->fd_in == -1))
-			return ;
+			return (false);
 		free_ptr(io->outfile);
 		close(io->fd_out);
 	}
+	return (true);
 }
 
 /*
@@ -61,7 +62,8 @@ static void	display_error(t_command *cmd, char *infile)
 */
 static void	open_infile(t_io_fds *io, char *file, char *original_filename)
 {
-	remove_old_file_ref(io, true);
+	if (!remove_old_file_ref(io, true))
+		return ;
 	io->infile = ft_strdup(file);
 	if (io->infile && io->infile[0] == '\0')
 	{

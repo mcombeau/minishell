@@ -68,10 +68,10 @@ void	parse_heredoc(t_data *data, t_command **last_cmd, t_token **token_lst)
 	cmd = lst_last_cmd(*last_cmd);
 	init_io(cmd);
 	io = cmd->io_fds;
-	remove_old_file_ref(io, true);
+	if (!remove_old_file_ref(io, true))
+		return ;
 	io->infile = get_heredoc_name();
 	io->heredoc_delimiter = get_delim(temp->next->str, &(io->heredoc_quotes));
-	printf("Delimiter has quotes? %d\n", io->heredoc_quotes);
 	if (get_heredoc(data, io))
 		io->fd_in = open(io->infile, O_RDONLY);
 	else

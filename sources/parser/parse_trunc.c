@@ -55,7 +55,8 @@ char	*get_relative_path(char *file_to_open)
 */
 static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 {
-	remove_old_file_ref(io, false);
+	if (!remove_old_file_ref(io, false))
+		return ;
 	io->outfile = ft_strdup(file);
 	if (io->outfile && io->outfile[0] == '\0')
 	{
