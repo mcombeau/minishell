@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 11:16:07 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:24:24 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	free_io(t_io_fds *io)
 */
 void	free_str_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tab)

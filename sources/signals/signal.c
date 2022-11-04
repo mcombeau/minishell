@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/10 12:06:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:22:11 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	signal_print_newline(int signal)
 {
 	(void)signal;
 	rl_on_new_line();
-//	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 /* set_signals_noninteractive:

@@ -68,12 +68,13 @@ static char	*get_expanded_var_line(t_data *data, char *line)
 *	to signify that we should stop reading with readline. Otherwise, returns
 *	true.
 */
-static bool	evaluate_heredoc_line(t_data *data, char **line, t_io_fds *io, bool *ret)
+static bool	evaluate_heredoc_line(t_data *data, char **line,
+									t_io_fds *io, bool *ret)
 {
 	if (*line == NULL)
 	{
 		errmsg_cmd("warning", "here-document delimited by end-of-file: wanted",
-					io->heredoc_delimiter, true);
+			io->heredoc_delimiter, true);
 		*ret = true;
 		return (false);
 	}

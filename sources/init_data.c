@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 16:30:59 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:23:16 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static bool	init_env(t_data *data, char **env)
 *	in the environment. Used for cd builtin.
 *	Returns true if successful, false in case of error.
 */
-static bool init_wds(t_data *data)
+static bool	init_wds(t_data *data)
 {
 	char	buff[PATH_MAX];
 	char	*wd;
@@ -52,7 +52,8 @@ static bool init_wds(t_data *data)
 		return (false);
 	if (get_env_var_index(data->env, "OLDPWD") != -1)
 	{
-		data->old_working_dir = ft_strdup(get_env_var_value(data->env, "OLDPWD"));
+		data->old_working_dir = ft_strdup(get_env_var_value(data->env,
+					"OLDPWD"));
 		if (!data->old_working_dir)
 			return (false);
 	}
@@ -78,7 +79,8 @@ bool	init_data(t_data *data, char **env)
 	}
 	if (!init_wds(data))
 	{
-		errmsg_cmd("Fatal", NULL, "Could not initialize working directories", 1);
+		errmsg_cmd("Fatal", NULL, "Could not initialize working directories",
+			1);
 		return (false);
 	}
 	data->token = NULL;

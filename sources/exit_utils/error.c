@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 15:20:27 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:24:36 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 *	Joins two strings together, freeing the previous string.
 *	Returns the new concatenated string. Or NULL if an error occured.
 */
-char *join_strs(char *str, char *add)
+char	*join_strs(char *str, char *add)
 {
 	char	*tmp;
 

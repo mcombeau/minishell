@@ -43,7 +43,7 @@ static char	*get_heredoc_name(void)
 static char	*get_delim(char *delim, bool *quotes)
 {
 	int	len;
-	
+
 	len = ft_strlen(delim) - 1;
 	if ((delim[0] == '\"' && delim[len] == '\"')
 		|| (delim[0] == '\'' && delim[len] == '\''))

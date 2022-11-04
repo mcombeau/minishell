@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-/*
-	INPUT -> REDIR_IN (<)
+/*	INPUT -> REDIR_IN (<)
 	Redirection of input causes the file whose name results from the expansion 
 	of word to be opened for reading on file descriptor n, or the standard input
 	(file descriptor 0) if n is not specified.
@@ -16,7 +15,6 @@
 	Probleme car avec ECHO ça marche différemment :
 https://unix.stackexchange.com/questions/63658/redirecting-the-content-of-a-file-to-the-command-echo)
 */
-
 
 void	remove_old_file_ref(t_io_fds *io, bool infile)
 {
@@ -82,11 +80,6 @@ void	parse_input(t_command **last_cmd, t_token **token_lst)
 
 	temp = *token_lst;
 	cmd = lst_last_cmd(*last_cmd);
-//	if (cmd->command && ft_strcmp(cmd->command, "echo") == SUCCESS)
-//	{
-//		*token_lst = temp->next->next;
-//		return ;
-//	}
 	init_io(cmd);
 	open_infile(cmd->io_fds, temp->next->str, temp->next->str_backup);
 	if (temp->next->next)

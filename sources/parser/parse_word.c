@@ -32,9 +32,9 @@ static void	split_var_cmd_token(t_command *last_cmd, char *cmd_str)
 	i = 1;
 	while (strs[++i])
 		lst_add_back_token(&new_tokens,
-				lst_new_token(ft_strdup(strs[i]), NULL, WORD, DEFAULT));
+			lst_new_token(ft_strdup(strs[i]), NULL, WORD, DEFAULT));
 	lst_add_back_token(&new_tokens,
-				lst_new_token(NULL, NULL, END, DEFAULT));
+		lst_new_token(NULL, NULL, END, DEFAULT));
 	fill_args(&new_tokens, last_cmd);
 	lstclear_token(&tmp, &free_ptr);
 	free_str_tab(strs);
