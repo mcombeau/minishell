@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:46:45 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:51:01 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:06:33 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ static char	*find_valid_cmd_path(char *cmd, char **paths)
 	return (NULL);
 }
 
+/* get_paths_from_env:
+*	Attempts to extract paths from the PATH environment variable.
+*	Returns an array of paths on success. On failure, returns NULL.
+*/
+static char	**get_paths_from_env(t_data *data)
+{
+	char	**env_paths;
+
+	if (get_env_var_index(data->env, "PATH") == -1)
+		return (NULL);
+	env_paths = ft_split(get_env_var_value(data->env, "PATH"), ':');
+	if (!env_paths)
+		return (NULL);
+	return (env_paths);
+}
+
 /* get_cmd_path:
 *	Searches the PATH environment variable for the location of the given
 *	command's binary file.
@@ -56,7 +72,7 @@ char	*get_cmd_path(t_data *data, char *name)
 
 	if (!name)
 		return (NULL);
-	env_paths = ft_split(get_env_var_value(data->env, "PATH"), ':');
+	env_paths = get_paths_from_env(data);
 	if (!env_paths)
 		return (NULL);
 	cmd = ft_strjoin("/", name);
