@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/10/06 14:43:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 11:38:53 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	update_wds(t_data *data, char *wd)
 		free_ptr(data->working_dir);
 		data->working_dir = ft_strdup(wd);
 	}
+	free_ptr(wd);
 }
 
 /* change_dir:
@@ -41,6 +42,7 @@ static void	update_wds(t_data *data, char *wd)
 static bool	change_dir(t_data *data, char *path)
 {
 	char	*ret;
+	char	*tmp;
 	char	cwd[PATH_MAX];
 
 	ret = NULL;
@@ -53,11 +55,15 @@ static bool	change_dir(t_data *data, char *path)
 	if (!ret)
 	{
 		errmsg_cmd("cd: error retrieving current directory",
-					"getcwd: cannot access parent directories",
-					strerror(errno), errno);
+			"getcwd: cannot access parent directories",
+			strerror(errno), errno);
 		ret = ft_strjoin(data->working_dir, "/");
-		ret = ft_strjoin(ret, path);
+		tmp = ret;
+		ret = ft_strjoin(tmp, path);
+		free_ptr(tmp);
 	}
+	else
+		ret = ft_strdup(cwd);
 	update_wds(data, ret);
 	return (true);
 }
@@ -70,7 +76,7 @@ int	cd_builtin(t_data *data, char **args)
 {
 	char	*path;
 
-	if (!args || !args[1] || ft_isspace(args[1][0]) 
+	if (!args || !args[1] || ft_isspace(args[1][0])
 		|| args[1][0] == '\0' || ft_strncmp(args[1], "--", 3) == 0)
 	{
 		path = get_env_var_value(data->env, "HOME");
