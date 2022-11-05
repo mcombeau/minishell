@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 12:37:50 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:12:35 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ extern int	g_last_exit_code;
 /******************************************************************************
 *								STRUCTS									      *
 ******************************************************************************/
-
 typedef struct s_token
 {	
 	char			*str;
@@ -67,13 +66,6 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
-
-/* io_fds structure:
-*	Contains infile and outfile fds as well as
-*	backup of the stdin and stdout fds. Each command
-*	will have a pointer to this structure but only
-*	the first and last command will really use it.
-*/
 typedef struct s_io_fds
 {
 	char	*infile;
@@ -85,14 +77,6 @@ typedef struct s_io_fds
 	int		stdin_backup;
 	int		stdout_backup;
 }	t_io_fds;
-
-/* NOTES about command structure:
-*	- pipe_output bool: set as true only if the output of this
-*		command is piped to the next command. Set false if
-*		the input of this command comes from the output of
-*		the previous command.
-*	- args: should contain command name as arg[0].
-*/
 typedef struct s_command
 {
 	char				*command;
@@ -110,7 +94,6 @@ typedef struct s_data
 	bool		interactive;
 	t_token		*token;
 	char		*user_input;
-	char		**cmd_tab;
 	char		**env;
 	char		*working_dir;
 	char		*old_working_dir;
