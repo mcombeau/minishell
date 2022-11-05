@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 18:02:03 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 10:44:16 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	parse_user_input(t_data *data)
 	if (tokenization(data, data->user_input) == FAILURE)
 		return (false);
 	if (data->token->type == END)
-		exit_shell(data, g_last_exit_code);
+		return (false);
 	if (check_if_var(&data->token) == FAILURE)
 		return (false);
 	var_expander(data, &data->token);
