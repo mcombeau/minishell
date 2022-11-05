@@ -79,9 +79,6 @@ char	*erase_and_replace(t_token **token_node, char *str, \
 	return (new_str);
 }
 
-//TODO: add a step here, in case token_node->str is not entirely composed
-// of $var (ex. $USER.bot sould print username.bot)
-
 int	replace_var(t_token **token_node, char *var_value, int index)
 {
 	if (var_value == NULL)

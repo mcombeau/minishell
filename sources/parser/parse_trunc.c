@@ -10,25 +10,6 @@
 	The general format for redirecting output is: [n]>[|]word
 */
 
-// static char	*get_absolute_path(char **env, char *file_to_open)
-// {
-// 	char	*path;
-// 	int		i;
-
-// 	path = ft_strdup("PWD");
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		if (ft_strcmp(path, env[i]) == SUCCESS)
-// 			break;
-// 		i++;
-// 	}
-// 	path = ft_strjoin(*env + (i + 4), "/");
-// 	path = ft_strjoin(path, file_to_open);
-// 	printf("PARSING - Get_absolute_path function return : %s\n", path);
-// 	return (path);
-// }
-
 char	*get_relative_path(char *file_to_open)
 {
 	char	*path;
@@ -103,7 +84,7 @@ le nouveau contenu va écraser le précédent
 exemple : grep test > test.txt test1.txt
 -> si y a un word après l'OUTPUT_FILE il va dans le echo, pas dans la redir
 
-*si line commence par un TRUNC (>) il faut creer la liste chainee, et faire condition 
-existence cmd + fonction pour corriger ca
+*si line commence par un TRUNC (>) il faut creer la liste chainee,
+et faire condition existence cmd + fonction pour corriger ca
 
 */

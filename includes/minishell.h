@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 13:12:35 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:14:53 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
-
-//# define TRUE 1
-//# define FALSE 0
 
 # define SUCCESS 0
 # define FAILURE 1

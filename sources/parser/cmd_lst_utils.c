@@ -24,7 +24,6 @@ t_command	*lst_new_cmd(bool value)
 	return (new_node);
 }
 
-
 void	lst_add_back_cmd(t_command **alst, t_command *new_node)
 {
 	t_command	*start;
