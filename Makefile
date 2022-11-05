@@ -10,7 +10,7 @@ SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
 INC_PATH = ./includes/
 SRC		= 	main.c \
-			init_data.c \
+			utils/init_data.c \
 			env/env.c \
 			env/env_set.c \
 			lexer/tokenization.c \
@@ -50,9 +50,9 @@ SRC		= 	main.c \
 			execution/parse_path.c \
 			redirections/pipe.c \
 			redirections/file_io.c \
-			exit_utils/exit.c \
-			exit_utils/error.c \
-			exit_utils/cleanup.c \
+			utils/exit.c \
+			utils/error.c \
+			utils/cleanup.c \
 			signals/signal.c \
 			debug/debug.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
@@ -77,7 +77,7 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)/testing
 	mkdir -p $(OBJ_PATH)/env
 	mkdir -p $(OBJ_PATH)/execution
-	mkdir -p $(OBJ_PATH)/exit_utils
+	mkdir -p $(OBJ_PATH)/utils
 	mkdir -p $(OBJ_PATH)/redirections
 	mkdir -p $(OBJ_PATH)/signals
 	mkdir -p $(OBJ_PATH)/debug

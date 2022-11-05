@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 11:04:26 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:17:05 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 *	Checks if the number goes over LONG_MAX or LONG_MIN.
 *	Sets an error boolean to true if the number is out of range, false if not.
 */
-static bool check_out_of_range(int neg, unsigned long long num, bool *error)
+static bool	check_out_of_range(int neg, unsigned long long num, bool *error)
 {
 	if ((neg == 1 && num > LONG_MAX)
 		|| (neg == -1 && num > -(unsigned long)LONG_MIN))
@@ -129,7 +129,8 @@ int	exit_builtin(t_data *data, char **args)
 	{
 		exit_code = get_exit_code(args[1], &error);
 		if (error)
-			exit_code = errmsg_cmd("exit", args[1], "numeric argument required", 2);
+			exit_code = errmsg_cmd("exit", args[1],
+					"numeric argument required", 2);
 		else if (args[2])
 			return (errmsg_cmd("exit", NULL, "too many arguments", 1));
 	}

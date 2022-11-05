@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 17:24:36 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:35:50 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,20 @@ char	*join_strs(char *str, char *add)
 	return (str);
 }
 
+/* add_detail_quotes:
+*	Checks whether to add quotes around the error detail:
+*	i.e. "unset: `@': not a valid identifier"
+*	Returns true if the command is export or unset,
+*	false if not.
+*/
+static bool	add_detail_quotes(char *command)
+{
+	if (ft_strncmp(command, "export", 7) == 0
+		|| ft_strncmp(command, "unset", 6) == 0)
+		return (true);
+	return (false);
+}
+
 /* errmsg_cmd:
 *	Prints an error message to the standard error, prefixed with the
 *	program name.
@@ -40,7 +54,7 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	char	*msg;
 	bool	detail_quotes;
 
-	detail_quotes = false;
+	detail_quotes = add_detail_quotes(command);
 	msg = ft_strdup("minishell: ");
 	if (command != NULL)
 	{
@@ -49,9 +63,6 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	}
 	if (detail != NULL)
 	{
-		if (ft_strncmp(command, "export", 7) == 0
-			|| ft_strncmp(command, "unset", 6) == 0)
-			detail_quotes = true;
 		if (detail_quotes)
 			msg = join_strs(msg, "`");
 		msg = join_strs(msg, detail);

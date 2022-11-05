@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 18:15:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:37:50 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,5 +324,6 @@ bool		get_heredoc(t_data *data, t_io_fds *io);
 /* ------------------------ DEBUG -------------------------------------------*/
 // debug.c
 void		print_cmd_list(t_data *data);
+void		print_token_list(t_data *data);
 
 #endif
