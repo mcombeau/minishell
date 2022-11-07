@@ -1,6 +1,7 @@
+
 #include "minishell.h"
 
-void	initialize_cmd(t_command **cmd)
+static void	initialize_cmd(t_command **cmd)
 {
 	(*cmd)->command = NULL;
 	(*cmd)->path = NULL;
@@ -40,32 +41,6 @@ void	lst_add_back_cmd(t_command **alst, t_command *new_node)
 			start = start->next;
 		start->next = new_node;
 		new_node->prev = start;
-	}
-}
-
-void	lst_delone_cmd(t_command *lst, void (*del)(void *))
-{
-	if (lst->command)
-		(*del)(lst->command);
-	if (lst->args)
-		free_str_tab(lst->args);
-	if (lst->pipe_fd)
-		(*del)(lst->pipe_fd);
-	if (lst->io_fds)
-		free_io(lst->io_fds);
-	(*del)(lst);
-}
-
-void	lst_clear_cmd(t_command **lst, void (*del)(void *))
-{
-	t_command	*temp;
-
-	temp = NULL;
-	while (*lst != NULL)
-	{
-		temp = (*lst)->next;
-		lst_delone_cmd(*lst, del);
-		*lst = temp;
 	}
 }
 

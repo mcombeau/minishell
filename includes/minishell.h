@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 17:39:16 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:43:50 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,10 +233,12 @@ void		remove_empty_var_args(t_token **tokens);
 // cmd_lst_utils.c
 t_command	*lst_new_cmd(bool value);
 void		lst_add_back_cmd(t_command **alst, t_command *new_node);
-void		lst_delone_cmd(t_command *lst, void (*del)(void *));
-void		lst_clear_cmd(t_command **lst, void (*del)(void *));
 t_command	*lst_last_cmd(t_command *cmd);
 t_command	*lst_first_cmd(t_command *cmd);
+
+// cmd_lst_utils_cleanup.c
+void		lst_delone_cmd(t_command *lst, void (*del)(void *));
+void		lst_clear_cmd(t_command **lst, void (*del)(void *));
 
 // parse_trunc.c
 void		parse_trunc(t_command **last_cmd, t_token **token_lst);

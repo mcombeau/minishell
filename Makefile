@@ -39,6 +39,7 @@ SRC		= 	main.c \
 			parser/parse_heredoc_utils.c \
 			parser/parse_pipe.c \
 			parser/cmd_lst_utils.c \
+			parser/cmd_lst_utils_cleanup.c \
 			builtins/export_builtin.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
