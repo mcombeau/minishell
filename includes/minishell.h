@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 17:12:00 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:17:58 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,10 +148,13 @@ void		free_ptr(void *ptr);
 void		free_str_tab(char **tab);
 
 /* ------------------------ LEXER -----------------------------------------*/
+// parse_user_input.c
+bool		parse_user_input(t_data *data);
+
 // tokenization.c
 int			tokenization(t_data *data, char *str);
 
-//tokenization_utils.c
+// tokenization_utils.c
 int			save_word_or_sep(int *i, char *str, int start, t_data *data);
 int			set_status(int status, char *str, int i);
 int			is_separator(char *str, int i);

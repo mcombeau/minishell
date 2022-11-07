@@ -13,6 +13,7 @@ SRC		= 	main.c \
 			utils/init_data.c \
 			env/env.c \
 			env/env_set.c \
+			lexer/parse_user_input.c \
 			lexer/tokenization.c \
 			lexer/tokenization_utils.c \
 			lexer/check_if_var.c \

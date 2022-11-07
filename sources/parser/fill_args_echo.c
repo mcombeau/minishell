@@ -1,3 +1,4 @@
+
 #include "minishell.h"
 
 /*
@@ -77,7 +78,8 @@ static void	remove_empty_var_args(t_token **tokens)
 	temp = *tokens;
 	while (temp->type == WORD || temp->type == VAR)
 	{
-		if (temp->type == VAR && temp->str[0] == '\0' && temp->var_exists == false)
+		if (temp->type == VAR && temp->str[0] == '\0'
+			&& temp->var_exists == false)
 		{
 			temp = temp->next;
 			if (temp == (*tokens)->next)
