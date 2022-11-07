@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:50:28 by alexa             #+#    #+#             */
-/*   Updated: 2022/11/04 11:20:47 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:49:40 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*lst_new_token(char *str, char *str_backup, int type, int status)
 		return (NULL);
 	new_node->str = str;
 	new_node->str_backup = str_backup;
+	new_node->var_exists = false;
 	new_node->type = type;
 	new_node->status = status;
 	new_node->join = false;
@@ -60,6 +61,10 @@ void	lstdelone_token(t_token *lst, void (*del)(void *))
 		(*del)(lst->str_backup);
 		lst->str_backup = NULL;
 	}
+	if (lst->prev)
+		lst->prev->next = lst->next;
+	if (lst->next)
+		lst->next->prev = lst->prev;
 	free_ptr(lst);
 }
 

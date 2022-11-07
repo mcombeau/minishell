@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 13:14:53 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:12:22 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 {	
 	char			*str;
 	char			*str_backup;
+	bool			var_exists;
 	int				type;
 	int				status;
 	bool			join;
@@ -179,7 +180,7 @@ int			var_tokenization(t_data *data);
 int			var_expander(t_data *data, t_token **token_lst);
 
 //recover_value.c
-char		*recover_val(char *str, t_data *data);
+char		*recover_val(t_token *token, char *str, t_data *data);
 
 //identify_var.c
 char		*identify_var(char *str);
@@ -304,6 +305,6 @@ bool		get_heredoc(t_data *data, t_io_fds *io);
 /* ------------------------ DEBUG -------------------------------------------*/
 // debug.c
 void		print_cmd_list(t_data *data);
-void		print_token_list(t_data *data);
+void		print_token_list(t_token **tokens);
 
 #endif

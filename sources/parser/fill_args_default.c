@@ -94,10 +94,10 @@ int	add_args_default_mode(t_token **token_node, t_command *last_cmd)
 **    - The default mode for all the other cases
 */
 
-int	fill_args(t_token	**token_node, t_command *last_cmd)
+int	fill_args(t_token **token_node, t_command *last_cmd)
 {
-	if (!(ft_strcmp(last_cmd->command, "echo")
-			|| !ft_strcmp(last_cmd->command, "export")))
+	if (!ft_strcmp(last_cmd->command, "echo"))
+//			|| !ft_strcmp(last_cmd->command, "export")))
 	{
 		if (!(last_cmd->args))
 			return (create_args_echo_mode(token_node, last_cmd));

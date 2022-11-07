@@ -42,7 +42,7 @@ int	count_args(t_token *temp)
 	int	i;
 
 	i = 0;
-	while (temp->type == WORD || temp->type == VAR)
+	while (temp && (temp->type == WORD || temp->type == VAR))
 	{
 		if (temp->type == VAR && temp->join == true)
 		{
@@ -57,6 +57,36 @@ int	count_args(t_token *temp)
 		}
 	}
 	return (i);
+}
+
+/* remove_empty_var_args:
+**	If a variable does not exist in the environment, the token string
+**	will contain "\0". In this case, echo should not print the variable
+**	or any spaces before/after it. Therefore the token must be
+**	removed before creating/adding echo args.
+**	i.e., if variable X does not exist in environment,
+**		'echo $X $X $X $USER' should print:
+**		'username' (not '  username')
+**	However, if the variable exists but its value is empty, the token
+**	should not be removed.
+*/
+static void	remove_empty_var_args(t_token **tokens)
+{
+	t_token	*temp;
+
+	temp = *tokens;
+	while (temp->type == WORD || temp->type == VAR)
+	{
+		if (temp->type == VAR && temp->str[0] == '\0' && temp->var_exists == false)
+		{
+			temp = temp->next;
+			if (temp == (*tokens)->next)
+				(*tokens) = (*tokens)->next;
+			lstdelone_token(temp->prev, free_ptr);
+		}
+		else
+			temp = temp->next;
+	}
 }
 
 /*
@@ -76,6 +106,7 @@ int	create_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	t_token	*temp;
 	int		i;
 
+	remove_empty_var_args(token_node);
 	temp = *token_node;
 	nb_args = count_args(temp);
 	last_cmd->args = malloc(sizeof(char *) * (nb_args + 2));
@@ -129,6 +160,7 @@ int	add_args_echo_mode(t_token **token_node, t_command *last_cmd)
 	char	**new_tab;
 	t_token	*temp;
 
+	remove_empty_var_args(token_node);
 	temp = *token_node;
 	nb_args = count_args(temp);
 	len = 0;

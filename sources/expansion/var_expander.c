@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:35:14 by alexa             #+#    #+#             */
-/*   Updated: 2022/09/22 02:35:18 by alexa            ###   ########.fr       */
+/*   Updated: 2022/11/07 14:09:36 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int	var_expander(t_data *data, t_token **token_lst)
 					&& is_next_char_a_sep(temp->str[i + 1]) == false
 					&& var_between_quotes(temp->str, i) == false
 					&& (temp->status == DEFAULT || temp->status == DQUOTE))
-					replace_var(&temp, recover_val(temp->str + i, data), i);
+					replace_var(&temp, recover_val(temp, temp->str + i, data), i);
 				else
 					i++;
 			}
 		}
-	temp = temp->next;
+		temp = temp->next;
 	}
 	return (0);
 }
@@ -93,7 +93,7 @@ char	*var_expander_heredoc(t_data *data, char *str)
 		if (str[i] == '$'
 			&& is_next_char_a_sep(str[i + 1]) == false
 			&& var_between_quotes(str, i) == false)
-			str = replace_str_heredoc(str, recover_val(str + i, data), i);
+			str = replace_str_heredoc(str, recover_val(NULL, str + i, data), i);
 		else
 			i++;
 	}
