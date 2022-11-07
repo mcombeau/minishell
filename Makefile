@@ -30,6 +30,7 @@ SRC		= 	main.c \
 			parser/create_commands.c \
 			parser/parse_word.c \
 			parser/fill_args_echo.c \
+			parser/fill_args_echo_utils.c \
 			parser/fill_args_default.c \
 			parser/parse_input.c \
 			parser/parse_trunc.c \

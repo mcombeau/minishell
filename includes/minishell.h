@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 17:17:58 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:39:16 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,22 +208,29 @@ int			remove_quotes(t_token **token_node);
 
 /* ------------------------ PARSER ---------------------------------------*/
 
-//create_command.c
+// create_command.c
 void		create_commands(t_data *data, t_token *token);
 
-//parse_command.c
+// parse_command.c
 void		parse_word(t_command **cmd, t_token **token_lst);
 
-//fill_arguments.c
+// fill_args_default.c
 int			fill_args(t_token	**token_node, t_command *last_cmd);
-int			count_args(t_token *temp);
-char		*join_vars(t_token **token_node);
 int			add_args_default_mode(t_token **token_node, t_command *last_cmd);
 int			create_args_default_mode(t_token **token_node, t_command *last_cmd);
+
+// fill_args_echo_mode.c
 int			add_args_echo_mode(t_token **token_node, t_command *last_cmd);
 int			create_args_echo_mode(t_token **token_node, t_command *last_cmd);
 
-//cmd_lst_utils.c
+// fill_args_echo_utils.c
+char		*join_vars(t_token **token_node);
+int			count_args(t_token *temp);
+char		**copy_in_new_tab(int len, char **new_tab,
+				t_command *last_cmd, t_token *tmp);
+void		remove_empty_var_args(t_token **tokens);
+
+// cmd_lst_utils.c
 t_command	*lst_new_cmd(bool value);
 void		lst_add_back_cmd(t_command **alst, t_command *new_node);
 void		lst_delone_cmd(t_command *lst, void (*del)(void *));
@@ -231,25 +238,25 @@ void		lst_clear_cmd(t_command **lst, void (*del)(void *));
 t_command	*lst_last_cmd(t_command *cmd);
 t_command	*lst_first_cmd(t_command *cmd);
 
-//parse_trunc.c
+// parse_trunc.c
 void		parse_trunc(t_command **last_cmd, t_token **token_lst);
 char		*get_relative_path(char *file_to_open);
 
-//parse_input.c
+// parse_input.c
 bool		remove_old_file_ref(t_io_fds *io, bool infile);
 void		parse_input(t_command **last_cmd, t_token **token_lst);
 
-//parse_append.c
+// parse_append.c
 void		parse_append(t_command **last_cmd, t_token **token_lst);
 
-//parse_heredoc.c
+// parse_heredoc.c
 void		parse_heredoc(t_data *data, t_command **last_cmd,
 				t_token **token_lst);
 
-//parse_heredoc_utils.c
+// parse_heredoc_utils.c
 bool		fill_heredoc(t_data *data, t_io_fds *io, int fd);
 
-//parse_pipec
+// parse_pipec
 void		parse_pipe(t_command **cmd, t_token **token_lst);
 
 /* ------------------------ EXECUTION ---------------------------------------*/
