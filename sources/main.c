@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 12:28:03 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:08:52 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ static bool	start_check(t_data *data, int ac, char **av)
 	return (true);
 }
 
+static bool	input_is_space(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_isspace(input[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 /* parse_user_input:
 *	Tokenizes and parses user input into a structure for execution.
 *	Returns true if successful, false in case of error.
@@ -45,6 +59,8 @@ static bool	parse_user_input(t_data *data)
 		exit_builtin(data, NULL);
 	else if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
+	else if (input_is_space(data->user_input))
+		return (true);
 	add_history(data->user_input);
 	if (tokenization(data, data->user_input) == FAILURE)
 		return (false);

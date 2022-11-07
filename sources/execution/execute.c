@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/04 17:59:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:10:23 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	create_children(t_data *data)
 static int	prep_for_exec(t_data *data)
 {
 	if (!data || !data->cmd)
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	if (!data->cmd->command)
 	{
 		if (data->cmd->io_fds
