@@ -1,6 +1,7 @@
+
 #include "minishell.h"
 
-int	erase_var(t_token **token_node, char *str, int index)
+static int	erase_var(t_token **token_node, char *str, int index)
 {
 	int		i;
 	int		j;
@@ -29,54 +30,27 @@ int	erase_var(t_token **token_node, char *str, int index)
 	return (0);
 }
 
-void	copy_var_value(char *new_str, char *var_value, int *j)
-{
-	int	k;
-
-	k = 0;
-	while (var_value[k])
-	{
-		new_str[*j] = var_value[k];
-		k++;
-		(*j)++;
-	}
-}
-
 // Changed return type from int to char * to adapt the function
-// to work for heredoc variable expansion. Heredoc has no tokens so token_node
-// becomes optional.
-// Heredoc variant replace_str_heredoc calls this function with token_node == NULL!
+// to work for heredoc variable expansion. Heredoc has no tokens
+// so token_node becomes optional.
+// Heredoc variant replace_str_heredoc calls this function with
+// token_node == NULL!
 
-char	*erase_and_replace(t_token **token_node, char *str, \
-	char *var_value, int index)
+static char	*erase_and_replace(t_token **token_node, char *str,
+			char *var_value, int index)
 {
-	int		i;
-	int		j;
-	char	*new_str;
+	char	*newstr;
+	int		newstr_size;
 
-	i = 0;
-	j = 0;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) - var_length(str + index) + ft_strlen(var_value)));
-	if (!new_str)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == '$' && i == index)
-		{
-			copy_var_value(new_str, var_value, &j);
-			i = i + var_length(str + index) + 1;
-			if (str[i] == '\0')
-				break ;
-		}
-		new_str[j++] = str[i++];
-	}
-	new_str[j] = '\0';
+	newstr_size = (ft_strlen(str) - var_length(str + index)
+			+ ft_strlen(var_value));
+	newstr = get_new_token_string(str, var_value, newstr_size, index);
 	if (token_node && *token_node)
 	{
 		free_ptr((*token_node)->str);
-		(*token_node)->str = new_str;
+		(*token_node)->str = newstr;
 	}
-	return (new_str);
+	return (newstr);
 }
 
 int	replace_var(t_token **token_node, char *var_value, int index)

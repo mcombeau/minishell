@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:13:43 by alexa             #+#    #+#             */
-/*   Updated: 2022/11/03 15:49:58 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:49:12 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ static t_token	*split_var(char *str, char *str_backup, t_token *token_lst)
 				i++;
 		}
 		new_word = copy_word(str, i, start);
-		lst_add_back_token(&token_lst, lst_new_token(new_word, str_backup, VAR, DEFAULT));
+		lst_add_back_token(&token_lst,
+			lst_new_token(new_word, str_backup, VAR, DEFAULT));
 	}
 	return (token_lst);
 }

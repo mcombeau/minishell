@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 12:17:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 15:17:44 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:25:21 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_cmd_list(t_data *data)
 	printf("\n");
 }
 
-void print_token_type(t_token *token, char *prefix)
+void	print_token_type(t_token *token, char *prefix)
 {
 	printf("%s", prefix);
 	if (token->type == SPACES)

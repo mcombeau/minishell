@@ -21,6 +21,7 @@ SRC		= 	main.c \
 			lexer/token_lst_utils_2.c \
 			lexer/var_tokenization.c \
 			expansion/var_expander.c \
+			expansion/var_expander_utils.c \
 			expansion/identify_var.c \
 			expansion/quotes_handler.c \
 			expansion/quotes_remover.c \

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 15:12:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:43:34 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ t_token		*insert_lst_between(t_token **head, t_token *to_del,
 int			var_tokenization(t_data *data);
 
 /* ------------------------ EXPANSION ---------------------------------------*/
-//expander.c
+//var_expander.c
 int			var_expander(t_data *data, t_token **token_lst);
 
 //recover_value.c
@@ -189,12 +189,14 @@ bool		is_var_compliant(char c);
 
 //replace_var.c
 int			replace_var(t_token **token_node, char *var_value, int index);
-char		*erase_and_replace(t_token **token_node, char *str, char *var_value,
-				int index);
 void		copy_var_value(char *new_str, char *var_value, int *j);
-int			erase_var(t_token **token_node, char *str, int index);
 char		*var_expander_heredoc(t_data *data, char *str);
 char		*replace_str_heredoc(char *str, char *var_value, int index);
+
+// var_expander_utils.c
+void		copy_var_value(char *new_str, char *var_value, int *j);
+char		*get_new_token_string(char *oldstr, char *var_value,
+				int newstr_size, int index);
 
 //quotes_handler.c
 int			handle_quotes(t_data *data);
