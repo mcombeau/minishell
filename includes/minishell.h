@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 16:43:34 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:12:00 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,6 @@ void		lstdelone_token(t_token *lst, void (*del)(void *));
 void		lstclear_token(t_token **lst, void (*del)(void *));
 t_token		*insert_lst_between(t_token **head, t_token *to_del,
 				t_token *insert);
-
-//var_tokenization.c
-int			var_tokenization(t_data *data);
 
 /* ------------------------ EXPANSION ---------------------------------------*/
 //var_expander.c

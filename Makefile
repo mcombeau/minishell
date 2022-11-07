@@ -19,7 +19,6 @@ SRC		= 	main.c \
 			lexer/lexer_grammar.c \
 			lexer/token_lst_utils.c \
 			lexer/token_lst_utils_2.c \
-			lexer/var_tokenization.c \
 			expansion/var_expander.c \
 			expansion/var_expander_utils.c \
 			expansion/identify_var.c \
