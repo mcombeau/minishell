@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/10 00:20:39 by alexa             #+#    #+#             */
+/*   Updated: 2022/11/10 00:20:42 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*	INPUT -> REDIR_IN (<)
@@ -7,13 +19,6 @@
 
 	The general format for redirecting input is: [n]<word
 	Source : https://www.gnu.org/software/bash/manual/bash.html#Redirections
-
-	Exemple : sort < mylist.txt => on trie dans l'ordre alphabetique le contenu qui se
-				trouve dans "mylist.txt".
-				wc -l < test.txt => affiche le nb de lignes dans le fichier test
-	
-	Probleme car avec ECHO ça marche différemment :
-https://unix.stackexchange.com/questions/63658/redirecting-the-content-of-a-file-to-the-command-echo)
 */
 
 bool	remove_old_file_ref(t_io_fds *io, bool infile)
@@ -40,15 +45,6 @@ bool	remove_old_file_ref(t_io_fds *io, bool infile)
 	}
 	return (true);
 }
-
-/*
-static void	display_error(t_command *cmd, char *infile)
-{
-	cmd->error = errno;
-	cmd->err_msg = ft_strdup(strerror(errno));
-	printf("bash: %s: %s\n", infile, cmd->err_msg);
-}
-*/
 
 /* open_infile:
 *	Opens an infile. If an infile was already set, frees it

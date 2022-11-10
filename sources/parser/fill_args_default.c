@@ -1,4 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_args_default.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/10 00:05:49 by alexa             #+#    #+#             */
+/*   Updated: 2022/11/10 00:45:21 by alexa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+int	count_arguments(t_token *temp)
+{
+	int	i;
+
+	i = 0;
+	while (temp && (temp->type == WORD || temp->type == VAR))
+	{
+		i++;
+		temp = temp->next;
+	}
+	return (i);
+}
 
 /*
 **  This function fills the array of arguments of the last_cmd by default mode:
@@ -10,16 +35,13 @@
 int	create_args_default_mode(t_token **token_node, t_command *last_cmd)
 {
 	int		i;
+	int		nb_args;
 	t_token	*temp;
 
 	i = 0;
 	temp = *token_node;
-	while (temp->type == WORD || temp->type == VAR)
-	{
-		i++;
-		temp = temp->next;
-	}
-	last_cmd->args = malloc(sizeof(char *) * (i + 2));
+	nb_args = count_arguments(temp);
+	last_cmd->args = malloc(sizeof(char *) * (nb_args + 2));
 	if (!last_cmd->args)
 		return (FAILURE);
 	temp = *token_node;
