@@ -21,12 +21,6 @@
 
 	The general format for appending output is: [n]>>word.
 
-	Focus on the O_APPEND flag of the function open() :
-	" O_APPEND
-              The file is opened in append mode.  Before each write(2),
-              the file offset is positioned at the end of the file, as
-              if with lseek(2).  The modification of the file offset and
-              the write operation are performed as a single atomic step."
 */
 
 /* open_outfile_append:
@@ -55,17 +49,6 @@ static void	open_outfile_append(t_io_fds *io, char *file, char *var_filename)
 		errmsg_cmd(io->outfile, NULL, strerror(errno), false);
 }
 
-/**
- * When encountering a APPEND typed token ('>>'), this function :
- *  - sets the boolean cmd->iredir_out to TRUE
- * 	- If the next token is valid, it opens the output file (or creates
- * 	 it if it doesn't exist) with the correct relative path retrieved
- * 	 beforehand and appends the previous token(s) to the end of the
- * 	 output file.
- * 	- With the fd information, completes the necessary fields of 
- * 	  the command structure -> fd_out and potentially error and err_msg.
- *
- */
 void	parse_append(t_command **last_cmd, t_token **token_lst)
 {
 	t_token		*temp;

@@ -61,15 +61,6 @@ static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 		errmsg_cmd(io->outfile, NULL, strerror(errno), false);
 }
 
-/**
- * When encountering a TRUNC typed token ('>'), this function :
- * 	- sets the boolean command->redir_out to TRUE;
- * 	- If the next token is valid, it opens the output file (or creates
- * 	  it if it does not exist) with the correct relative path retrieved
- * 	  beforehand;
- * 	- With the fd information, completes the fields of 
- * 	  command structure : fd_out and potentially error and err_msg.
- */
 void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 {
 	t_token		*temp;
@@ -85,18 +76,3 @@ void	parse_trunc(t_command **last_cmd, t_token **token_lst)
 		temp = temp->next;
 	*token_lst = temp;
 }
-
-/*
-
-NOTES:
-* Si on fait ls > test.txt puis echo hello > test.txt
-le nouveau contenu va écraser le précédent
-
-* cmd TRUNC OUTPUT_FILE word
-exemple : grep test > test.txt test1.txt
--> si y a un word après l'OUTPUT_FILE il va dans le echo, pas dans la redir
-
-*si line commence par un TRUNC (>) il faut creer la liste chainee,
-et faire condition existence cmd + fonction pour corriger ca
-
-*/

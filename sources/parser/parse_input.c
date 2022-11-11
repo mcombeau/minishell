@@ -18,7 +18,6 @@
 	(file descriptor 0) if n is not specified.
 
 	The general format for redirecting input is: [n]<word
-	Source : https://www.gnu.org/software/bash/manual/bash.html#Redirections
 */
 
 bool	remove_old_file_ref(t_io_fds *io, bool infile)
