@@ -1,14 +1,14 @@
 # minishell
 
 <p align="center">
-  <img src="https://github.com/mcombeau/mcombeau/blob/main/42_badges/minishelln.png" alt="Minishell 42 project badge"/>
+  <img src="https://github.com/mcombeau/mcombeau/blob/main/42_badges/minishelle.png" alt="Minishell 42 project badge"/>
 </p>
 
 Minishell is a 42 school team project to create a basic shell program in C.
 
 ## Status
 
-Work in progress.
+Validated 11/11/2022. Grade: 99%.
 
 ## Usage
 
