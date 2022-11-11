@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 11:38:53 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/11 14:22:23 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ static void	update_wds(t_data *data, char *wd)
 	free_ptr(wd);
 }
 
+/* chdir_errno_mod:
+*	chdir can sometimes set errno to ESTALE ("Stale file handle")
+*	when a parent directory is removed on some systems. This is due
+*	to the inode table entry being recycled. This is a fix to display
+*	"no such file or directory" error instead.
+*/
+static	bool	chdir_errno_mod(char *path)
+{
+	if (errno == ESTALE)
+		errno = ENOENT;
+	errmsg_cmd("cd", path, strerror(errno), errno);
+	return (false);
+}
+
 /* change_dir:
 *	Changes the current working directory and updates the
 *	OLDPWD environment variable.
@@ -47,10 +61,7 @@ static bool	change_dir(t_data *data, char *path)
 
 	ret = NULL;
 	if (chdir(path) != 0)
-	{
-		errmsg_cmd("cd", path, strerror(errno), errno);
-		return (false);
-	}
+		return (chdir_errno_mod(path));
 	ret = getcwd(cwd, PATH_MAX);
 	if (!ret)
 	{

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 17:17:18 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:57:52 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	minishell_interactive(t_data *data)
 		if (parse_user_input(data) == true)
 			g_last_exit_code = execute(data);
 		else
-			g_last_exit_code = 2;
+			g_last_exit_code = 1;
 		free_data(data, false);
 	}
 }
@@ -80,7 +80,7 @@ void	minishell_noninteractive(t_data *data, char *arg)
 		if (parse_user_input(data) == true)
 			g_last_exit_code = execute(data);
 		else
-			g_last_exit_code = 2;
+			g_last_exit_code = 1;
 		i++;
 		free_data(data, false);
 	}
