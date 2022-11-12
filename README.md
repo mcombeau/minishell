@@ -4,7 +4,7 @@
   <img src="https://github.com/mcombeau/mcombeau/blob/main/42_badges/minishelle.png" alt="Minishell 42 project badge"/>
 </p>
 
-Minishell is a 42 school team project to create a basic shell program in C.
+Minishell is a 42 school team project to create a basic shell program in C. It implements redirections and pipes, as well as environment variable expansions and the `cd`, `echo`, `env`, `exit`, `export`, `pwd` and `unset` builtin commands.
 
 ## Status
 
