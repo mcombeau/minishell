@@ -36,7 +36,7 @@ To run the included tester:
 cd minitester/ && bash minitester.sh
 ```
 
-## Supported features
+## Supported Features
 
 Minishell is a miniature shell program based on Bash. Minishell supports:
 * Prompt display
@@ -65,6 +65,34 @@ Minishell is a miniature shell program based on Bash. Minishell supports:
   * `ctrl-\` does nothing
 
 However, Minishell does not support `\`, `;`, `&&`, `||`, or wildcards.
+
+---
+### Useful Resources for the Minishell Project
+
+:us: Articles in English about the concepts tackled in this project: 
+
+* [Creating and Killing Child Processes in C](https://www.codequoi.com/en/creating-and-killing-child-processes-in-c/)
+* [Pipe: an Inter-Process Communication Method](https://www.codequoi.com/en/pipe-an-inter-process-communication-method/)
+* [Sending and Intercepting a Signal in C](https://www.codequoi.com/en/sending-and-intercepting-a-signal-in-c/)
+* [Handling a File by its Descriptor in C](https://www.codequoi.com/en/handling-a-file-by-its-descriptor-in-c/)
+* [Errno and Error Management in C](https://www.codequoi.com/en/errno-and-error-management-in-c/)
+
+:fr: Articles en français sur les concepts abordés dans ce projet :
+
+* [Créer et tuer des processus fils en C](https://www.codequoi.com/creer-et-tuer-des-processus-fils-en-c/)
+* [Pipe : une méthode de communication inter-processus](https://www.codequoi.com/pipe-une-methode-de-communication-inter-processus/)
+* [Envoyer et intercepter un signal en C](https://www.codequoi.com/envoyer-et-intercepter-un-signal-en-c/)
+* [Manipuler un fichier à l’aide de son descripteur en C](https://www.codequoi.com/manipuler-un-fichier-a-laide-de-son-descripteur-en-c/)
+* [Errno et la gestion d’erreur en C](https://www.codequoi.com/errno-et-la-gestion-derreur-en-c/)
+
+Other useful links:
+
+* [Bash reference manual](https://www.gnu.org/software/bash/manual/bash.html)
+* Introduction to Systems Programming: a Hands-on Approach, [Chapter 5. Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+* [Stephen Brennan's Tutorial - Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c/)
+* The Open Group Base Specifications, [Shell Command Language](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+* [A Guide to Unix Shell Quoting](https://rg1-teaching.mpi-inf.mpg.de/unixffb-ss98/quoting-guide.html)
+* [Austin Tripp's Quick Tutorial on Bash Quotes](https://www.austintripp.ca/blog/2019/07/18/bash-quotes)
 
 ---
 Made by aquesada and mcombeau
