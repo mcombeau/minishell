@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/05 12:17:05 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/11/29 18:11:27 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ static bool	is_quiet_mode(t_data *data)
 /* exit_builtin:
 *	Executes the exit builtin.
 *	If alone, prints exit and exits the shell with the provided exit code, or 0.
-*	If piped, exits the child process with the provided exit code and does not exit
-*	minishell.
+*	If piped, exits the child process with the provided exit code and does not
+*		exit minishell.
 *	In case of failure due to invalid arguments, does not exit the shell
 *	and returns an error exit code (1 or 2) instead.
 */

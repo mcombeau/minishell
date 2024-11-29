@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/11/29 17:56:39 by asagymba         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:57:38 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,13 @@ enum e_quoting_status
 	DEFAULT,
 	SQUOTE,
 	DQUOTE
+};
+
+enum e_redir_type
+{
+	NO_REDIR,
+	STDIN_REDIR,
+	STDOUT_REDIR
 };
 
 /******************************************************************************

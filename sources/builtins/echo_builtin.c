@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:55:59 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/03 15:48:44 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/11/29 18:11:14 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /* is_n_flag:
 *	Checks whether an arg is an -n option flag.
 *	Returns true if the arg is some variation of -n, -nnnn, -nn, etc.
-*	Returns false if it contains anything other than - and n (ex. --n -nnnm -n1234)
+*	Returns false if it contains anything other than - and n
+*		(ex. --n -nnnm -n1234)
 */
 static bool	is_n_flag(char *arg)
 {

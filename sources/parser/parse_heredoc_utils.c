@@ -6,7 +6,7 @@
 /*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:09:37 by alexa             #+#    #+#             */
-/*   Updated: 2022/11/10 00:09:40 by alexa            ###   ########.fr       */
+/*   Updated: 2024/11/29 18:11:49 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ static bool	evaluate_heredoc_line(t_data *data, char **line,
 }
 
 /* fill_heredoc:
-*	Copies user input into a temporary file. If user inputs an environment variable
-*	like $USER, expands the variable before writing to the heredoc.
+*	Copies user input into a temporary file. If user inputs an
+*	environment variable like $USER, expands the variable
+*	before writing to the heredoc.
 *	Returns true on success, false on failure.
 */
 bool	fill_heredoc(t_data *data, t_io_fds *io, int fd)
