@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/07 17:43:50 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:56:39 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,22 @@
 /******************************************************************************
 *								MACROS										  *
 ******************************************************************************/
-# define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
-# define HEREDOC_NAME "/tmp/.minishell_heredoc_"
+/**
+ * "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
+ * was violating Norminette line length rule.
+ */
+# define PROMPT			"minishell>$ "
+# define HEREDOC_NAME	"/tmp/.minishell_heredoc_"
 
-# define CMD_NOT_FOUND 127
-# define CMD_NOT_EXECUTABLE 126
+# define CMD_NOT_FOUND		127
+# define CMD_NOT_EXECUTABLE	126
 
 # ifndef PATH_MAX
-#  define PATH_MAX 4096
+#  define PATH_MAX			4096
 # endif
 
-# define SUCCESS 0
-# define FAILURE 1
+# define SUCCESS	0
+# define FAILURE	1
 
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
@@ -54,7 +58,7 @@ extern int	g_last_exit_code;
 *								STRUCTS									      *
 ******************************************************************************/
 typedef struct s_token
-{	
+{
 	char			*str;
 	char			*str_backup;
 	bool			var_exists;
@@ -103,7 +107,8 @@ typedef struct s_data
 *								ENUMS									      *
 ******************************************************************************/
 
-enum e_token_types {
+enum e_token_types
+{
 	SPACES = 1,
 	WORD,
 	VAR,
@@ -115,7 +120,8 @@ enum e_token_types {
 	END
 };
 
-enum e_quoting_status {
+enum e_quoting_status
+{
 	DEFAULT,
 	SQUOTE,
 	DQUOTE
