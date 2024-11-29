@@ -6,7 +6,7 @@
 /*   By: alexa <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:01:18 by alexa             #+#    #+#             */
-/*   Updated: 2024/11/29 18:09:51 by asagymba         ###   ########.fr       */
+/*   Updated: 2024/11/29 18:20:52 by asagymba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static int	norminette_stupid_bypass_check_redirs(t_data *data)
 				|| ft_strncmp(current_token->str, "|", sizeof("|") - 1) == 0)
 			&& redir_type != NO_REDIR)
 		{
-			errmsg("expected the file before ", current_token->str, true);
+			errmsg("syntax error near unexpected token ", current_token->str,
+				true);
 			return (FAILURE);
 		}
 		norminette_stuff_update_redir_type(current_token->str, &redir_type);
